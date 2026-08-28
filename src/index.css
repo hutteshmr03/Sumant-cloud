@@ -991,3 +991,43 @@ footer a[href^="mailto"] { word-break: break-all; }
     transform: none !important;
   }
 }
+
+*, *::before, *::after { box-sizing: border-box; }
+img, svg { max-width: 100%; }
+
+@media (max-width: 640px) {
+  #top { height: auto !important; min-height: 620px; }
+  #top > div:first-child { min-height: 620px; }
+  #top > div:last-child { position: relative; padding-top: 300px; }
+  #top > div:last-child > div { padding: 24px 20px 28px; clip-path: none !important; }
+  #top h1 { font-size: clamp(2rem, 10vw, 3rem); }
+  #top .flex.flex-wrap { flex-direction: column; align-items: stretch; }
+  #top .flex.flex-wrap a { width: 100%; min-height: 44px; }
+
+  #services, #products, #approach, #about { padding-top: 64px; padding-bottom: 64px; }
+  #services h2, #products h2, #approach h2, #about h2 { font-size: clamp(1.8rem, 8vw, 2.35rem); line-height: 1.1; }
+  #services .mt-14, #products .mt-14 { margin-top: 32px; }
+  #services .grid { gap: 16px; }
+  #services .service-card { padding: 20px; }
+  #services .service-card-media { height: 180px; }
+  #products .group { grid-template-columns: 1fr; gap: 10px; padding-top: 22px; padding-bottom: 22px; }
+  #products .group > span:last-child { justify-self: start; }
+  #approach .grid { gap: 28px; }
+  #approach .relative.overflow-hidden { height: 190px !important; }
+  #about .grid { gap: 40px; }
+  #about .mb-8 { margin-bottom: 24px; }
+  #about .h-20 { height: 4rem; }
+
+  footer { padding-top: 40px; }
+  footer > div:first-child { gap: 32px; }
+  footer > div:last-child { margin-top: 34px; }
+  footer .col-span-2 { grid-column: span 1; }
+}
+
+@media (max-width: 400px) {
+  #top > div:last-child { padding-top: 250px; }
+  #top > div:last-child > div { padding-left: 16px; padding-right: 16px; }
+  #top h1 { font-size: 1.9rem; }
+  #services .service-card-media { height: 160px; }
+  footer > div:first-child { grid-template-columns: 1fr; }
+}

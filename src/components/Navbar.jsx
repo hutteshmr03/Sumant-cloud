@@ -110,12 +110,28 @@ function SunMoonToggle({ solid, isDark }) {
   );
 }
 
-/* Desktop dropdown — now click-to-open with outside-click-to-close
-   instead of hover-only, so it behaves correctly on touchscreens
-   and in "desktop site" mode on a phone, not just with a mouse. */
+/* True on mice/trackpads, false on touchscreens (and on a phone
+   in "desktop site" mode, which reports touch, not hover). */
+function useHoverCapable() {
+  const [hoverCapable, setHoverCapable] = useState(true);
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+    setHoverCapable(mq.matches);
+    const handler = (e) => setHoverCapable(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return hoverCapable;
+}
+
+/* Desktop dropdown — opens on hover for mouse users (closes when the
+   mouse leaves, like a normal desktop menu). On touch devices, where
+   hover never fires a mouseleave, it falls back to tap-to-toggle with
+   tap-outside-to-close so it never gets stuck open. */
 function NavDropdown({ item, solid, isDark }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
+  const hoverCapable = useHoverCapable();
   useClickOutside(ref, () => setOpen(false));
 
   const textColor = !solid
@@ -145,21 +161,29 @@ function NavDropdown({ item, solid, isDark }) {
     );
   }
 
+  const containerHoverProps = hoverCapable
+    ? { onMouseEnter: () => setOpen(true), onMouseLeave: () => setOpen(false) }
+    : {};
+
+  const triggerClickProps = !hoverCapable
+    ? { onClick: (e) => { e.preventDefault(); setOpen((o) => !o); } }
+    : {};
+
   return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((o) => !o)}
+    <div ref={ref} className="relative" {...containerHoverProps}>
+      <a
+        href={item.href}
         style={linkStyle}
         className={`inline-flex items-center gap-1 ${linkBase}`}
         aria-haspopup="true"
         aria-expanded={open}
         onMouseEnter={e => (e.currentTarget.style.color = hoverColor)}
         onMouseLeave={e => (e.currentTarget.style.color = textColor)}
+        {...triggerClickProps}
       >
         {item.label}
         <Chevron className={`mt-0.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
-      </button>
+      </a>
 
       <div className={`absolute top-full left-0 pt-2 min-w-[210px] z-50 transition-all duration-200 origin-top ${
         open ? "opacity-100 scale-y-100 pointer-events-auto" : "opacity-0 scale-y-95 pointer-events-none"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
 import { useTheme } from "../context/ThemeContext";
 
@@ -45,11 +45,28 @@ function Chevron({ className = "" }) {
   );
 }
 
+/* Closes a dropdown when the user taps/clicks outside of it —
+   fixes the "stuck open" dropdown on touch devices (tablets,
+   phones in desktop-site mode) where :hover never fires a
+   mouseleave. */
+function useClickOutside(ref, onOutside) {
+  useEffect(() => {
+    function handle(e) {
+      if (ref.current && !ref.current.contains(e.target)) onOutside();
+    }
+    document.addEventListener("mousedown", handle);
+    document.addEventListener("touchstart", handle);
+    return () => {
+      document.removeEventListener("mousedown", handle);
+      document.removeEventListener("touchstart", handle);
+    };
+  }, [ref, onOutside]);
+}
+
 /* ── Sun / Moon pill toggle ── */
 function SunMoonToggle({ solid, isDark }) {
   const { setTheme } = useTheme();
 
-  // Border and background of the pill container
   const pillStyle = solid
     ? isDark
       ? { border: "1px solid #1c3350", background: "#0f2036" }
@@ -58,7 +75,6 @@ function SunMoonToggle({ solid, isDark }) {
 
   return (
     <div style={pillStyle} className="flex items-center rounded-full overflow-hidden shrink-0 transition-all duration-300">
-      {/* Sun — Light mode */}
       <button
         type="button"
         onClick={() => setTheme("light")}
@@ -75,7 +91,6 @@ function SunMoonToggle({ solid, isDark }) {
           <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4l1.4-1.4M17 7l1.4-1.4" />
         </svg>
       </button>
-      {/* Moon — Dark mode */}
       <button
         type="button"
         onClick={() => setTheme("dark")}
@@ -95,10 +110,14 @@ function SunMoonToggle({ solid, isDark }) {
   );
 }
 
-function NavDropdown({ item, solid, isDark, onNavigate }) {
+/* Desktop dropdown — now click-to-open with outside-click-to-close
+   instead of hover-only, so it behaves correctly on touchscreens
+   and in "desktop site" mode on a phone, not just with a mouse. */
+function NavDropdown({ item, solid, isDark }) {
   const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  useClickOutside(ref, () => setOpen(false));
 
-  // Text color: transparent→white, solid+light→gray-700, solid+dark→white/90
   const textColor = !solid
     ? "rgba(255,255,255,0.9)"
     : isDark
@@ -106,7 +125,6 @@ function NavDropdown({ item, solid, isDark, onNavigate }) {
       : "#374151";
 
   const hoverColor = "#0070ad";
-
   const linkStyle = { color: textColor };
 
   const linkBase = `relative text-[0.9rem] font-medium transition-all duration-200
@@ -117,7 +135,6 @@ function NavDropdown({ item, solid, isDark, onNavigate }) {
     return (
       <a
         href={item.href}
-        onClick={onNavigate}
         style={linkStyle}
         className={linkBase}
         onMouseEnter={e => (e.currentTarget.style.color = hoverColor)}
@@ -129,13 +146,10 @@ function NavDropdown({ item, solid, isDark, onNavigate }) {
   }
 
   return (
-    <div
-      className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
-      <a
-        href={item.href}
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
         style={linkStyle}
         className={`inline-flex items-center gap-1 ${linkBase}`}
         aria-haspopup="true"
@@ -145,9 +159,8 @@ function NavDropdown({ item, solid, isDark, onNavigate }) {
       >
         {item.label}
         <Chevron className={`mt-0.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
-      </a>
+      </button>
 
-      {/* Dropdown — always solid panel */}
       <div className={`absolute top-full left-0 pt-2 min-w-[210px] z-50 transition-all duration-200 origin-top ${
         open ? "opacity-100 scale-y-100 pointer-events-auto" : "opacity-0 scale-y-95 pointer-events-none"
       }`}>
@@ -162,7 +175,7 @@ function NavDropdown({ item, solid, isDark, onNavigate }) {
             <a
               key={sub.label}
               href={sub.href}
-              onClick={onNavigate}
+              onClick={() => setOpen(false)}
               style={{ color: isDark ? "rgba(255,255,255,0.85)" : "#374151" }}
               className="flex items-center gap-2 px-4 py-2.5 text-sm transition-colors group hover:text-brand"
               onMouseEnter={e => {
@@ -197,13 +210,28 @@ export default function Navbar({ forceSolid = false }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const solid = forceSolid || hovered || scrolled;
   const closeMobile = () => { setOpen(false); setExpanded(null); };
 
-  // Solid background colors per mode
+  // Lock body scroll while the mobile drawer is open.
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  // Close the drawer on Escape.
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") closeMobile(); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+  const solid = forceSolid || hovered || scrolled || open;
+
   const solidBg   = isDark ? "#0f2036" : "rgba(255,255,255,0.97)";
   const solidText = isDark ? "rgba(255,255,255,0.8)"  : "#4b5563";
   const divColor  = isDark ? "#1c3350" : "#e5e7eb";
+  const panelBg   = isDark ? "#0f2036" : "#ffffff";
+  const panelLine = isDark ? "#1c3350" : "#f3f4f6";
 
   return (
     <header
@@ -214,21 +242,21 @@ export default function Navbar({ forceSolid = false }) {
       {/* ── Single navbar row ── */}
       <div
         style={solid ? { background: solidBg, boxShadow: "0 2px 16px rgba(0,0,0,0.12)" } : {}}
-        className="transition-all duration-300"
+        className="relative z-10 transition-all duration-300"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
-          <nav className="flex items-center h-16 md:h-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10">
+          <nav className="flex items-center h-16 lg:h-20">
 
             {/* LEFT — Logo */}
             <a href="/" className="flex items-center shrink-0">
               <Logo
                 variant={solid && !isDark ? "on-light" : "on-dark"}
-                className="h-10 sm:h-12 md:h-16 w-auto"
+                className="h-10 sm:h-12 lg:h-16 w-auto"
               />
             </a>
 
-            {/* CENTER — Nav links (desktop) */}
-            <div className="hidden md:flex items-center gap-7 xl:gap-9 mx-auto">
+            {/* CENTER — Nav links (desktop / large screens only) */}
+            <div className="hidden lg:flex items-center gap-7 xl:gap-9 mx-auto">
               {NAV.map((item) => (
                 <NavDropdown
                   key={item.label}
@@ -239,8 +267,8 @@ export default function Navbar({ forceSolid = false }) {
               ))}
             </div>
 
-            {/* RIGHT — Contact us + Theme toggle */}
-            <div className="hidden md:flex items-center gap-4 ml-auto">
+            {/* RIGHT — Contact us + Theme toggle (desktop) */}
+            <div className="hidden lg:flex items-center gap-4 ml-auto">
               <a
                 href="/contact/"
                 style={{ color: solid ? solidText : "rgba(255,255,255,0.8)" }}
@@ -252,78 +280,114 @@ export default function Navbar({ forceSolid = false }) {
               <SunMoonToggle solid={solid} isDark={isDark} />
             </div>
 
-            {/* Mobile hamburger */}
+            {/* Mobile / tablet hamburger */}
             <button
+              type="button"
               style={{ color: solid ? (isDark ? "#edf6ff" : "#374151") : "#ffffff" }}
-              className="md:hidden p-2 ml-auto transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
+              className="lg:hidden p-2 ml-auto -mr-2 transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full"
               onClick={() => setOpen((o) => !o)}
               aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                {open ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+                {open
+                  ? <path d="M6 6l12 12M18 6L6 18" />
+                  : <path d="M4 7h16M4 12h16M4 17h16" />}
               </svg>
             </button>
           </nav>
         </div>
       </div>
 
-      {/* ── Mobile drawer ── */}
-      {open && (
+      {/* ── Mobile backdrop ── */}
+      <div
+        onClick={closeMobile}
+        aria-hidden="true"
+        className={`lg:hidden fixed inset-0 z-0 transition-opacity duration-300 ${
+          open ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
+        style={{ background: "rgba(4,10,20,0.55)", backdropFilter: "blur(2px)" }}
+      />
+
+      {/* ── Mobile drawer (floating card, slides + fades in) ── */}
+      <div
+        className={`lg:hidden fixed left-0 right-0 top-16 z-0 px-3 transition-all duration-300 ease-out origin-top ${
+          open ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-2 pointer-events-none"
+        }`}
+      >
         <div
-          style={{ background: isDark ? "#0f2036" : "#ffffff", borderTop: `1px solid ${isDark ? "#1c3350" : "#f3f4f6"}` }}
-          className="md:hidden px-4 sm:px-6 py-4 shadow-lg max-h-[80vh] overflow-y-auto"
+          style={{ background: panelBg, border: `1px solid ${panelLine}` }}
+          className="rounded-2xl shadow-2xl overflow-hidden"
         >
-          {NAV.map((item) =>
-            item.items ? (
-              <div key={item.label} style={{ borderBottom: `1px solid ${isDark ? "#1c3350" : "#f3f4f6"}` }} className="last:border-0">
-                <button
-                  type="button"
-                  onClick={() => setExpanded(expanded === item.label ? null : item.label)}
-                  style={{ color: isDark ? "rgba(255,255,255,0.9)" : "#374151" }}
-                  className="w-full flex items-center justify-between py-3.5 font-medium"
+          <div className="px-3 py-2 max-h-[65vh] overflow-y-auto">
+            {NAV.map((item) =>
+              item.items ? (
+                <div key={item.label} style={{ borderBottom: `1px solid ${panelLine}` }} className="last:border-0">
+                  <button
+                    type="button"
+                    onClick={() => setExpanded(expanded === item.label ? null : item.label)}
+                    style={{ color: isDark ? "rgba(255,255,255,0.9)" : "#374151" }}
+                    className="w-full flex items-center justify-between px-2 py-3.5 font-medium rounded-lg transition-colors hover:bg-brand-light/40"
+                  >
+                    {item.label}
+                    <Chevron className={`transition-transform duration-200 ${expanded === item.label ? "rotate-180" : ""}`} />
+                  </button>
+                  <div
+                    className="grid transition-[grid-template-rows] duration-200 ease-out"
+                    style={{ gridTemplateRows: expanded === item.label ? "1fr" : "0fr" }}
+                  >
+                    <div className="overflow-hidden">
+                      <div className="pb-3 pl-4 flex flex-col gap-1">
+                        {item.items.map((sub) => (
+                          <a
+                            key={sub.label}
+                            href={sub.href}
+                            onClick={closeMobile}
+                            style={{ color: isDark ? "#8ea6b8" : "#6b7280" }}
+                            className="flex items-center gap-2 text-sm hover:text-brand transition-colors py-2 px-2 rounded-md"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-brand shrink-0" />
+                            {sub.label}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={closeMobile}
+                  style={{
+                    color: isDark ? "rgba(255,255,255,0.9)" : "#374151",
+                    borderBottom: `1px solid ${panelLine}`,
+                  }}
+                  className="block px-2 py-3.5 font-medium rounded-lg transition-colors hover:bg-brand-light/40 last:border-0"
                 >
                   {item.label}
-                  <Chevron className={`transition-transform duration-200 ${expanded === item.label ? "rotate-180" : ""}`} />
-                </button>
-                {expanded === item.label && (
-                  <div className="pb-3 pl-3 flex flex-col gap-1.5">
-                    {item.items.map((sub) => (
-                      <a
-                        key={sub.label}
-                        href={sub.href}
-                        onClick={closeMobile}
-                        style={{ color: isDark ? "#8ea6b8" : "#6b7280" }}
-                        className="text-sm hover:text-brand transition-colors py-1"
-                      >
-                        {sub.label}
-                      </a>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ) : (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={closeMobile}
-                style={{
-                  color: isDark ? "rgba(255,255,255,0.9)" : "#374151",
-                  borderBottom: `1px solid ${isDark ? "#1c3350" : "#f3f4f6"}`,
-                }}
-                className="block py-3.5 font-medium hover:text-brand transition-colors"
-              >
-                {item.label}
-              </a>
-            )
-          )}
-          <div className="flex items-center gap-3 pt-4 mt-1">
-            <a href="/contact/" style={{ color: isDark ? "#8ea6b8" : "#4b5563" }} className="text-sm hover:text-brand">
+                </a>
+              )
+            )}
+          </div>
+
+          {/* CTA + theme toggle footer */}
+          <div
+            style={{ borderTop: `1px solid ${panelLine}`, background: isDark ? "#0b1a2c" : "#fafbfc" }}
+            className="flex items-center gap-3 px-3 py-3"
+          >
+            <a
+              href="/contact/"
+              onClick={closeMobile}
+              style={{ background: "#0070ad" }}
+              className="flex-1 text-center text-white text-sm font-semibold rounded-full py-3 shadow-md shadow-[#0070ad]/20 transition-transform active:scale-[0.98]"
+            >
               Contact us
             </a>
             <SunMoonToggle solid={true} isDark={isDark} />
           </div>
         </div>
-      )}
+      </div>
     </header>
   );
 }

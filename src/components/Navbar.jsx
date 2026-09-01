@@ -5,13 +5,13 @@ import { useTheme } from "../context/ThemeContext";
 const NAV = [
   { label: "Home", href: "/" },
   {
-    label: "Development",
-    href: "#services",
+    label: "Services",
+    href: "/#services",
     items: [
-      { label: "Software Development", href: "/software-development/" },
-      { label: "Mobile App Development", href: "/mobile-app-development/" },
-      { label: "Ecommerce Solutions", href: "/ecommerce-solutions/" },
-      { label: "Automation", href: "/automation/" },
+      { label: "SaaS", href: "/saas" },
+      { label: "IT Consulting", href: "/it-consulting" },
+      { label: "AI/ML Hiring", href: "/ai-ml-hiring" },
+      { label: "Custom Software", href: "/custom-software" },
     ],
   },
   {
@@ -23,14 +23,7 @@ const NAV = [
       { label: "EP2P", href: "/ep2p/" },
       { label: "CMS", href: "/cms/" },
       { label: "WMS", href: "/wms/" },
-    ],
-  },
-  {
-    label: "Design",
-    href: "#services",
-    items: [
-      { label: "UI & UX Design", href: "/ui-ux-design/" },
-      { label: "Website Design", href: "/website-design/" },
+      { label: "E-dims", href: "/e-dims/" },
     ],
   },
   { label: "About", href: "/about/" },
@@ -65,48 +58,61 @@ function useClickOutside(ref, onOutside) {
 
 /* ── Sun / Moon pill toggle ── */
 function SunMoonToggle({ solid, isDark }) {
-  const { setTheme } = useTheme();
+  const { toggleTheme } = useTheme();
 
   const pillStyle = solid
     ? isDark
-      ? { border: "1px solid #1c3350", background: "#0f2036" }
+      ? { border: "1px solid #363c44", background: "#20242a" }
       : { border: "1px solid #d1d5db", background: "#ffffff" }
-    : { border: "1px solid rgba(255,255,255,0.35)", background: "rgba(255,255,255,0.1)" };
+    : { border: "1px solid rgba(255,255,255,0.35)", background: "rgba(255,255,255,0.15)" };
 
   return (
-    <div style={pillStyle} className="flex items-center rounded-full overflow-hidden shrink-0 transition-all duration-300">
-      <button
-        type="button"
-        onClick={() => setTheme("light")}
-        aria-label="Light mode"
-        style={
-          !isDark
-            ? { background: "#0070ad", color: "#fff" }
-            : { color: solid ? (isDark ? "#8ea6b8" : "#9ca3af") : "rgba(255,255,255,0.6)" }
-        }
-        className="flex items-center justify-center w-8 h-8 transition-colors hover:opacity-80"
+    <button
+      type="button"
+      onClick={toggleTheme}
+      role="switch"
+      aria-checked={isDark}
+      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      style={{
+        ...pillStyle,
+        boxShadow: solid
+          ? "inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 6px rgba(0,0,0,0.06)"
+          : "inset 0 1px 0 rgba(255,255,255,0.22), 0 2px 8px rgba(0,0,0,0.12)",
+      }}
+      className="relative flex items-center h-8 w-16 rounded-full p-0.5 cursor-pointer shrink-0 transition-all duration-300 group"
+    >
+      {/* Sliding Active Indicator */}
+      <span
+        className={`absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-full transition-all duration-300 ease-out shadow-sm ${
+          isDark
+            ? "left-[calc(50%+1px)] bg-[#0070ad]"
+            : "left-0.5 bg-[#0070ad]"
+        }`}
+      />
+
+      {/* Sun Icon */}
+      <span
+        className={`relative z-10 flex items-center justify-center w-7 h-7 rounded-full transition-colors duration-300 ${
+          !isDark ? "text-white" : "text-gray-400 group-hover:text-white"
+        }`}
       >
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <circle cx="12" cy="12" r="4" />
           <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4l1.4-1.4M17 7l1.4-1.4" />
         </svg>
-      </button>
-      <button
-        type="button"
-        onClick={() => setTheme("dark")}
-        aria-label="Dark mode"
-        style={
-          isDark
-            ? { background: "#0070ad", color: "#fff" }
-            : { color: solid ? "#9ca3af" : "rgba(255,255,255,0.6)" }
-        }
-        className="flex items-center justify-center w-8 h-8 transition-colors hover:opacity-80"
+      </span>
+
+      {/* Moon Icon */}
+      <span
+        className={`relative z-10 flex items-center justify-center w-7 h-7 rounded-full transition-colors duration-300 ${
+          isDark ? "text-white" : "text-gray-400 group-hover:text-gray-700"
+        }`}
       >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M20 14.5A7.5 7.5 0 0 1 9.5 4 9.5 9.5 0 1 0 20 14.5z" />
         </svg>
-      </button>
-    </div>
+      </span>
+    </button>
   );
 }
 
@@ -165,9 +171,34 @@ function NavDropdown({ item, solid, isDark }) {
     ? { onMouseEnter: () => setOpen(true), onMouseLeave: () => setOpen(false) }
     : {};
 
+  function handleMainLinkClick(e) {
+    if (item.href.startsWith("/#") || item.href.startsWith("#")) {
+      const targetId = item.href.replace(/^\/?#/, "");
+      const isHomePage = window.location.pathname === "/" || window.location.pathname === "";
+      if (isHomePage) {
+        e.preventDefault();
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", `/#${targetId}`);
+        }
+        setOpen(false);
+      } else {
+        window.location.href = `/#${targetId}`;
+      }
+    }
+  }
+
   const triggerClickProps = !hoverCapable
-    ? { onClick: (e) => { e.preventDefault(); setOpen((o) => !o); } }
-    : {};
+    ? {
+        onClick: (e) => {
+          handleMainLinkClick(e);
+          setOpen((o) => !o);
+        },
+      }
+    : {
+        onClick: handleMainLinkClick,
+      };
 
   return (
     <div ref={ref} className="relative" {...containerHoverProps}>
@@ -190,8 +221,8 @@ function NavDropdown({ item, solid, isDark }) {
       }`}>
         <div
           style={{
-            background: isDark ? "#0f2036" : "#ffffff",
-            border: `1px solid ${isDark ? "#1c3350" : "#f3f4f6"}`,
+            background: isDark ? "#1a1d21" : "#ffffff",
+            border: `1px solid ${isDark ? "#363c44" : "#f3f4f6"}`,
           }}
           className="rounded-lg shadow-xl py-1.5"
         >
@@ -203,7 +234,7 @@ function NavDropdown({ item, solid, isDark }) {
               style={{ color: isDark ? "rgba(255,255,255,0.85)" : "#374151" }}
               className="flex items-center gap-2 px-4 py-2.5 text-sm transition-colors group hover:text-brand"
               onMouseEnter={e => {
-                e.currentTarget.style.background = isDark ? "#1c3350" : "#e8f4fa";
+                e.currentTarget.style.background = isDark ? "#292e35" : "#e8f4fa";
                 e.currentTarget.style.color = "#0070ad";
               }}
               onMouseLeave={e => {
@@ -251,11 +282,9 @@ export default function Navbar({ forceSolid = false }) {
 
   const solid = forceSolid || hovered || scrolled || open;
 
-  const solidBg   = isDark ? "#0f2036" : "rgba(255,255,255,0.97)";
-  const solidText = isDark ? "rgba(255,255,255,0.8)"  : "#4b5563";
-  const divColor  = isDark ? "#1c3350" : "#e5e7eb";
-  const panelBg   = isDark ? "#0f2036" : "#ffffff";
-  const panelLine = isDark ? "#1c3350" : "#f3f4f6";
+  const solidBg   = isDark ? "#1a1d21" : "rgba(255,255,255,0.97)";
+  const panelBg   = isDark ? "#1a1d21" : "#ffffff";
+  const panelLine = isDark ? "#363c44" : "#f3f4f6";
 
   return (
     <header
@@ -292,15 +321,26 @@ export default function Navbar({ forceSolid = false }) {
             </div>
 
             {/* RIGHT — Contact us + Theme toggle (desktop) */}
-            <div className="hidden lg:flex items-center gap-4 ml-auto">
+            <div
+              className="hidden lg:flex items-center gap-2 ml-auto rounded-2xl p-1.5 transition-all duration-300"
+              style={{
+                background: solid ? (isDark ? "rgba(26,29,33,0.96)" : "rgba(255,255,255,0.92)") : "rgba(18,20,23,0.42)",
+                border: `1px solid ${solid ? (isDark ? "#3a4048" : "rgba(255,255,255,0.9)") : "rgba(255,255,255,0.38)"}`,
+                boxShadow: solid ? "0 10px 26px rgba(9,25,42,0.15), inset 0 1px 0 rgba(255,255,255,0.45)" : "0 12px 30px rgba(3,13,25,0.18), inset 0 1px 0 rgba(255,255,255,0.25)",
+                backdropFilter: "blur(16px)",
+              }}
+            >
               <a
                 href="/contact/"
-                style={{ color: solid ? solidText : "rgba(255,255,255,0.8)" }}
-                className="text-sm font-medium transition-colors whitespace-nowrap hover:text-brand"
+                className="group inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white transition-all duration-300 whitespace-nowrap hover:-translate-y-px hover:shadow-[0_8px_18px_rgba(0,112,173,0.34)]"
+                style={{
+                  background: "linear-gradient(135deg, #0b92d2 0%, #0070ad 58%, #005b94 100%)",
+                  boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 10px rgba(0,75,125,0.28)",
+                }}
               >
                 Contact us
+                <span className="flex h-4 w-4 items-center justify-center rounded-full border border-white/35 text-xs leading-none transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
               </a>
-              <span style={{ background: solid ? divColor : "rgba(255,255,255,0.3)" }} className="w-px h-4" />
               <SunMoonToggle solid={solid} isDark={isDark} />
             </div>
 
@@ -397,14 +437,14 @@ export default function Navbar({ forceSolid = false }) {
 
           {/* CTA + theme toggle footer */}
           <div
-            style={{ borderTop: `1px solid ${panelLine}`, background: isDark ? "#0b1a2c" : "#fafbfc" }}
-            className="flex items-center gap-3 px-3 py-3"
+            style={{ borderTop: `1px solid ${panelLine}`, background: isDark ? "#15181c" : "#fafbfc" }}
+            className="flex items-center gap-1.5 px-3 py-3"
           >
             <a
               href="/contact/"
               onClick={closeMobile}
               style={{ background: "#0070ad" }}
-              className="flex-1 text-center text-white text-sm font-semibold rounded-full py-3 shadow-md shadow-[#0070ad]/20 transition-transform active:scale-[0.98]"
+              className="flex-1 text-center text-white text-sm font-semibold rounded-lg py-3 shadow-md shadow-[#0070ad]/20 transition-transform active:scale-[0.98]"
             >
               Contact us
             </a>

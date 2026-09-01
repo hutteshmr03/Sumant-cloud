@@ -5,7 +5,8 @@ const ThemeContext = createContext(null);
 function getInitialTheme() {
   if (typeof window === "undefined") return "light";
   const stored = window.localStorage.getItem("sumant-theme");
-  if (stored === "light" || stored === "dark") return stored;
+  if (stored === "dark") return "dark";
+  if (stored === "light") return "light";
   return "light";
 }
 

@@ -32,14 +32,14 @@ export default function About() {
             <li><strong className="text-text-ink">Industry-Focused Approach</strong> - Customized solutions for various business domains.</li>
             <li><strong className="text-text-ink">End-to-End Development</strong> - From ideation to deployment and ongoing support.</li>
           </ul>
-          <div className="mt-8 bg-foam px-6 py-6 md:px-8">
+          <div className="mt-8 border-t border-ink-line/60 pt-6">
             <ul className="grid gap-3 text-sm md:grid-cols-2">
-              <li className="flex items-center gap-3"><span className="text-brand">&#9745;</span>Best Quality Designs</li>
-              <li className="flex items-center gap-3"><span className="text-brand">&#9745;</span>24x7 Live Support</li>
-              <li className="flex items-center gap-3"><span className="text-brand">&#9745;</span>Result Oriented Projects</li>
-              <li className="flex items-center gap-3"><span className="text-brand">&#9745;</span>Award Winning Support Team</li>
-              <li className="flex items-center gap-3"><span className="text-brand">&#9745;</span>Best ROI Techniques</li>
-              <li className="flex items-center gap-3"><span className="text-brand">&#9745;</span>Experienced Professionals</li>
+              <li className="flex items-center gap-3"><span className="text-brand">✓</span>Best Quality Designs</li>
+              <li className="flex items-center gap-3"><span className="text-brand">✓</span>24x7 Live Support</li>
+              <li className="flex items-center gap-3"><span className="text-brand">✓</span>Result Oriented Projects</li>
+              <li className="flex items-center gap-3"><span className="text-brand">✓</span>Award Winning Support Team</li>
+              <li className="flex items-center gap-3"><span className="text-brand">✓</span>Best ROI Techniques</li>
+              <li className="flex items-center gap-3"><span className="text-brand">✓</span>Experienced Professionals</li>
             </ul>
           </div>
         </div>

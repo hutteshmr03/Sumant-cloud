@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import Services from "./components/Services";
+import TrustedBy from "./components/TrustedBy";
 import Products from "./components/Products";
+import SolutionsGrid from "./components/SolutionsGrid";
 import Approach from "./components/Approach";
 import About from "./components/About";
 import AboutPage from "./components/AboutPage";
@@ -13,12 +15,29 @@ import PEM from "./components/PEM";
 import EP2P from "./components/EP2P";
 import CMS from "./components/CMS";
 import WMS from "./components/WMS";
+import EDIMS from "./components/EDIMS";
 import UIUXDesign from "./components/UIUXDesign";
 import WebsiteDesign from "./components/WebsiteDesign";
 import Contact from "./components/Contact";
+import AIMLHiringPage from "./components/AIMLHiringPage";
+import CustomSoftwarePage from "./components/CustomSoftwarePage";
+import ITConsultingPage from "./components/ITConsultingPage";
+import SaaSPage from "./components/SaaSPage";
 
 export default function App() {
   const pathname = window.location.pathname.replace(/\/$/, "");
+
+  useEffect(() => {
+    if (window.location.hash) {
+      const targetId = window.location.hash.replace("#", "");
+      setTimeout(() => {
+        const el = document.getElementById(targetId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    }
+  }, [pathname]);
 
   if (pathname === "/about") {
     return <AboutPage />;
@@ -48,6 +67,10 @@ export default function App() {
     return <WMS />;
   }
 
+  if (pathname === "/e-dims" || pathname === "/edims") {
+    return <EDIMS />;
+  }
+
   if (pathname === "/ui-ux-design") {
     return <UIUXDesign />;
   }
@@ -60,15 +83,31 @@ export default function App() {
     return <Contact />;
   }
 
+  if (pathname === "/ai-ml-hiring") {
+    return <AIMLHiringPage />;
+  }
+
+  if (pathname === "/custom-software") {
+    return <CustomSoftwarePage />;
+  }
+
+  if (pathname === "/it-consulting") {
+    return <ITConsultingPage />;
+  }
+
+  if (pathname === "/saas") {
+    return <SaaSPage />;
+  }
+
   return (
     <div className="font-body">
       <Navbar />
       <main>
         <Hero />
-        <Services />
+        <TrustedBy />
+        <SolutionsGrid />
         <Products />
         <Approach />
-        <About />
         <CTA />
       </main>
       <Footer />

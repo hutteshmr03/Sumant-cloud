@@ -61,8 +61,22 @@ export default function Footer() {
         <div>
           <h4 className="text-xs font-semibold uppercase tracking-wider text-text-mist-2 mb-4">Products</h4>
           <ul className="space-y-2.5 text-sm text-text-mist">
-              {["CMMS", "PEM", "EP2P", "CMS", "WMS"].map((p) => (
-                <li key={p}><a href={p === 'PEM' ? '/pem/' : p === 'EP2P' ? '/ep2p/' : p === 'CMS' ? '/cms/' : p === 'WMS' ? '/wms/' : '#products'} className="hover:text-cyan transition-colors">{p}</a></li>
+              {["CMMS", "PEM", "EP2P", "CMS", "WMS", "E-dims"].map((p) => (
+                <li key={p}>
+                  <a
+                    href={
+                      p === 'CMMS' ? '/cmms/' :
+                      p === 'PEM' ? '/pem/' :
+                      p === 'EP2P' ? '/ep2p/' :
+                      p === 'CMS' ? '/cms/' :
+                      p === 'WMS' ? '/wms/' :
+                      '/e-dims/'
+                    }
+                    className="hover:text-cyan transition-colors"
+                  >
+                    {p}
+                  </a>
+                </li>
             ))}
           </ul>
         </div>

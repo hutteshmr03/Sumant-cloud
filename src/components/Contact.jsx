@@ -2,59 +2,336 @@ import { useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
+import contactHeroBg from "../assets/contact-hero-bg.jpg";
 
-const CONTACTS = [
-  ["Email", "hello@sumantcloud.com", "mailto:hello@sumantcloud.com"],
-  ["Call", "+91 70285 10950", "tel:+917028510950"],
-  ["Visit", "Vasco, Goa, India", "#location"],
+const COUNTRIES = [
+  "India",
+  "United States",
+  "United Kingdom",
+  "Germany",
+  "France",
+  "Netherlands",
+  "United Arab Emirates",
+  "Canada",
+  "Australia",
+  "Switzerland",
+  "Singapore",
+  "Other",
 ];
 
 export default function Contact() {
   const { isDark } = useTheme();
-  const [sent, setSent] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    country: "",
+    message: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    setSent(true);
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setSubmitted(true);
+    }, 600);
   }
 
   return (
-    <div className={`contact-page ${isDark ? "contact-dark" : "contact-light"}`}>
+    <div className={isDark ? "dark" : "light"}>
       <Navbar forceSolid />
-      <main>
-        <section className="contact-hero">
-          <div className="contact-hero-grid" aria-hidden="true" />
-          <div className="max-w-7xl mx-auto px-6 md:px-10">
-            <p className="contact-kicker"><span /> REACH US / SUMANT CLOUD</p>
-            <h1>Let&apos;s make<br /><em>something useful.</em></h1>
-            <p className="contact-lede">Tell us what you&apos;re trying to improve, build, or untangle. We&apos;ll bring the right people into the first conversation.</p>
+      <main className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
+        {/* Hero Section with Contextual Background */}
+        <section className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28 text-white">
+          <div className="absolute inset-0 z-0">
+            <img
+              src={contactHeroBg}
+              alt="Reach Us"
+              className="h-full w-full object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-[#0d223a]/55 backdrop-blur-[2px]" />
+          </div>
+
+          <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl">
+              <span className="inline-flex items-center rounded-full border border-sky-400/40 bg-sky-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-300 backdrop-blur-md">
+                Reach Us
+              </span>
+              <h1 className="mt-5 font-display text-4xl font-bold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl drop-shadow-sm">
+                Let&apos;s Build Something Great Together.
+              </h1>
+              <p className="mt-6 text-base leading-relaxed text-slate-200 sm:text-lg">
+                Would you like to start a project with us? Share your technical requirements and business goals, and our engineering leads will get back to you promptly.
+              </p>
+            </div>
           </div>
         </section>
 
-        <section className="contact-main">
-          <div className="max-w-7xl mx-auto px-6 md:px-10 contact-main-grid">
-            <div className="contact-details">
-              <p className="contact-label">Start here</p>
-              <h2>A good project<br /><span>starts clearly.</span></h2>
-              <p className="contact-copy">Whether you have a defined brief or only a problem worth solving, send us a note. We usually reply within one working day.</p>
-              <div className="contact-options">{CONTACTS.map(([label, value, href]) => <a href={href} key={label}><small>{label}</small><strong>{value}</strong><i>↗</i></a>)}</div>
+        {/* Ultra-Premium, Unboxed 2-Column Split */}
+        <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50 pt-12">
+          <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20 items-start">
+            {/* Left: The Form (Sleek, Minimalist, Luxury Underline Fields) */}
+            <div>
+              <div className="border-b border-[var(--color-ink-line)]/40 pb-5">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
+                  Inquiry Form
+                </span>
+                <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-3xl">
+                  Tell us about your project
+                </h2>
+                <p className="mt-1.5 text-xs text-[var(--color-text-mist-2)]">
+                  Fill in your details below and our solution architects will connect with you promptly.
+                </p>
+              </div>
+
+              {submitted ? (
+                <div className="mt-8 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-8 text-center">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500 shadow-inner">
+                    <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <h3 className="mt-4 font-display text-xl font-bold text-[var(--color-text-ink)]">
+                    Thank you! Your request has been received.
+                  </h3>
+                  <p className="mt-2 text-sm text-[var(--color-text-mist-2)] max-w-md mx-auto">
+                    Our engineering leads will review your requirements and reach out within 24 hours.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSubmitted(false);
+                      setFormData({
+                        firstName: "",
+                        lastName: "",
+                        email: "",
+                        phone: "",
+                        country: "",
+                        message: "",
+                      });
+                    }}
+                    className="mt-6 inline-flex rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-ink)] transition-colors hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
+                  >
+                    Submit Another Request
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="mt-8 space-y-8">
+                  {/* First Name & Last Name */}
+                  <div className="grid gap-8 sm:grid-cols-2">
+                    <div className="group">
+                      <label htmlFor="firstName" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
+                        First name <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        required
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        placeholder="John"
+                        className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] placeholder-[var(--color-text-mist-2)]/35 transition-colors focus:border-[var(--color-brand)] focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="group">
+                      <label htmlFor="lastName" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
+                        Last name <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        required
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        placeholder="Doe"
+                        className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] placeholder-[var(--color-text-mist-2)]/35 transition-colors focus:border-[var(--color-brand)] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email & Phone */}
+                  <div className="grid gap-8 sm:grid-cols-2">
+                    <div className="group">
+                      <label htmlFor="email" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
+                        Email address <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="john@company.com"
+                        className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] placeholder-[var(--color-text-mist-2)]/35 transition-colors focus:border-[var(--color-brand)] focus:outline-none"
+                      />
+                    </div>
+
+                    <div className="group">
+                      <label htmlFor="phone" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
+                        Phone Number (incl. country code)
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        placeholder="+1 (555) 000-0000"
+                        className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] placeholder-[var(--color-text-mist-2)]/35 transition-colors focus:border-[var(--color-brand)] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Country/Region */}
+                  <div className="group">
+                    <label htmlFor="country" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
+                      Country / Region <span className="text-rose-500">*</span>
+                    </label>
+                    <select
+                      id="country"
+                      name="country"
+                      required
+                      value={formData.country}
+                      onChange={handleChange}
+                      className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] transition-colors focus:border-[var(--color-brand)] focus:outline-none cursor-pointer"
+                    >
+                      <option value="" className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
+                        Select your country
+                      </option>
+                      {COUNTRIES.map((c) => (
+                        <option key={c} value={c} className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
+                          {c}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* How can we help you? */}
+                  <div className="group">
+                    <div className="flex items-center justify-between">
+                      <label htmlFor="message" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
+                        How can we help you? <span className="text-rose-500">*</span>
+                      </label>
+                      <span className="font-mono text-[0.7rem] text-[var(--color-text-mist-2)]">
+                        {5000 - formData.message.length} chars left
+                      </span>
+                    </div>
+                    <textarea
+                      id="message"
+                      name="message"
+                      required
+                      maxLength={5000}
+                      rows={4}
+                      value={formData.message}
+                      onChange={handleChange}
+                      placeholder="Describe your project, timeline, tech stack, or operational challenges..."
+                      className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] placeholder-[var(--color-text-mist-2)]/35 transition-colors focus:border-[var(--color-brand)] focus:outline-none"
+                    />
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={loading}
+                      className="group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,112,173,0.35)] disabled:opacity-50"
+                    >
+                      <span>{loading ? "Submitting..." : "Submit Inquiry"}</span>
+                      <span className="text-sm transition-transform duration-300 group-hover:translate-x-1">↗</span>
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
 
-            <form className="contact-form" onSubmit={handleSubmit}>
-              <div className="contact-form-head"><p className="contact-label">Project enquiry</p><span>01 / 03</span></div>
-              <label>Name<input required name="name" placeholder="Your name" /></label>
-              <label>Work email<input required type="email" name="email" placeholder="you@company.com" /></label>
-              <label>What can we help with?<select name="service" defaultValue=""><option value="" disabled>Select a service</option><option>Software development</option><option>Product design</option><option>Website design</option><option>Business automation</option><option>One of your products</option></select></label>
-              <label>Tell us a little more<textarea required name="message" rows="4" placeholder="A few lines about your goals, timeline, or challenge..." /></label>
-              <button className="contact-submit" type="submit">{sent ? "Message ready to send" : "Send enquiry"}<b>↗</b></button>
-              {sent && <p className="contact-success" role="status">Thanks. Your enquiry is ready for our team. We&apos;ll be in touch shortly.</p>}
-            </form>
+            {/* Right: Direct Reach & Location (Clean, Editorial, Completely Box-Free) */}
+            <div className="space-y-8 lg:pl-4">
+              <div className="border-b border-[var(--color-ink-line)]/40 pb-5">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
+                  Contact Channels
+                </span>
+                <h3 className="mt-2 font-display text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-3xl">
+                  Get in touch directly
+                </h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-[var(--color-text-mist-2)]">
+                  Reach out through our direct channels or visit our engineering headquarters in Goa.
+                </p>
+              </div>
+
+              {/* Direct Info List without heavy boxes */}
+              <div className="space-y-6">
+                <div>
+                  <p className="text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                    Email Inquiries
+                  </p>
+                  <a
+                    href="mailto:contact@sumantcloud.com"
+                    className="mt-1 inline-block text-lg font-semibold text-[var(--color-text-ink)] hover:text-[var(--color-brand)] transition-colors"
+                  >
+                    contact@sumantcloud.com
+                  </a>
+                </div>
+
+                <div>
+                  <p className="text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                    Direct Phone Line
+                  </p>
+                  <a
+                    href="tel:+917028510950"
+                    className="mt-1 inline-block text-lg font-semibold text-[var(--color-text-ink)] hover:text-[var(--color-brand)] transition-colors"
+                  >
+                    +91 70285 10950
+                  </a>
+                </div>
+
+                <div>
+                  <div className="flex items-center justify-between">
+                    <p className="text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                      Office Headquarters
+                    </p>
+                    <a
+                      href="https://maps.google.com/?q=Block+5+Surekha+Complex+Vaddem+Vasco+Goa"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-xs font-bold text-[var(--color-brand)] hover:underline"
+                    >
+                      Open in Google Maps ↗
+                    </a>
+                  </div>
+                  <p className="mt-1 text-sm font-medium leading-relaxed text-[var(--color-text-ink)]">
+                    Block 5, Surekha Complex, Vaddem, next to Vaddem Lake, Vasco da Gama, Goa, India
+                  </p>
+                </div>
+              </div>
+
+              {/* Clean Map Frame */}
+              <div className="overflow-hidden rounded-2xl border border-[var(--color-ink-line)]/50 h-52 w-full shadow-sm">
+                <iframe
+                  title="Sumant Cloud Location Map"
+                  src="https://maps.google.com/maps?q=Vaddem+Lake+Vasco+Goa&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  className="h-full w-full border-0 grayscale-[20%]"
+                  loading="lazy"
+                />
+              </div>
+            </div>
           </div>
         </section>
-
-        <section id="location" className="contact-location"><div className="max-w-7xl mx-auto px-6 md:px-10 contact-location-grid"><div><p className="contact-label">Find us</p><h2>From Goa,<br /><span>with care.</span></h2><p className="contact-copy">Block 5, Surekha Complex,<br />Vaddem, next to Vaddem Lake,<br />Vasco, Goa</p><a className="contact-map-link" href="https://maps.google.com/?q=Vaddem+Lake+Vasco+Goa" target="_blank" rel="noreferrer">Open in Maps <b>↗</b></a></div><div className="contact-map-art" aria-label="Map illustration showing the Sumant Cloud Goa office"><span className="contact-map-road road-one" /><span className="contact-map-road road-two" /><span className="contact-map-road road-three" /><span className="contact-map-pin">SC</span><small>VADDEM LAKE</small><i>SUMANT CLOUD</i></div></div></section>
-
-        <section className="contact-cta"><div className="max-w-7xl mx-auto px-6 md:px-10"><p className="contact-kicker"><span /> NO PERFECT BRIEF REQUIRED</p><h2>Bring the question.<br /><em>We&apos;ll find the path.</em></h2></div></section>
       </main>
       <Footer />
     </div>

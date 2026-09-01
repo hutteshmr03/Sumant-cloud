@@ -2,13 +2,13 @@ import useScrollReveal from "../hooks/useScrollReveal";
 
 const SERVICES = [
   {
-    title: "Software Development",
-    body: "Custom backends, internal tools, and platforms built to your workflow — not the other way round.",
+    title: "SaaS",
+    body: "Build scalable product experiences, subscriptions, and cloud workflows that help businesses grow faster and operate smarter.",
     icon: <path d="M8 6l-5 6 5 6M16 6l5 6-5 6M13 4l-2 16" />,
   },
   {
-    title: "Mobile App Development",
-    body: "Native and cross-platform apps for iOS and Android, from first wireframe to app-store release.",
+    title: "IT Consulting",
+    body: "Turn business challenges into practical technology roadmaps, architecture decisions, and execution plans that move teams forward.",
     icon: (
       <>
         <rect x="7" y="3" width="10" height="18" rx="2" />
@@ -17,43 +17,13 @@ const SERVICES = [
     ),
   },
   {
-    title: "Ecommerce Solutions",
-    body: "Storefronts, checkout, and inventory wired together so a sale on the site is a sale in the warehouse.",
+    title: "AI/ML Hiring",
+    body: "Find the right AI and machine learning talent for your roadmap, whether you need specialists, product engineers, or cross-functional teams.",
     icon: (
       <>
         <path d="M4 6h2l1.5 10.5A2 2 0 0 0 9.5 18h7a2 2 0 0 0 2-1.6L20 8H7" />
         <circle cx="10" cy="21" r="1" />
         <circle cx="17" cy="21" r="1" />
-      </>
-    ),
-  },
-  {
-    title: "Automation",
-    body: "We find the manual step your team repeats every day and replace it with a system that doesn't forget.",
-    icon: (
-      <>
-        <circle cx="12" cy="12" r="3" />
-        <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" />
-      </>
-    ),
-  },
-  {
-    title: "UI & UX Design",
-    body: "Interfaces designed around what your users are actually trying to get done, then tested until they do.",
-    icon: (
-      <>
-        <rect x="3" y="4" width="18" height="14" rx="2" />
-        <path d="M3 9h18M8 4v5" />
-      </>
-    ),
-  },
-  {
-    title: "Website Design",
-    body: "Marketing sites and web presences that load fast, read clearly, and hold up on a phone in daylight.",
-    icon: (
-      <>
-        <circle cx="12" cy="12" r="9" />
-        <path d="M3 12h18M12 3c2.5 2.5 4 6 4 9s-1.5 6.5-4 9c-2.5-2.5-4-6-4-9s1.5-6.5 4-9z" />
       </>
     ),
   },
@@ -71,12 +41,11 @@ export default function Services() {
         >
           <p className="text-xs font-semibold uppercase tracking-wider text-brand mb-4">Services</p>
           <h2 className="font-display text-3xl md:text-4xl font-semibold text-text-ink">
-            Six disciplines, one accountable team.
+            Three focus areas, one accountable partner.
           </h2>
           <p className="mt-5 text-text-mist-2 leading-relaxed">
-            We don't hand your project between vendors. The people who design
-            it are the people who build it, and the people who build it are
-            the people who answer when something breaks.
+            We help businesses build digital products, modernize their technology strategy,
+            and bring in the right AI and machine learning talent to turn ideas into execution.
           </p>
         </div>
 

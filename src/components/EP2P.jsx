@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
 import ep2pHeroBg from "../assets/ep2p-hero-bg.jpg";
+import useScrollReveal from "../hooks/useScrollReveal";
 
 const EP2P_FEATURES = [
   {
-    id: "purchase-requisition",
-    badge: "01 / AUTOMATION",
+    num: "01",
     title: "Automated Purchase Requisition & Approval",
     text: "Digitally initiates and approves purchase requests based on predefined workflows.",
     icon: (
@@ -18,11 +18,9 @@ const EP2P_FEATURES = [
         <line x1="9" y1="15" x2="15" y2="15" />
       </svg>
     ),
-    highlight: "Predefined Rule Routing & Instant Approvals",
   },
   {
-    id: "vendor-management",
-    badge: "02 / SUPPLIERS",
+    num: "02",
     title: "Vendor Management",
     text: "Centralized vendor database for seamless onboarding and compliance tracking.",
     icon: (
@@ -33,11 +31,9 @@ const EP2P_FEATURES = [
         <path d="M16 3.13a4 4 0 0 1 0 7.75" />
       </svg>
     ),
-    highlight: "Onboarding, Verification & Performance Signals",
   },
   {
-    id: "e-procurement",
-    badge: "03 / BUYING",
+    num: "03",
     title: "E-Procurement",
     text: "Digital RFQs (Request for Quotations) and purchase orders for a streamlined buying process.",
     icon: (
@@ -47,11 +43,9 @@ const EP2P_FEATURES = [
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
       </svg>
     ),
-    highlight: "Digital RFQs, Direct POs & Catalogs",
   },
   {
-    id: "invoice-matching",
-    badge: "04 / ACCURACY",
+    num: "04",
     title: "Invoice Matching & Processing",
     text: "Auto-matches invoices with purchase orders and delivery receipts to eliminate discrepancies.",
     icon: (
@@ -60,11 +54,9 @@ const EP2P_FEATURES = [
         <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
       </svg>
     ),
-    highlight: "3-Way Automated PO, Delivery & Invoice Matching",
   },
   {
-    id: "payment-automation",
-    badge: "05 / DISBURSEMENTS",
+    num: "05",
     title: "Payment Automation",
     text: "Ensures timely and accurate payments, improving supplier relationships.",
     icon: (
@@ -73,11 +65,9 @@ const EP2P_FEATURES = [
         <line x1="1" y1="10" x2="23" y2="10" />
       </svg>
     ),
-    highlight: "Automated Disbursement Queues & Timely Reconciliation",
   },
   {
-    id: "reporting-analytics",
-    badge: "06 / INSIGHTS",
+    num: "06",
     title: "Real-time Analytics & Reporting",
     text: "Provides insights into spending patterns, supplier performance, and cost optimization.",
     icon: (
@@ -87,60 +77,107 @@ const EP2P_FEATURES = [
         <line x1="6" y1="20" x2="6" y2="14" />
       </svg>
     ),
-    highlight: "Spending Pattern Diagnostics & Cost Optimization",
   },
 ];
 
 export default function EP2P() {
   const { isDark } = useTheme();
-  const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
+  const [heroVisible, setHeroVisible] = useState(false);
 
-  const selectedFeature = EP2P_FEATURES[activeFeatureIndex];
+  useEffect(() => {
+    const timer = setTimeout(() => setHeroVisible(true), 80);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className={isDark ? "dark" : "light"}>
       <Navbar forceSolid />
-      <main className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
+      <main className="bg-[var(--color-foam)] text-[var(--color-text-ink)] overflow-hidden">
         {/* ── HERO SECTION ── */}
-        <section className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28 text-white">
+        <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28 lg:pt-44 lg:pb-32 text-white">
           <div className="absolute inset-0 z-0">
             <img
               src={ep2pHeroBg}
               alt="Electronic Purchase to Pay"
-              className="h-full w-full object-cover object-center"
+              className="h-full w-full object-cover object-center scale-105 transition-transform duration-1000"
             />
-            <div className="absolute inset-0 bg-[#0d223a]/55 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#071728]/92 via-[#0a1e34]/80 to-[#071728]/70 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,112,173,0.35),transparent_65%)]" />
           </div>
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl">
-              <span className="inline-flex items-center rounded-full border border-sky-400/40 bg-sky-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-300 backdrop-blur-md">
-                Product / EP2P
-              </span>
-              <h1 className="mt-5 font-display text-4xl font-bold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl drop-shadow-sm">
-                EP2P
-              </h1>
-              <p className="mt-4 text-xl font-semibold text-sky-200 sm:text-2xl">
-                Electronic Purchase to Pay (EP2P) – Streamlining Procurement and Payments
-              </p>
-              <div className="mt-5 rounded-2xl border border-white/20 bg-white/10 p-6 backdrop-blur-md">
-                <p className="text-xs font-bold uppercase tracking-wider text-sky-300">What is EP2P?</p>
-                <p className="mt-2 text-base leading-relaxed text-slate-200 sm:text-lg">
-                  Electronic Purchase to Pay (EP2P) is an end-to-end digital procurement process that automates purchasing, invoicing, and payment workflows. It ensures seamless integration between procurement and accounts payable, reducing manual efforts and enhancing financial control.
-                </p>
+              {/* Eyebrow Badge */}
+              <div
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
+                }}
+              >
+                <span className="inline-flex items-center rounded-full border border-sky-400/30 bg-sky-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sky-300 backdrop-blur-md shadow-sm">
+                  Product / EP2P
+                </span>
               </div>
 
-              <div className="mt-8 flex flex-wrap gap-4">
+              {/* Main Headline */}
+              <h1
+                className="mt-5 font-display text-3xl sm:text-5xl lg:text-[3.65rem] font-bold tracking-[-0.04em] text-white leading-[1.12] drop-shadow-md"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(24px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s",
+                }}
+              >
+                Electronic Purchase to Pay{" "}
+                <span className="bg-gradient-to-r from-sky-300 via-cyan-200 to-teal-300 bg-clip-text text-transparent">
+                  (EP2P)
+                </span>
+              </h1>
+
+              {/* Subheading */}
+              <p
+                className="mt-4 text-lg sm:text-2xl font-semibold text-sky-200"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
+                }}
+              >
+                Streamlining Procurement and Payments
+              </p>
+
+              {/* Paragraph */}
+              <p
+                className="mt-5 text-sm sm:text-base lg:text-lg leading-relaxed text-slate-200"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.55s",
+                }}
+              >
+                <strong>Electronic Purchase to Pay (EP2P)</strong> is an end-to-end digital procurement process that <strong>automates purchasing, invoicing, and payment workflows</strong>. It ensures <strong>seamless integration between procurement and accounts payable</strong>, reducing manual efforts and enhancing financial control.
+              </p>
+
+              {/* Action Buttons */}
+              <div
+                className="mt-8 flex flex-wrap gap-4"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s",
+                }}
+              >
                 <a
                   href="#features"
-                  className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,112,173,0.35)]"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(0,112,173,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-sky-500 hover:shadow-[0_6px_18px_rgba(0,112,173,0.3)]"
                 >
                   <span>Explore Key Features</span>
-                  <span>↓</span>
+                  <span className="transition-transform duration-300 group-hover:translate-y-0.5">↓</span>
                 </a>
                 <a
                   href="/contact/"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white/20"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-slate-200 transition-all duration-300 hover:bg-white/[0.08] hover:border-white/25 hover:text-white hover:-translate-y-0.5"
                 >
                   <span>Request Demo</span>
                   <span>↗</span>
@@ -150,137 +187,73 @@ export default function EP2P() {
           </div>
         </section>
 
-        {/* ── KEY FEATURES SECTION ── */}
-        <section id="features" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-          <div className="max-w-3xl">
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand)]">
-              Core Capabilities
-            </span>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
-              Key Features of EP2P
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-mist-2)] sm:text-base">
-              End-to-end digital procurement that automates purchasing, simplifies invoicing, and accelerates reconciliation.
-            </p>
-          </div>
+        {/* ── KEY FEATURES SECTION: 6 LUXURY GLASSMORPHIC CARDS ── */}
+        <section id="features" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
+          <SectionHeader
+            badge="Core Capabilities"
+            title="Key Features of EP2P"
+            subtitle="End-to-end digital procurement that automates purchasing, simplifies invoicing, and accelerates reconciliation."
+          />
 
-          <div className="mt-12 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-start">
-            {/* 6 Feature Cards */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              {EP2P_FEATURES.map((feature, idx) => {
-                const isActive = activeFeatureIndex === idx;
-                return (
-                  <div
-                    key={feature.id}
-                    onClick={() => setActiveFeatureIndex(idx)}
-                    className={`group cursor-pointer rounded-2xl border p-6 transition-all duration-300 ${
-                      isActive
-                        ? "border-[var(--color-brand)] bg-[var(--color-foam-panel)] shadow-md ring-2 ring-[var(--color-brand)]/20"
-                        : "border-[var(--color-ink-line)]/70 bg-[var(--color-foam-panel)] hover:border-[var(--color-brand)]/50 hover:shadow-sm"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div
-                        className={`flex h-11 w-11 items-center justify-center rounded-xl transition-colors ${
-                          isActive
-                            ? "bg-[var(--color-brand)] text-white"
-                            : "bg-[var(--color-brand)]/10 text-[var(--color-brand)] group-hover:bg-[var(--color-brand)] group-hover:text-white"
-                        }`}
-                      >
-                        {feature.icon}
-                      </div>
-                      <span className="text-[0.68rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)]">
-                        {feature.badge}
-                      </span>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {EP2P_FEATURES.map((feat, idx) => (
+              <div
+                key={feat.title}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-7 sm:p-8 shadow-[0_8px_24px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-[var(--color-brand)]/60 hover:shadow-[0_20px_40px_rgba(0,112,173,0.12)]"
+                style={{ animationDelay: `${idx * 80}ms` }}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/10 text-[var(--color-brand)] transition-all duration-500 group-hover:scale-110 group-hover:bg-[var(--color-brand)] group-hover:text-white shadow-sm">
+                      {feat.icon}
                     </div>
 
-                    <h3 className="mt-4 font-display text-base font-bold text-[var(--color-text-ink)]">
-                      {feature.title}
-                    </h3>
-                    <p className="mt-2 text-xs leading-relaxed text-[var(--color-text-mist-2)] sm:text-sm">
-                      {feature.text}
-                    </p>
+                    <span className="font-mono text-xs font-bold rounded-full px-3 py-1 bg-[var(--color-foam)] border border-[var(--color-ink-line)] text-[var(--color-brand)]">
+                      {feat.num}
+                    </span>
                   </div>
-                );
-              })}
-            </div>
 
-            {/* Interactive Inspector Canvas */}
-            <div className="sticky top-28 rounded-3xl border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] p-8 shadow-sm">
-              <span className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
-                Feature Focus
-              </span>
-              <div className="mt-4 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-brand)] text-white shadow-md">
-                  {selectedFeature.icon}
-                </div>
-                <div>
-                  <h3 className="font-display text-2xl font-bold text-[var(--color-text-ink)]">
-                    {selectedFeature.title}
+                  <h3 className="mt-6 font-display text-xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] transition-colors duration-300 group-hover:text-[var(--color-brand)]">
+                    {feat.title}
                   </h3>
-                  <p className="text-xs font-semibold text-[var(--color-brand)]">
-                    {selectedFeature.highlight}
+                  <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[var(--color-text-mist-2)]">
+                    {feat.text}
                   </p>
                 </div>
               </div>
-
-              <p className="mt-6 text-sm leading-relaxed text-[var(--color-text-ink)] border-t border-[var(--color-ink-line)]/50 pt-5">
-                {selectedFeature.text}
-              </p>
-
-              <div className="mt-6 space-y-3 rounded-2xl border border-[var(--color-ink-line)]/60 bg-[var(--color-foam)] p-5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[var(--color-text-mist-2)]">Procurement Workflow</span>
-                  <span className="inline-flex items-center gap-1.5 font-bold text-emerald-600 dark:text-emerald-400">
-                    <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    Automated &amp; Connected
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-xs border-t border-[var(--color-ink-line)]/40 pt-2.5">
-                  <span className="font-semibold text-[var(--color-text-mist-2)]">AP Integration</span>
-                  <span className="font-bold text-[var(--color-text-ink)]">3-Way Discrepancy Matching</span>
-                </div>
-                <div className="flex items-center justify-between text-xs border-t border-[var(--color-ink-line)]/40 pt-2.5">
-                  <span className="font-semibold text-[var(--color-text-mist-2)]">Disbursement Cycle</span>
-                  <span className="font-bold text-[var(--color-text-ink)]">Instant &amp; Verified</span>
-                </div>
-              </div>
-
-              <div className="mt-8">
-                <a
-                  href="/contact/"
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-brand)] py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[var(--color-brand)]/90 hover:shadow-lg"
-                >
-                  <span>Inquire About EP2P ↗</span>
-                </a>
-              </div>
-            </div>
+            ))}
           </div>
         </section>
 
-        {/* ── BOTTOM CTA SECTION ── */}
-        <section className="border-t border-[var(--color-ink-line)]/60 bg-[var(--color-foam-panel)] py-16 text-center">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <h2 className="font-display text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
-              Transform Your Procurement to Pay Process
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[var(--color-text-mist-2)] sm:text-base">
-              Connect procurement, vendors, and accounts payable into one seamless digital workflow.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <a
-                href="/contact/"
-                className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg"
-              >
-                <span>Contact Us</span>
-                <span>↗</span>
-              </a>
-              <a
-                href="tel:+917028510950"
-                className="inline-flex items-center gap-2 rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-text-ink)] transition-colors hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
-              >
-                <span>+91 70285 10950</span>
-              </a>
+        {/* ── BOTTOM CTA BANNER ── */}
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
+          <div className="relative overflow-hidden rounded-3xl sm:rounded-[36px] border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-8 sm:p-14 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.04)] text-center backdrop-blur-md">
+            <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full bg-[var(--color-brand)]/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-sky-400/10 blur-3xl" />
+
+            <div className="relative z-10 mx-auto max-w-3xl">
+              <h2 className="font-display text-2xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-[-0.03em] text-[var(--color-text-ink)] leading-snug">
+                Transform Your Procurement to Pay Process.
+              </h2>
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-[var(--color-text-mist-2)]">
+                Connect procurement, vendors, and accounts payable into one seamless digital workflow.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <a
+                  href="/contact/"
+                  className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-sky-500"
+                >
+                  <span>Contact Us</span>
+                  <span>↗</span>
+                </a>
+                <a
+                  href="tel:+917028510950"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-text-ink)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] hover:shadow-md"
+                >
+                  <span>+91 70285 10950</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
@@ -289,3 +262,28 @@ export default function EP2P() {
     </div>
   );
 }
+
+function SectionHeader({ badge, title, subtitle }) {
+  const [ref, visible] = useScrollReveal();
+  return (
+    <div
+      ref={ref}
+      className={`mb-10 flex flex-col justify-between gap-3 md:flex-row md:items-end ${
+        visible ? "animate-reveal-up" : "opacity-0 translate-y-6"
+      }`}
+    >
+      <div>
+        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand)]">
+          {badge}
+        </span>
+        <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
+          {title}
+        </h2>
+      </div>
+      <p className="max-w-md text-xs sm:text-sm text-[var(--color-text-mist-2)] leading-relaxed">
+        {subtitle}
+      </p>
+    </div>
+  );
+}
+

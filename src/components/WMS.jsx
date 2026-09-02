@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
 import wmsHeroBg from "../assets/wms-hero-bg.jpg";
+import useScrollReveal from "../hooks/useScrollReveal";
 
 const WMS_FEATURES = [
   {
-    id: "inventory-tracking",
-    badge: "01 / REAL-TIME",
+    num: "01",
     title: "Inventory Tracking",
     text: "Real-time tracking of stock levels, movement, and storage locations.",
     icon: (
@@ -17,11 +17,9 @@ const WMS_FEATURES = [
         <line x1="12" y1="22.08" x2="12" y2="12" />
       </svg>
     ),
-    highlight: "Multi-Bin Stock Levels & Instant Spatial Location",
   },
   {
-    id: "order-management",
-    badge: "02 / FULFILLMENT",
+    num: "02",
     title: "Order Management",
     text: "Streamlined order processing, picking, packing, and shipping automation.",
     icon: (
@@ -31,11 +29,9 @@ const WMS_FEATURES = [
         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
       </svg>
     ),
-    highlight: "Pick-Pack-Ship Automation & Wave Allocation",
   },
   {
-    id: "barcode-rfid",
-    badge: "03 / SCANNING",
+    num: "03",
     title: "Barcode & RFID Integration",
     text: "Ensures accurate stock identification and reduces human errors.",
     icon: (
@@ -43,11 +39,9 @@ const WMS_FEATURES = [
         <path d="M3 5v14M8 5v14M12 5v14M17 5v14M21 5v14" />
       </svg>
     ),
-    highlight: "High-Speed Handheld & Fixed Scanner Integration",
   },
   {
-    id: "reporting-analytics",
-    badge: "04 / INTELLIGENCE",
+    num: "04",
     title: "Real-Time Analytics & Reporting",
     text: "Provides insights into warehouse performance and inventory turnover.",
     icon: (
@@ -57,11 +51,9 @@ const WMS_FEATURES = [
         <line x1="6" y1="20" x2="6" y2="14" />
       </svg>
     ),
-    highlight: "Throughput Rates, Space Utilization & Turnover Velocity",
   },
   {
-    id: "automated-replenishment",
-    badge: "05 / RE-ORDER",
+    num: "05",
     title: "Automated Replenishment",
     text: "Alerts and auto-reorders to prevent stock shortages.",
     icon: (
@@ -71,11 +63,9 @@ const WMS_FEATURES = [
         <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
       </svg>
     ),
-    highlight: "Min/Max Threshold Alerts & Automatic Purchase Triggers",
   },
   {
-    id: "multi-warehouse",
-    badge: "06 / MULTI-SITE",
+    num: "06",
     title: "Multi-Warehouse Management",
     text: "Centralized control over multiple warehouse locations.",
     icon: (
@@ -84,11 +74,9 @@ const WMS_FEATURES = [
         <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
       </svg>
     ),
-    highlight: "Cross-Docking, Inter-Facility Transfers & Global Visibility",
   },
   {
-    id: "erp-integration",
-    badge: "07 / CONNECTIVITY",
+    num: "07",
     title: "Seamless ERP & E-commerce Integration",
     text: "Connects with existing business systems for smooth operations.",
     icon: (
@@ -100,60 +88,102 @@ const WMS_FEATURES = [
         <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
       </svg>
     ),
-    highlight: "Direct API Connectors for ERPs, Marketplaces & Stores",
   },
 ];
 
 export default function WMS() {
   const { isDark } = useTheme();
-  const [activeFeatureIndex, setActiveFeatureIndex] = useState(0);
+  const [heroVisible, setHeroVisible] = useState(false);
 
-  const selectedFeature = WMS_FEATURES[activeFeatureIndex];
+  useEffect(() => {
+    const timer = setTimeout(() => setHeroVisible(true), 80);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className={isDark ? "dark" : "light"}>
       <Navbar forceSolid />
-      <main className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
+      <main className="bg-[var(--color-foam)] text-[var(--color-text-ink)] overflow-hidden">
         {/* ── HERO SECTION ── */}
-        <section className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28 text-white">
+        <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28 lg:pt-44 lg:pb-32 text-white">
           <div className="absolute inset-0 z-0">
             <img
               src={wmsHeroBg}
               alt="Warehouse Management System"
-              className="h-full w-full object-cover object-center"
+              className="h-full w-full object-cover object-center scale-105 transition-transform duration-1000"
             />
-            <div className="absolute inset-0 bg-[#0d223a]/55 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#071728]/92 via-[#0a1e34]/80 to-[#071728]/70 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,112,173,0.35),transparent_65%)]" />
           </div>
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl">
-              <span className="inline-flex items-center rounded-full border border-sky-400/40 bg-sky-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-300 backdrop-blur-md">
-                Product / WMS
-              </span>
-              <h1 className="mt-5 font-display text-4xl font-bold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl drop-shadow-sm">
-                WMS
-              </h1>
-              <p className="mt-4 text-xl font-semibold text-sky-200 sm:text-2xl">
-                Warehouse Management System (WMS) – Optimize Your Inventory &amp; Operations
-              </p>
-              <div className="mt-5 rounded-2xl border border-white/20 bg-white/10 p-6 backdrop-blur-md">
-                <p className="text-xs font-bold uppercase tracking-wider text-sky-300">What is a Warehouse Management System?</p>
-                <p className="mt-2 text-base leading-relaxed text-slate-200 sm:text-lg">
-                  A <strong>Warehouse Management System (WMS)</strong> is a digital solution designed to optimize and automate warehouse operations, ensuring efficient inventory management, order fulfillment, and supply chain coordination. It enhances accuracy, reduces costs, and improves overall warehouse efficiency.
-                </p>
+              <div
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
+                }}
+              >
+                <span className="inline-flex items-center rounded-full border border-sky-400/30 bg-sky-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sky-300 backdrop-blur-md shadow-sm">
+                  Product / WMS
+                </span>
               </div>
 
-              <div className="mt-8 flex flex-wrap gap-4">
+              <h1
+                className="mt-5 font-display text-3xl sm:text-5xl lg:text-[3.65rem] font-bold tracking-[-0.04em] text-white leading-[1.12] drop-shadow-md"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(24px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s",
+                }}
+              >
+                Warehouse Management System{" "}
+                <span className="bg-gradient-to-r from-sky-300 via-cyan-200 to-teal-300 bg-clip-text text-transparent">
+                  (WMS)
+                </span>
+              </h1>
+
+              <p
+                className="mt-4 text-lg sm:text-2xl font-semibold text-sky-200"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
+                }}
+              >
+                Optimize Your Inventory &amp; Operations
+              </p>
+
+              <p
+                className="mt-5 text-sm sm:text-base lg:text-lg leading-relaxed text-slate-200"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.55s",
+                }}
+              >
+                A <strong>Warehouse Management System (WMS)</strong> is a digital solution designed to <strong>optimize and automate warehouse operations</strong>, ensuring efficient inventory management, order fulfillment, and supply chain coordination. It enhances accuracy, reduces costs, and improves overall warehouse efficiency.
+              </p>
+
+              <div
+                className="mt-8 flex flex-wrap gap-4"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s",
+                }}
+              >
                 <a
                   href="#features"
-                  className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,112,173,0.35)]"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(0,112,173,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-sky-500 hover:shadow-[0_6px_18px_rgba(0,112,173,0.3)]"
                 >
                   <span>Explore Key Features</span>
-                  <span>↓</span>
+                  <span className="transition-transform duration-300 group-hover:translate-y-0.5">↓</span>
                 </a>
                 <a
                   href="/contact/"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white/20"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-slate-200 transition-all duration-300 hover:bg-white/[0.08] hover:border-white/25 hover:text-white hover:-translate-y-0.5"
                 >
                   <span>Request Demo</span>
                   <span>↗</span>
@@ -163,142 +193,102 @@ export default function WMS() {
           </div>
         </section>
 
-        {/* ── KEY FEATURES SECTION ── */}
-        <section id="features" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-          <div className="max-w-3xl">
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand)]">
-              Core Capabilities
-            </span>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
-              Key Features of Our WMS
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-mist-2)] sm:text-base">
-              Engineered to bring total inventory precision, automated picking and packing, and seamless multi-facility control.
-            </p>
-          </div>
+        {/* ── KEY FEATURES SECTION: 7 LUXURY GLASSMORPHIC CARDS ── */}
+        <section id="features" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
+          <SectionHeader
+            badge="Core Capabilities"
+            title="Key Features of Our WMS"
+            subtitle="Engineered for end-to-end stock visibility, wave picking, automation, and multi-location fulfillment."
+          />
 
-          <div className="mt-12 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] items-start">
-            {/* 7 Feature Cards */}
-            <div className="grid gap-4 sm:grid-cols-2">
-              {WMS_FEATURES.map((feature, idx) => {
-                const isActive = activeFeatureIndex === idx;
-                return (
-                  <div
-                    key={feature.id}
-                    onClick={() => setActiveFeatureIndex(idx)}
-                    className={`group cursor-pointer rounded-2xl border p-6 transition-all duration-300 ${
-                      isActive
-                        ? "border-[var(--color-brand)] bg-[var(--color-foam-panel)] shadow-md ring-2 ring-[var(--color-brand)]/20"
-                        : "border-[var(--color-ink-line)]/70 bg-[var(--color-foam-panel)] hover:border-[var(--color-brand)]/50 hover:shadow-sm"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div
-                        className={`flex h-11 w-11 items-center justify-center rounded-xl transition-colors ${
-                          isActive
-                            ? "bg-[var(--color-brand)] text-white"
-                            : "bg-[var(--color-brand)]/10 text-[var(--color-brand)] group-hover:bg-[var(--color-brand)] group-hover:text-white"
-                        }`}
-                      >
-                        {feature.icon}
-                      </div>
-                      <span className="text-[0.68rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)]">
-                        {feature.badge}
-                      </span>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {WMS_FEATURES.map((feat, idx) => (
+              <div
+                key={feat.title}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-7 sm:p-8 shadow-[0_8px_24px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-[var(--color-brand)]/60 hover:shadow-[0_20px_40px_rgba(0,112,173,0.12)]"
+                style={{ animationDelay: `${idx * 80}ms` }}
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/10 text-[var(--color-brand)] transition-all duration-500 group-hover:scale-110 group-hover:bg-[var(--color-brand)] group-hover:text-white shadow-sm">
+                      {feat.icon}
                     </div>
 
-                    <h3 className="mt-4 font-display text-base font-bold text-[var(--color-text-ink)]">
-                      {feature.title}
-                    </h3>
-                    <p className="mt-2 text-xs leading-relaxed text-[var(--color-text-mist-2)] sm:text-sm">
-                      {feature.text}
-                    </p>
+                    <span className="font-mono text-xs font-bold rounded-full px-3 py-1 bg-[var(--color-foam)] border border-[var(--color-ink-line)] text-[var(--color-brand)]">
+                      {feat.num}
+                    </span>
                   </div>
-                );
-              })}
-            </div>
 
-            {/* Interactive Inspector Canvas */}
-            <div className="sticky top-28 rounded-3xl border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] p-8 shadow-sm">
-              <span className="text-[0.7rem] font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
-                Feature Focus
-              </span>
-              <div className="mt-4 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-brand)] text-white shadow-md">
-                  {selectedFeature.icon}
-                </div>
-                <div>
-                  <h3 className="font-display text-2xl font-bold text-[var(--color-text-ink)]">
-                    {selectedFeature.title}
+                  <h3 className="mt-6 font-display text-xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] transition-colors duration-300 group-hover:text-[var(--color-brand)]">
+                    {feat.title}
                   </h3>
-                  <p className="text-xs font-semibold text-[var(--color-brand)]">
-                    {selectedFeature.highlight}
+                  <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[var(--color-text-mist-2)]">
+                    {feat.text}
                   </p>
                 </div>
               </div>
+            ))}
+          </div>
+        </section>
 
-              <p className="mt-6 text-sm leading-relaxed text-[var(--color-text-ink)] border-t border-[var(--color-ink-line)]/50 pt-5">
-                {selectedFeature.text}
+        {/* ── BOTTOM CTA BANNER ── */}
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
+          <div className="relative overflow-hidden rounded-3xl sm:rounded-[36px] border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-8 sm:p-14 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.04)] text-center backdrop-blur-md">
+            <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full bg-[var(--color-brand)]/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-sky-400/10 blur-3xl" />
+
+            <div className="relative z-10 mx-auto max-w-3xl">
+              <h2 className="font-display text-2xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-[-0.03em] text-[var(--color-text-ink)] leading-snug">
+                Optimize Your Warehouse Operations.
+              </h2>
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-[var(--color-text-mist-2)]">
+                Transform fulfillment speed, minimize picking errors, and gain complete multi-location inventory clarity.
               </p>
 
-              <div className="mt-6 space-y-3 rounded-2xl border border-[var(--color-ink-line)]/60 bg-[var(--color-foam)] p-5">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-[var(--color-text-mist-2)]">Operational Velocity</span>
-                  <span className="inline-flex items-center gap-1.5 font-bold text-emerald-600 dark:text-emerald-400">
-                    <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-                    High-Speed Automated
-                  </span>
-                </div>
-                <div className="flex items-center justify-between text-xs border-t border-[var(--color-ink-line)]/40 pt-2.5">
-                  <span className="font-semibold text-[var(--color-text-mist-2)]">Inventory Precision</span>
-                  <span className="font-bold text-[var(--color-text-ink)]">Barcode &amp; RFID Verified</span>
-                </div>
-                <div className="flex items-center justify-between text-xs border-t border-[var(--color-ink-line)]/40 pt-2.5">
-                  <span className="font-semibold text-[var(--color-text-mist-2)]">Ecosystem Sync</span>
-                  <span className="font-bold text-[var(--color-text-ink)]">ERP &amp; E-commerce Ready</span>
-                </div>
-              </div>
-
-              <div className="mt-8">
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                 <a
                   href="/contact/"
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--color-brand)] py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[var(--color-brand)]/90 hover:shadow-lg"
+                  className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-sky-500"
                 >
-                  <span>Inquire About WMS ↗</span>
+                  <span>Contact Us</span>
+                  <span>↗</span>
+                </a>
+                <a
+                  href="tel:+917028510950"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-text-ink)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] hover:shadow-md"
+                >
+                  <span>+91 70285 10950</span>
                 </a>
               </div>
             </div>
           </div>
         </section>
-
-        {/* ── BOTTOM CTA SECTION ── */}
-        <section className="border-t border-[var(--color-ink-line)]/60 bg-[var(--color-foam-panel)] py-16 text-center">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <h2 className="font-display text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
-              Optimize Your Warehouse Operations Today
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[var(--color-text-mist-2)] sm:text-base">
-              Connect inventory tracking, automated fulfillment, and ERP integrations across all your locations.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <a
-                href="/contact/"
-                className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg"
-              >
-                <span>Contact Us</span>
-                <span>↗</span>
-              </a>
-              <a
-                href="tel:+917028510950"
-                className="inline-flex items-center gap-2 rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-text-ink)] transition-colors hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
-              >
-                <span>+91 70285 10950</span>
-              </a>
-            </div>
-          </div>
-        </section>
       </main>
       <Footer />
+    </div>
+  );
+}
+
+function SectionHeader({ badge, title, subtitle }) {
+  const [ref, visible] = useScrollReveal();
+  return (
+    <div
+      ref={ref}
+      className={`mb-10 flex flex-col justify-between gap-3 md:flex-row md:items-end ${
+        visible ? "animate-reveal-up" : "opacity-0 translate-y-6"
+      }`}
+    >
+      <div>
+        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand)]">
+          {badge}
+        </span>
+        <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
+          {title}
+        </h2>
+      </div>
+      <p className="max-w-md text-xs sm:text-sm text-[var(--color-text-mist-2)] leading-relaxed">
+        {subtitle}
+      </p>
     </div>
   );
 }

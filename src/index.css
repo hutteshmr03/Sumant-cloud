@@ -368,20 +368,13 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Homepage hero — layered glass panel and sequenced action details */
+/* Homepage hero — layered glass panel with frosted glass blur */
 .premium-hero-card {
-  background: linear-gradient(125deg, rgba(5, 19, 37, .97), rgba(10, 34, 59, .91) 62%, rgba(8, 48, 79, .82));
-  border: 1px solid rgba(172, 220, 246, .18);
-  box-shadow: 0 22px 56px rgba(3, 13, 27, .34), inset 0 1px 0 rgba(255, 255, 255, .12);
-  backdrop-filter: blur(14px);
-}
-.premium-hero-card::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 4px;
-  background: linear-gradient(180deg, #72d6ff, #087db9 62%, transparent);
-  box-shadow: 0 0 22px rgba(90, 205, 255, .42);
+  background: linear-gradient(125deg, rgba(6, 22, 44, 0.72), rgba(10, 36, 68, 0.65) 60%, rgba(8, 48, 82, 0.58));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 24px 60px rgba(2, 10, 22, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px) saturate(135%);
+  -webkit-backdrop-filter: blur(20px) saturate(135%);
 }
 .premium-hero-card::after {
   content: "";

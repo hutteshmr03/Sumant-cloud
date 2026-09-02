@@ -14,9 +14,9 @@ export default function Hero() {
         style={{ backgroundImage: `url(${HERO_IMAGE})` }}
       />
 
-      {/* Cinematic dark gradient scrim for contrast and depth */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#020b18]/90 via-[#031326]/40 to-black/25 pointer-events-none" />
-      <div className={`absolute inset-0 transition-colors duration-500 pointer-events-none ${isDark ? "bg-black/30" : "bg-transparent"}`} />
+      {/* Balanced natural gradient scrim for clarity and depth */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#020b18]/70 via-transparent to-black/15 pointer-events-none" />
+      <div className={`absolute inset-0 transition-colors duration-500 pointer-events-none ${isDark ? "bg-slate-950/25" : "bg-transparent"}`} />
 
       {/* Subtle animated ambient glow orbs */}
       <div className="pointer-events-none absolute top-1/4 right-1/4 h-80 w-80 rounded-full bg-cyan-500/10 blur-[100px] animate-pulse" style={{ animationDuration: "6s" }} />
@@ -29,31 +29,37 @@ export default function Hero() {
           style={{ clipPath: "polygon(0 0, 100% 0, 95% 100%, 0 100%)" }}
         >
           <div className="relative z-10">
-            <h1 className="font-display text-2xl sm:text-3xl md:text-[2.45rem] font-bold text-white leading-[1.12] tracking-[-0.04em] animate-hero-headline">
+            <h1 className="font-display text-2xl sm:text-3xl md:text-[2.45rem] font-bold text-white leading-[1.12] tracking-[-0.04em] drop-shadow-[0_2px_8px_rgba(0,0,0,0.5)] animate-hero-headline">
               Turning Ideas into Solution
             </h1>
-            <p className="mt-3.5 text-xs sm:text-sm text-white/85 leading-relaxed max-w-md animate-hero-subline">
+            <p className="mt-3.5 text-xs sm:text-sm text-white/90 leading-relaxed max-w-md drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)] animate-hero-subline">
               Every great innovation begins with an idea. At Sumant Cloud, we engineer concept into robust, scalable, and high-impact digital solutions.
             </p>
 
-            <div className="flex flex-wrap gap-3.5 mt-7 animate-hero-cta">
+            <div className="flex flex-wrap items-center gap-3.5 mt-7 animate-hero-cta">
               <a
                 href="/contact/"
-                className="hero-cta-primary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full text-xs font-semibold uppercase tracking-[0.12em] shadow-[0_8px_20px_rgba(2,132,199,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(2,132,199,0.5)]"
-                style={{
-                  background: isDark ? "var(--color-brand)" : "#ffffff",
-                  color: "var(--color-ink)",
-                }}
+                className="group relative inline-flex items-center justify-center gap-2.5 rounded-full border border-white/15 bg-gradient-to-r from-[#0070ad] to-[#0284c7] px-6 sm:px-7 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:from-[#00659c] hover:to-[#0275b1] hover:shadow-[0_4px_14px_rgba(0,0,0,0.3)] active:translate-y-0"
               >
                 <span>Contact Us</span>
-                <span aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/15 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:bg-white group-hover:text-[#0070ad]">
+                  <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="4" y1="12" x2="12" y2="4" />
+                    <polyline points="5 4 12 4 12 11" />
+                  </svg>
+                </span>
               </a>
               <a
                 href="#products"
-                className="hero-cta-secondary inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-white/35 bg-white/5 text-white text-xs font-semibold uppercase tracking-[0.12em] backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/10"
+                className="group relative inline-flex items-center justify-center gap-2.5 rounded-full border border-white/15 bg-white/[0.05] px-6 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-200 backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.09] hover:text-white hover:shadow-[0_4px_14px_rgba(0,0,0,0.25)] active:translate-y-0"
               >
                 <span>See Our Products</span>
-                <span aria-hidden="true">↓</span>
+                <span className="flex h-5 w-5 items-center justify-center rounded-full bg-white/10 transition-all duration-300 group-hover:translate-y-0.5 group-hover:bg-white/20">
+                  <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="8" y1="3" x2="8" y2="13" />
+                    <polyline points="4 9 8 13 12 9" />
+                  </svg>
+                </span>
               </a>
             </div>
           </div>

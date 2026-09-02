@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+import { useTheme } from "../context/ThemeContext";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const PRODUCTS = [
@@ -284,26 +286,210 @@ const PRODUCTS = [
   },
 ];
 
+function OrganicParticleMeshCanvas() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d", { alpha: true });
+    if (!ctx) return;
+
+    let animId;
+    let isVisible = true;
+    let width = (canvas.width = canvas.parentElement?.offsetWidth || window.innerWidth);
+    let height = (canvas.height = canvas.parentElement?.offsetHeight || 800);
+
+    const handleResize = () => {
+      if (!canvas.parentElement) return;
+      width = canvas.width = canvas.parentElement.offsetWidth;
+      height = canvas.height = canvas.parentElement.offsetHeight;
+    };
+
+    window.addEventListener("resize", handleResize, { passive: true });
+
+    // Pause when offscreen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
+
+    // Optimized 3D Particle Count
+    const PARTICLE_COUNT = 85;
+    const particles = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(Math.random() * 2 - 1);
+      const radius = 140 + Math.random() * 190;
+      particles.push({
+        theta,
+        phi,
+        radius,
+        baseRadius: radius,
+        speedTheta: (Math.random() - 0.5) * 0.003,
+        speedPhi: (Math.random() - 0.5) * 0.002,
+        pulseSpeed: 0.0012 + Math.random() * 0.002,
+        pulseOffset: Math.random() * Math.PI * 2,
+        size: 1.5 + Math.random() * 2.2,
+        colorType: i % 3, // 0: Cyan, 1: Purple, 2: Sky
+      });
+    }
+
+    let rotX = 0.25;
+    let rotY = 0;
+    let time = 0;
+    const maxDist = 75;
+    const maxDistSq = maxDist * maxDist;
+
+    const render = () => {
+      if (isVisible) {
+        ctx.clearRect(0, 0, width, height);
+
+        time += 1;
+        rotY += 0.0025;
+        rotX += 0.001;
+
+        const cx = width * 0.5;
+        const cy = height * 0.42;
+        const fov = 380;
+
+        const projected = [];
+        const cosY = Math.cos(rotY);
+        const sinY = Math.sin(rotY);
+        const cosX = Math.cos(rotX);
+        const sinX = Math.sin(rotX);
+
+        // 1. Calculate and project 3D positions
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+          const p = particles[i];
+          p.theta += p.speedTheta;
+          p.phi += p.speedPhi;
+
+          // Organic blooming displacement
+          const pulse = Math.sin(time * p.pulseSpeed + p.pulseOffset);
+          const currentRadius = p.baseRadius + pulse * 45;
+
+          // Spherical to 3D
+          const x = currentRadius * Math.sin(p.phi) * Math.cos(p.theta);
+          const y = currentRadius * Math.sin(p.phi) * Math.sin(p.theta);
+          const z = currentRadius * Math.cos(p.phi);
+
+          // 3D Rotations
+          const x1 = x * cosY - z * sinY;
+          const z1 = z * cosY + x * sinY;
+          const y2 = y * cosX - z1 * sinX;
+          const z2 = z1 * cosX + y * sinX;
+
+          // Perspective projection
+          const depth = z2 + 360;
+          if (depth > 20) {
+            const scale = fov / depth;
+            const px = cx + x1 * scale;
+            const py = cy + y2 * scale;
+            const alpha = Math.max(0.2, Math.min(0.95, (z2 + 220) / 400));
+
+            projected.push({
+              x: px,
+              y: py,
+              scale,
+              alpha,
+              colorType: p.colorType,
+              size: Math.max(1, p.size * scale),
+            });
+          }
+        }
+
+        // 2. Batched Mesh Lines (Zero lag batching)
+        ctx.beginPath();
+        for (let i = 0; i < projected.length; i++) {
+          const p1 = projected[i];
+          for (let j = i + 1; j < projected.length; j++) {
+            const p2 = projected[j];
+            const dx = p1.x - p2.x;
+            const dy = p1.y - p2.y;
+            const distSq = dx * dx + dy * dy;
+
+            if (distSq < maxDistSq) {
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+            }
+          }
+        }
+        ctx.strokeStyle = "rgba(168, 85, 247, 0.22)";
+        ctx.lineWidth = 0.85;
+        ctx.stroke();
+
+        // 3. Batched Particle Nodes
+        for (let i = 0; i < projected.length; i++) {
+          const p = projected[i];
+          let colorRGB = "0, 229, 255";
+          if (p.colorType === 1) colorRGB = "192, 132, 252";
+          if (p.colorType === 2) colorRGB = "56, 189, 248";
+
+          // Fast halo
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${colorRGB}, ${p.alpha * 0.25})`;
+          ctx.fill();
+
+          // Core node
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${colorRGB}, ${p.alpha})`;
+          ctx.fill();
+        }
+      }
+
+      animId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener("resize", handleResize);
+      observer.disconnect();
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="pointer-events-none absolute inset-0 z-0 h-full w-full opacity-85 transition-opacity duration-700 will-change-transform"
+    />
+  );
+}
+
 export default function Products() {
   const [headerRef, headerVisible] = useScrollReveal();
 
   return (
-    <section id="products" className="bg-[var(--color-foam-panel)] py-16 md:py-20 lg:py-28 border-t border-[var(--color-ink-line)]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
+    <section id="products" className="relative overflow-hidden bg-[#07090e] py-20 md:py-28 border-t border-b border-white/10 scroll-mt-20">
+      {/* 3D Organic Particle Cloud / Mesh Animation Canvas */}
+      <OrganicParticleMeshCanvas />
+
+      {/* Ambient background lighting */}
+      <div className="pointer-events-none absolute -top-40 right-10 h-[550px] w-[550px] rounded-full bg-cyan-500/10 blur-[140px]" />
+      <div className="pointer-events-none absolute -bottom-40 left-10 h-[550px] w-[550px] rounded-full bg-purple-600/15 blur-[140px]" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
         <div
           ref={headerRef}
           className={`max-w-3xl ${headerVisible ? "animate-reveal-up" : "opacity-0 translate-y-6"}`}
         >
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
+          <span className="inline-flex items-center rounded-full border border-sky-400/30 bg-sky-500/10 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] text-sky-300 shadow-sm">
             Products &amp; Platforms
           </span>
-          <h2 className="mt-3 font-display text-3xl md:text-5xl font-bold tracking-tight text-[var(--color-text-ink)]">
+          <h2 className="mt-4 font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-[-0.03em] text-white leading-tight drop-shadow-md">
             The systems we build for ourselves, too.
           </h2>
         </div>
 
-        {/* 3 boxes per row matching Accenture layout */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {/* 3 boxes per row matching layout */}
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {PRODUCTS.map((product, i) => (
             <ProductCard key={product.code} product={product} delay={i * 70} />
           ))}
@@ -314,60 +500,91 @@ export default function Products() {
 }
 
 function ProductCard({ product, delay }) {
+  const { isDark } = useTheme();
   const [ref, visible] = useScrollReveal();
 
   const isDarkCard = product.theme === "dark";
   const isPurpleGradient = product.theme === "purple-gradient";
   const isSilverCard = product.theme === "silver";
 
-  let cardBg = "bg-white text-slate-900 border-slate-200 dark:bg-[#12141c] dark:text-white dark:border-slate-800";
-  let kickerColor = "text-slate-600 dark:text-slate-400";
-  let headlineColor = "!text-slate-900 dark:!text-white";
-  let descColor = "text-slate-800 dark:text-slate-100";
-  let linkColor = "text-slate-900 dark:text-white";
-  let fadeGradient = "from-white dark:from-[#12141c]";
+  let cardStyle = {};
+  let kickerColor = isDark ? "#94a3b8" : "#475569";
+  let headlineColor = isDark ? "#ffffff" : "#0f172a";
+  let descColor = isDark ? "#e2e8f0" : "#1e293b";
+  let linkColor = isDark ? "#ffffff" : "#0f172a";
+  let fadeColor = isDark ? "#131620" : "#ffffff";
 
-  if (isSilverCard) {
-    cardBg = "bg-[#f4f4f6] text-slate-900 border-slate-200 dark:bg-[#181a24] dark:text-white dark:border-slate-800";
-    kickerColor = "text-slate-600 dark:text-slate-400";
-    headlineColor = "!text-slate-900 dark:!text-white";
-    descColor = "text-slate-800 dark:text-slate-100";
-    linkColor = "text-slate-900 dark:text-white";
-    fadeGradient = "from-[#f4f4f6] dark:from-[#181a24]";
+  if (isPurpleGradient) {
+    cardStyle = {
+      background: "linear-gradient(135deg, #6b21a8 0%, #7e22ce 50%, #9333ea 100%)",
+      borderColor: "#9333ea",
+      color: "#ffffff",
+    };
+    kickerColor = "rgba(255, 255, 255, 0.85)";
+    headlineColor = "#ffffff";
+    descColor = "#ffffff";
+    linkColor = "#ffffff";
+    fadeColor = "#7e22ce";
   } else if (isDarkCard) {
-    cardBg = "bg-[#0b0c14] text-white border-slate-800";
-    kickerColor = "text-slate-300";
-    headlineColor = "!text-white";
-    descColor = "text-slate-100";
-    linkColor = "text-white";
-    fadeGradient = "from-[#0b0c14]";
-  } else if (isPurpleGradient) {
-    cardBg = "bg-gradient-to-br from-[#6b21a8] via-[#7e22ce] to-[#9333ea] text-white border-purple-600";
-    kickerColor = "text-white/80";
-    headlineColor = "!text-white";
-    descColor = "text-white";
-    linkColor = "text-white";
-    fadeGradient = "from-[#6b21a8]";
+    cardStyle = {
+      backgroundColor: "#0c0d14",
+      borderColor: "#1e2230",
+      color: "#ffffff",
+    };
+    kickerColor = "#94a3b8";
+    headlineColor = "#ffffff";
+    descColor = "#f1f5f9";
+    linkColor = "#ffffff";
+    fadeColor = "#0c0d14";
+  } else if (isSilverCard) {
+    cardStyle = {
+      backgroundColor: isDark ? "#161922" : "#f4f4f6",
+      borderColor: isDark ? "#262d3d" : "#e2e8f0",
+      color: isDark ? "#ffffff" : "#0f172a",
+    };
+    kickerColor = isDark ? "#94a3b8" : "#475569";
+    headlineColor = isDark ? "#ffffff" : "#0f172a";
+    descColor = isDark ? "#f1f5f9" : "#1e293b";
+    linkColor = isDark ? "#ffffff" : "#0f172a";
+    fadeColor = isDark ? "#161922" : "#f4f4f6";
+  } else {
+    // Light card in light mode (PEM & CMS)
+    cardStyle = {
+      backgroundColor: isDark ? "#131620" : "#ffffff",
+      borderColor: isDark ? "#262d3d" : "#e2e8f0",
+      color: isDark ? "#ffffff" : "#0f172a",
+    };
+    kickerColor = isDark ? "#94a3b8" : "#475569";
+    headlineColor = isDark ? "#ffffff" : "#0f172a";
+    descColor = isDark ? "#f1f5f9" : "#1e293b";
+    linkColor = isDark ? "#ffffff" : "#0f172a";
+    fadeColor = isDark ? "#131620" : "#ffffff";
   }
 
   return (
     <a
       href={product.href}
       ref={ref}
-      className={`group relative flex flex-col justify-between overflow-hidden border shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl min-h-[460px] lg:min-h-[500px] ${cardBg} ${
+      className={`group relative flex flex-col justify-between overflow-hidden border shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl min-h-[460px] lg:min-h-[500px] ${
         visible ? "animate-reveal-up" : "opacity-0 translate-y-6"
       }`}
-      style={{ animationDelay: `${delay}ms` }}
+      style={{ ...cardStyle, animationDelay: `${delay}ms` }}
     >
       {/* Top Editorial Copy Section */}
       <div className="p-7 sm:p-8 flex flex-col z-20">
         {/* Kicker */}
-        <p className={`text-[0.72rem] font-bold uppercase tracking-[0.2em] ${kickerColor}`}>
+        <p
+          className="text-[0.72rem] font-bold uppercase tracking-[0.2em]"
+          style={{ color: kickerColor }}
+        >
           {product.kicker}
         </p>
 
         {/* Bold Editorial Headline */}
-        <h3 className={`mt-4 font-display text-2xl sm:text-[1.65rem] font-bold tracking-tight leading-snug ${headlineColor}`}>
+        <h3
+          className="mt-4 font-display text-2xl sm:text-[1.65rem] font-bold tracking-tight leading-snug"
+          style={{ color: headlineColor }}
+        >
           {product.headline}
         </h3>
       </div>
@@ -375,18 +592,34 @@ function ProductCard({ product, delay }) {
       {/* Default Visual Art (Smoothly fades out and shifts down on hover) */}
       <div className="relative h-64 sm:h-72 w-full overflow-hidden mt-auto transition-all duration-500 ease-out group-hover:opacity-0 group-hover:translate-y-6 group-hover:scale-95 [mask-image:linear-gradient(to_bottom,transparent_0%,black_30%,black_100%)]">
         {/* Soft top blend gradient matching card background */}
-        <div className={`pointer-events-none absolute inset-x-0 top-0 h-16 bg-gradient-to-b ${fadeGradient} to-transparent z-10`} />
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-16 z-10"
+          style={{
+            background: `linear-gradient(to bottom, ${fadeColor} 0%, transparent 100%)`,
+          }}
+        />
         {product.renderVisual()}
       </div>
 
       {/* Hover Content Overlay (Smoothly slides up and fades in on hover with large clear text) */}
-      <div className="absolute inset-x-0 bottom-0 top-[170px] p-7 sm:p-8 flex flex-col justify-between opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-500 ease-out transform translate-y-6 group-hover:translate-y-0 z-30">
-        <p className={`text-base sm:text-lg md:text-[1.15rem] font-medium leading-relaxed ${descColor}`}>
+      <div
+        className="absolute inset-x-0 bottom-0 top-[160px] p-7 sm:p-8 flex flex-col justify-between opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all duration-500 ease-out transform translate-y-6 group-hover:translate-y-0 z-30"
+        style={{
+          background: `linear-gradient(to top, ${fadeColor} 85%, transparent 100%)`,
+        }}
+      >
+        <p
+          className="text-sm sm:text-base md:text-[1.05rem] font-normal leading-relaxed"
+          style={{ color: descColor }}
+        >
           {product.description}
         </p>
 
-        <div className={`mt-auto pt-4 flex items-center gap-2 text-sm font-bold uppercase tracking-wider ${linkColor}`}>
-          <span>Expand</span>
+        <div
+          className="mt-auto pt-4 flex items-center gap-2 text-xs font-bold uppercase tracking-wider"
+          style={{ color: linkColor }}
+        >
+          <span>EXPAND</span>
           <span className="text-base transition-transform duration-300 group-hover:translate-x-1.5 font-bold">›</span>
         </div>
       </div>

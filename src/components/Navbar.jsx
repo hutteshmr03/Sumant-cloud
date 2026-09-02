@@ -8,25 +8,25 @@ const NAV = [
     label: "Services",
     href: "/#services",
     items: [
-      { label: "SaaS", href: "/saas" },
-      { label: "IT Consulting", href: "/it-consulting" },
-      { label: "AI/ML Hiring", href: "/ai-ml-hiring" },
       { label: "Custom Software", href: "/custom-software" },
+      { label: "SaaS Platforms", href: "/saas" },
+      { label: "AI/ML Hiring", href: "/ai-ml-hiring" },
+      { label: "IT Consulting", href: "/it-consulting" },
     ],
   },
   {
     label: "Product",
-    href: "#products",
+    href: "/#products",
     items: [
       { label: "CMMS", href: "/cmms" },
-      { label: "PEM", href: "/pem/" },
-      { label: "EP2P", href: "/ep2p/" },
-      { label: "CMS", href: "/cms/" },
-      { label: "WMS", href: "/wms/" },
-      { label: "E-dims", href: "/e-dims/" },
+      { label: "PEM", href: "/pem" },
+      { label: "EP2P", href: "/ep2p" },
+      { label: "CMS", href: "/cms" },
+      { label: "WMS", href: "/wms" },
+      { label: "E-dims", href: "/e-dims" },
     ],
   },
-  { label: "About", href: "/about/" },
+  { label: "About", href: "/about" },
 ];
 
 function Chevron({ className = "" }) {
@@ -140,6 +140,11 @@ function NavDropdown({ item, solid, isDark }) {
   const hoverCapable = useHoverCapable();
   useClickOutside(ref, () => setOpen(false));
 
+  const [currentPath, setCurrentPath] = useState("");
+  useEffect(() => {
+    setCurrentPath(window.location.pathname);
+  }, []);
+
   const textColor = !solid
     ? "rgba(255,255,255,0.9)"
     : isDark
@@ -216,36 +221,29 @@ function NavDropdown({ item, solid, isDark }) {
         <Chevron className={`mt-0.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
       </a>
 
-      <div className={`absolute top-full left-0 pt-2 min-w-[210px] z-50 transition-all duration-200 origin-top ${
-        open ? "opacity-100 scale-y-100 pointer-events-auto" : "opacity-0 scale-y-95 pointer-events-none"
-      }`}>
-        <div
-          style={{
-            background: isDark ? "#1a1d21" : "#ffffff",
-            border: `1px solid ${isDark ? "#363c44" : "#f3f4f6"}`,
-          }}
-          className="rounded-lg shadow-xl py-1.5"
-        >
-          {item.items.map((sub) => (
-            <a
-              key={sub.label}
-              href={sub.href}
-              onClick={() => setOpen(false)}
-              style={{ color: isDark ? "rgba(255,255,255,0.85)" : "#374151" }}
-              className="flex items-center gap-2 px-4 py-2.5 text-sm transition-colors group hover:text-brand"
-              onMouseEnter={e => {
-                e.currentTarget.style.background = isDark ? "#292e35" : "#e8f4fa";
-                e.currentTarget.style.color = "#0070ad";
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = "transparent";
-                e.currentTarget.style.color = isDark ? "rgba(255,255,255,0.85)" : "#374151";
-              }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-brand opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
-              {sub.label}
-            </a>
-          ))}
+      <div
+        className={`absolute top-full left-0 pt-2 min-w-[200px] z-50 transition-all duration-200 origin-top ${
+          open ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
+        }`}
+      >
+        <div className="rounded-2xl border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.08)] backdrop-blur-xl">
+          {item.items.map((sub) => {
+            const isActive = currentPath === sub.href;
+            return (
+              <a
+                key={sub.label}
+                href={sub.href}
+                onClick={() => setOpen(false)}
+                className={`block rounded-xl px-4 py-2.5 text-[0.875rem] font-medium transition-colors duration-150 ${
+                  isActive
+                    ? "text-[var(--color-brand)] font-semibold bg-[var(--color-foam)]"
+                    : "text-[var(--color-text-ink)] hover:text-[var(--color-brand)] hover:bg-[var(--color-foam)]"
+                }`}
+              >
+                {sub.label}
+              </a>
+            );
+          })}
         </div>
       </div>
     </div>

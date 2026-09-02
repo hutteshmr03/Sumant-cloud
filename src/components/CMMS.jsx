@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
 import cmmsHeroBg from "../assets/cmms-hero-bg.jpg";
+import useScrollReveal from "../hooks/useScrollReveal";
 
 const KEY_FEATURES = [
   {
+    num: "01",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -19,6 +21,7 @@ const KEY_FEATURES = [
     text: "Automates scheduling, tracking, and completion of maintenance tasks across shifts and facilities.",
   },
   {
+    num: "02",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
@@ -30,6 +33,7 @@ const KEY_FEATURES = [
     text: "Monitors equipment performance, full asset lifecycle, running hours, and historical maintenance logs.",
   },
   {
+    num: "03",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
@@ -39,6 +43,7 @@ const KEY_FEATURES = [
     text: "Reduces unexpected downtime by scheduling proactive maintenance by calendar date or run hours.",
   },
   {
+    num: "04",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <line x1="18" y1="20" x2="18" y2="10" />
@@ -50,6 +55,7 @@ const KEY_FEATURES = [
     text: "Provides deep insights into asset health, downtime trends, MTBF, MTTR, and maintenance expenditures.",
   },
   {
+    num: "05",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
@@ -61,6 +67,7 @@ const KEY_FEATURES = [
     text: "Ensures critical spare parts availability, vendor mapping, and automated low-stock visibility.",
   },
   {
+    num: "06",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
@@ -142,49 +149,102 @@ const PROFESSIONAL_MODULES = {
 
 export default function CMMS() {
   const { isDark } = useTheme();
-  const [openTab, setOpenTab] = useState("all");
+  const [heroVisible, setHeroVisible] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setHeroVisible(true), 80);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <div className={isDark ? "dark" : "light"}>
       <Navbar forceSolid />
-      <main className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
+      <main className="bg-[var(--color-foam)] text-[var(--color-text-ink)] overflow-hidden">
         {/* ── HERO SECTION ── */}
-        <section className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28 text-white">
+        <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28 lg:pt-44 lg:pb-32 text-white">
           <div className="absolute inset-0 z-0">
             <img
               src={cmmsHeroBg}
               alt="Computerized Maintenance Management System"
-              className="h-full w-full object-cover object-center"
+              className="h-full w-full object-cover object-center scale-105 transition-transform duration-1000"
             />
-            <div className="absolute inset-0 bg-[#0d223a]/55 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#071728]/92 via-[#0a1e34]/80 to-[#071728]/70 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,112,173,0.35),transparent_65%)]" />
           </div>
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl">
-              <span className="inline-flex items-center rounded-full border border-sky-400/40 bg-sky-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-300 backdrop-blur-md">
-                Product / CMMS
-              </span>
-              <h1 className="mt-5 font-display text-4xl font-bold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl drop-shadow-sm">
-                Computerized Maintenance Management System (CMMS)
+              {/* Eyebrow Badge */}
+              <div
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
+                }}
+              >
+                <span className="inline-flex items-center rounded-full border border-sky-400/30 bg-sky-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sky-300 backdrop-blur-md shadow-sm">
+                  Product / CMMS
+                </span>
+              </div>
+
+              {/* Main Headline */}
+              <h1
+                className="mt-5 font-display text-3xl sm:text-5xl lg:text-[3.65rem] font-bold tracking-[-0.04em] text-white leading-[1.12] drop-shadow-md"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(24px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s",
+                }}
+              >
+                Computerized Maintenance Management System{" "}
+                <span className="bg-gradient-to-r from-sky-300 via-cyan-200 to-teal-300 bg-clip-text text-transparent">
+                  (CMMS)
+                </span>
               </h1>
-              <p className="mt-4 text-xl font-semibold text-sky-200 sm:text-2xl">
+
+              {/* Subheading */}
+              <p
+                className="mt-4 text-lg sm:text-2xl font-semibold text-sky-200"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
+                }}
+              >
                 Streamline Maintenance &amp; Asset Management
               </p>
-              <p className="mt-5 text-base leading-relaxed text-slate-200 sm:text-lg">
+
+              {/* Paragraph */}
+              <p
+                className="mt-5 text-sm sm:text-base lg:text-lg leading-relaxed text-slate-200"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.55s",
+                }}
+              >
                 A <strong>Computerized Maintenance Management System (CMMS)</strong> is a digital solution that helps businesses <strong>plan, track, and optimize maintenance operations</strong>. It centralizes asset management, work orders, and inventory, ensuring <strong>maximum uptime, reduced costs, and improved efficiency</strong> in facility and equipment maintenance.
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-4">
+              {/* Action Buttons */}
+              <div
+                className="mt-8 flex flex-wrap gap-4"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.7s",
+                }}
+              >
                 <a
                   href="#pricing"
-                  className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,112,173,0.35)]"
+                  className="group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(0,112,173,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-sky-500 hover:shadow-[0_6px_18px_rgba(0,112,173,0.3)]"
                 >
                   <span>View Pricing Plans</span>
-                  <span>↓</span>
+                  <span className="transition-transform duration-300 group-hover:translate-y-0.5">↓</span>
                 </a>
                 <a
                   href="/contact/"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white/20"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-slate-200 transition-all duration-300 hover:bg-white/[0.08] hover:border-white/25 hover:text-white hover:-translate-y-0.5"
                 >
                   <span>Request Demo</span>
                   <span>↗</span>
@@ -195,33 +255,35 @@ export default function CMMS() {
         </section>
 
         {/* ── KEY FEATURES SECTION ── */}
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-          <div className="max-w-3xl">
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand)]">
-              Core Capabilities
-            </span>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
-              Key Features of Our CMMS
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-mist-2)] sm:text-base">
-              Engineered to eliminate unplanned downtime, standardize maintenance protocols, and give operational leaders full visibility.
-            </p>
-          </div>
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
+          <SectionHeader
+            badge="Core Capabilities"
+            title="Key Features of Our CMMS"
+            subtitle="Engineered to eliminate unplanned downtime, standardize maintenance protocols, and give operational leaders full visibility."
+          />
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {KEY_FEATURES.map((feat) => (
+            {KEY_FEATURES.map((feat, idx) => (
               <div
                 key={feat.title}
-                className="group relative flex flex-col justify-between rounded-2xl border border-[var(--color-ink-line)]/70 bg-[var(--color-foam-panel)] p-7 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-brand)] hover:shadow-md"
+                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-7 sm:p-8 shadow-[0_8px_24px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-[var(--color-brand)]/60 hover:shadow-[0_20px_40px_rgba(0,112,173,0.12)]"
+                style={{ animationDelay: `${idx * 80}ms` }}
               >
                 <div>
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--color-brand)]/10 text-[var(--color-brand)] transition-colors group-hover:bg-[var(--color-brand)] group-hover:text-white">
-                    {feat.icon}
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/10 text-[var(--color-brand)] transition-all duration-500 group-hover:scale-110 group-hover:bg-[var(--color-brand)] group-hover:text-white shadow-sm">
+                      {feat.icon}
+                    </div>
+
+                    <span className="font-mono text-xs font-bold rounded-full px-3 py-1 bg-[var(--color-foam)] border border-[var(--color-ink-line)] text-[var(--color-brand)]">
+                      {feat.num}
+                    </span>
                   </div>
-                  <h3 className="mt-5 font-display text-lg font-bold text-[var(--color-text-ink)]">
+
+                  <h3 className="mt-6 font-display text-xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] transition-colors duration-300 group-hover:text-[var(--color-brand)]">
                     {feat.title}
                   </h3>
-                  <p className="mt-2.5 text-xs leading-relaxed text-[var(--color-text-mist-2)] sm:text-sm">
+                  <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[var(--color-text-mist-2)]">
                     {feat.text}
                   </p>
                 </div>
@@ -231,17 +293,17 @@ export default function CMMS() {
         </section>
 
         {/* ── WHY CHOOSE OUR CMMS ── */}
-        <section className="border-t border-[var(--color-ink-line)]/50 bg-[var(--color-foam-panel)] py-16 sm:py-20">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
+          <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+            <div className="group relative flex flex-col justify-between rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-8 sm:p-10 shadow-[0_10px_30px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-500 hover:-translate-y-1.5 hover:border-[var(--color-brand)]/50 hover:shadow-xl">
               <div>
-                <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand)]">
+                <span className="inline-flex items-center rounded-full border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/5 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand)]">
                   Enterprise Value
                 </span>
-                <h2 className="mt-2 font-display text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
+                <h2 className="mt-4 font-display text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] leading-snug">
                   Why Choose Our CMMS?
                 </h2>
-                <p className="mt-4 text-base leading-relaxed text-[var(--color-text-mist-2)]">
+                <p className="mt-4 text-sm sm:text-base leading-relaxed text-[var(--color-text-mist-2)]">
                   At <strong>Sumant Cloud</strong>, our <strong>CMMS solution</strong> is designed for <strong>scalability, flexibility, and ease of use</strong>. Whether you manage a <strong>manufacturing plant, healthcare facility, or a fleet</strong>, our system helps you <strong>optimize maintenance, reduce costs, and enhance operational efficiency</strong>.
                 </p>
 
@@ -256,60 +318,54 @@ export default function CMMS() {
                   ))}
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-8 pt-6 border-t border-[var(--color-ink-line)]/50">
                   <a
                     href="/contact/"
-                    className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-7 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all hover:-translate-y-0.5"
+                    className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-7 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all hover:-translate-y-0.5 hover:bg-sky-500"
                   >
                     <span>Talk to Our Solutions Team</span>
                     <span>↗</span>
                   </a>
                 </div>
               </div>
+            </div>
 
-              {/* Stats / Value Indicators */}
-              <div className="grid grid-cols-2 gap-4 sm:gap-6">
-                <div className="rounded-2xl border border-[var(--color-ink-line)]/60 bg-[var(--color-foam)] p-6 text-center">
-                  <p className="font-display text-3xl font-extrabold text-[var(--color-brand)] sm:text-4xl">Zero</p>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-mist-2)]">Unplanned Downtime</p>
-                </div>
-                <div className="rounded-2xl border border-[var(--color-ink-line)]/60 bg-[var(--color-foam)] p-6 text-center">
-                  <p className="font-display text-3xl font-extrabold text-[var(--color-brand)] sm:text-4xl">100%</p>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-mist-2)]">Audit Compliance</p>
-                </div>
-                <div className="rounded-2xl border border-[var(--color-ink-line)]/60 bg-[var(--color-foam)] p-6 text-center">
-                  <p className="font-display text-3xl font-extrabold text-[var(--color-brand)] sm:text-4xl">24/7</p>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-mist-2)]">Cloud Telemetry</p>
-                </div>
-                <div className="rounded-2xl border border-[var(--color-ink-line)]/60 bg-[var(--color-foam)] p-6 text-center">
-                  <p className="font-display text-3xl font-extrabold text-[var(--color-brand)] sm:text-4xl">Multi</p>
-                  <p className="mt-2 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-mist-2)]">Facility Scale</p>
-                </div>
+            {/* Stats / Value Indicators */}
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+              <div className="group relative flex flex-col justify-center rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-7 sm:p-8 text-center shadow-[0_8px_24px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-500 hover:-translate-y-1.5 hover:border-[var(--color-brand)]/50 hover:shadow-xl">
+                <p className="font-display text-4xl sm:text-5xl font-extrabold text-[var(--color-brand)]">Zero</p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-wider text-[var(--color-text-mist-2)]">Unplanned Downtime</p>
+              </div>
+              <div className="group relative flex flex-col justify-center rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-7 sm:p-8 text-center shadow-[0_8px_24px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-500 hover:-translate-y-1.5 hover:border-[var(--color-brand)]/50 hover:shadow-xl">
+                <p className="font-display text-4xl sm:text-5xl font-extrabold text-[var(--color-brand)]">100%</p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-wider text-[var(--color-text-mist-2)]">Audit Compliance</p>
+              </div>
+              <div className="group relative flex flex-col justify-center rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-7 sm:p-8 text-center shadow-[0_8px_24px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-500 hover:-translate-y-1.5 hover:border-[var(--color-brand)]/50 hover:shadow-xl">
+                <p className="font-display text-4xl sm:text-5xl font-extrabold text-[var(--color-brand)]">24/7</p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-wider text-[var(--color-text-mist-2)]">Cloud Telemetry</p>
+              </div>
+              <div className="group relative flex flex-col justify-center rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-7 sm:p-8 text-center shadow-[0_8px_24px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-500 hover:-translate-y-1.5 hover:border-[var(--color-brand)]/50 hover:shadow-xl">
+                <p className="font-display text-4xl sm:text-5xl font-extrabold text-[var(--color-brand)]">Multi</p>
+                <p className="mt-2 text-xs font-bold uppercase tracking-wider text-[var(--color-text-mist-2)]">Facility Scale</p>
               </div>
             </div>
           </div>
         </section>
 
         {/* ── PRICING SECTION ── */}
-        <section id="pricing" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
-          <div className="text-center">
-            <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand)]">
-              Pricing Plans
-            </span>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
-              Transparent, Scalable CMMS Pricing
-            </h2>
-            <p className="mx-auto mt-3 max-w-2xl text-sm leading-relaxed text-[var(--color-text-mist-2)]">
-              Choose the package that fits your operational scale. All plans include continuous cloud updates and dedicated onboarding support.
-            </p>
-          </div>
+        <section id="pricing" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
+          <SectionHeader
+            badge="Pricing Plans"
+            title="Transparent, Scalable CMMS Pricing"
+            subtitle="Choose the package that fits your operational scale. All plans include continuous cloud updates and dedicated onboarding support."
+          />
 
           {/* Pricing Grid */}
-          <div className="mt-14 grid gap-8 lg:grid-cols-2 lg:gap-10">
+          <div className="mt-12 grid gap-8 lg:grid-cols-2 lg:gap-10 items-stretch">
             {/* Standard Plan */}
-            <div className="flex flex-col justify-between rounded-3xl border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] p-8 sm:p-10 shadow-sm">
+            <div className="group relative flex flex-col justify-between rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-8 sm:p-10 shadow-[0_8px_24px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-500 hover:-translate-y-2 hover:border-[var(--color-brand)]/50 hover:shadow-xl">
               <div>
-                <div className="flex items-center justify-between border-b border-[var(--color-ink-line)]/50 pb-5">
+                <div className="flex items-center justify-between border-b border-[var(--color-ink-line)]/50 pb-6">
                   <div>
                     <h3 className="font-display text-2xl font-bold text-[var(--color-text-ink)]">
                       Standard Plan
@@ -317,23 +373,32 @@ export default function CMMS() {
                     <p className="mt-1 text-xs text-[var(--color-text-mist-2)]">Essential maintenance &amp; repair tracking</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-display text-3xl font-black text-[var(--color-brand)]">Rs. 9,999/-</p>
-                    <p className="text-[0.7rem] font-semibold text-[var(--color-text-mist-2)]">(5 users included)</p>
+                    <p className="font-display text-3xl sm:text-4xl font-black text-[var(--color-brand)]">Rs. 9,999/-</p>
+                    <p className="text-xs font-semibold text-[var(--color-text-mist-2)]">(5 users included)</p>
                   </div>
                 </div>
 
-                <p className="mt-4 text-xs font-bold text-[var(--color-text-ink)]">
-                  Additional user: <span className="text-[var(--color-brand)]">Rs. 999/-</span>
-                </p>
+                <div className="mt-4 flex items-center justify-between">
+                  <span className="text-xs font-semibold text-[var(--color-text-mist-2)]">Need extra seats?</span>
+                  <span className="text-xs font-bold text-[var(--color-text-ink)]">
+                    Additional user: <span className="text-[var(--color-brand)]">Rs. 999/-</span>
+                  </span>
+                </div>
 
                 {/* Module Details */}
-                <div className="mt-6 space-y-5">
+                <div className="mt-6 space-y-6 border-t border-[var(--color-ink-line)]/50 pt-6">
                   <div>
-                    <p className="text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">Master Modules</p>
-                    <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                    <span className="inline-flex items-center rounded-full border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/5 px-3 py-0.5 text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                      Master Modules
+                    </span>
+                    <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
                       {STANDARD_MODULES.master.map((item) => (
-                        <li key={item} className="flex items-center gap-2 text-xs text-[var(--color-text-mist-2)]">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand)] shrink-0" />
+                        <li key={item} className="flex items-center gap-2.5 text-xs text-[var(--color-text-ink)]">
+                          <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand)]/10 text-[var(--color-brand)]">
+                            <svg viewBox="0 0 12 12" className="h-2 w-2" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="2.5 6 4.5 8.5 9.5 3.5" />
+                            </svg>
+                          </span>
                           <span>{item}</span>
                         </li>
                       ))}
@@ -341,11 +406,17 @@ export default function CMMS() {
                   </div>
 
                   <div>
-                    <p className="text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">Mapping &amp; Actions</p>
-                    <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                    <span className="inline-flex items-center rounded-full border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/5 px-3 py-0.5 text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                      Mapping &amp; Actions
+                    </span>
+                    <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
                       {[...STANDARD_MODULES.mapping, ...STANDARD_MODULES.actions].map((item) => (
-                        <li key={item} className="flex items-center gap-2 text-xs text-[var(--color-text-mist-2)]">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand)] shrink-0" />
+                        <li key={item} className="flex items-center gap-2.5 text-xs text-[var(--color-text-ink)]">
+                          <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand)]/10 text-[var(--color-brand)]">
+                            <svg viewBox="0 0 12 12" className="h-2 w-2" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="2.5 6 4.5 8.5 9.5 3.5" />
+                            </svg>
+                          </span>
                           <span>{item}</span>
                         </li>
                       ))}
@@ -353,11 +424,17 @@ export default function CMMS() {
                   </div>
 
                   <div>
-                    <p className="text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">Reports</p>
-                    <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                    <span className="inline-flex items-center rounded-full border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/5 px-3 py-0.5 text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                      Reports
+                    </span>
+                    <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
                       {STANDARD_MODULES.reports.map((item) => (
-                        <li key={item} className="flex items-center gap-2 text-xs text-[var(--color-text-mist-2)]">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand)] shrink-0" />
+                        <li key={item} className="flex items-center gap-2.5 text-xs text-[var(--color-text-ink)]">
+                          <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand)]/10 text-[var(--color-brand)]">
+                            <svg viewBox="0 0 12 12" className="h-2 w-2" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="2.5 6 4.5 8.5 9.5 3.5" />
+                            </svg>
+                          </span>
                           <span>{item}</span>
                         </li>
                       ))}
@@ -369,7 +446,7 @@ export default function CMMS() {
               <div className="mt-8 pt-6 border-t border-[var(--color-ink-line)]/50">
                 <a
                   href="/contact/"
-                  className="flex w-full items-center justify-center rounded-xl border border-[var(--color-ink-line)] bg-[var(--color-foam)] py-3.5 text-xs font-bold uppercase tracking-wider text-[var(--color-text-ink)] transition-colors hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
+                  className="flex w-full items-center justify-center rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-text-ink)] transition-all duration-300 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] hover:shadow-md hover:-translate-y-0.5"
                 >
                   Choose Standard Plan ↗
                 </a>
@@ -377,13 +454,13 @@ export default function CMMS() {
             </div>
 
             {/* Professional Plan */}
-            <div className="relative flex flex-col justify-between rounded-3xl border-2 border-[var(--color-brand)] bg-[var(--color-foam-panel)] p-8 sm:p-10 shadow-lg shadow-[var(--color-brand)]/10">
+            <div className="group relative flex flex-col justify-between rounded-3xl border-2 border-[var(--color-brand)] bg-[var(--color-foam-panel)] p-8 sm:p-10 shadow-[0_20px_45px_rgba(0,112,173,0.15)] ring-1 ring-[var(--color-brand)]/40 backdrop-blur-md transition-all duration-500 hover:-translate-y-2">
               <span className="absolute -top-3.5 right-8 rounded-full bg-[var(--color-brand)] px-4 py-1 text-[0.68rem] font-black uppercase tracking-[0.16em] text-white shadow-md">
                 Most Popular
               </span>
 
               <div>
-                <div className="flex items-center justify-between border-b border-[var(--color-ink-line)]/50 pb-5">
+                <div className="flex items-center justify-between border-b border-[var(--color-ink-line)]/50 pb-6">
                   <div>
                     <h3 className="font-display text-2xl font-bold text-[var(--color-text-ink)]">
                       Professional Plan
@@ -391,23 +468,32 @@ export default function CMMS() {
                     <p className="mt-1 text-xs text-[var(--color-text-mist-2)]">Full enterprise telemetry &amp; job management</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-display text-3xl font-black text-[var(--color-brand)]">Rs. 14,500/-</p>
-                    <p className="text-[0.7rem] font-semibold text-[var(--color-text-mist-2)]">(5 users included)</p>
+                    <p className="font-display text-3xl sm:text-4xl font-black text-[var(--color-brand)]">Rs. 14,500/-</p>
+                    <p className="text-xs font-semibold text-[var(--color-text-mist-2)]">(5 users included)</p>
                   </div>
                 </div>
 
-                <p className="mt-4 text-xs font-bold text-[var(--color-text-ink)]">
-                  Additional user: <span className="text-[var(--color-brand)]">Rs. 999/-</span>
-                </p>
+                <div className="mt-4 flex items-center justify-between">
+                  <span className="text-xs font-semibold text-[var(--color-text-mist-2)]">Need extra seats?</span>
+                  <span className="text-xs font-bold text-[var(--color-text-ink)]">
+                    Additional user: <span className="text-[var(--color-brand)]">Rs. 999/-</span>
+                  </span>
+                </div>
 
                 {/* Module Details */}
-                <div className="mt-6 space-y-5">
+                <div className="mt-6 space-y-6 border-t border-[var(--color-ink-line)]/50 pt-6">
                   <div>
-                    <p className="text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">Master Modules</p>
-                    <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                    <span className="inline-flex items-center rounded-full border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/5 px-3 py-0.5 text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                      Master Modules
+                    </span>
+                    <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
                       {PROFESSIONAL_MODULES.master.map((item) => (
-                        <li key={item} className="flex items-center gap-2 text-xs text-[var(--color-text-mist-2)]">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand)] shrink-0" />
+                        <li key={item} className="flex items-center gap-2.5 text-xs text-[var(--color-text-ink)]">
+                          <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand)]/10 text-[var(--color-brand)]">
+                            <svg viewBox="0 0 12 12" className="h-2 w-2" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="2.5 6 4.5 8.5 9.5 3.5" />
+                            </svg>
+                          </span>
                           <span>{item}</span>
                         </li>
                       ))}
@@ -415,11 +501,17 @@ export default function CMMS() {
                   </div>
 
                   <div>
-                    <p className="text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">Mapping &amp; Advanced Actions</p>
-                    <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                    <span className="inline-flex items-center rounded-full border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/5 px-3 py-0.5 text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                      Mapping &amp; Advanced Actions
+                    </span>
+                    <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
                       {[...PROFESSIONAL_MODULES.mapping, ...PROFESSIONAL_MODULES.actions].map((item) => (
-                        <li key={item} className="flex items-center gap-2 text-xs text-[var(--color-text-mist-2)]">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand)] shrink-0" />
+                        <li key={item} className="flex items-center gap-2.5 text-xs text-[var(--color-text-ink)]">
+                          <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand)]/10 text-[var(--color-brand)]">
+                            <svg viewBox="0 0 12 12" className="h-2 w-2" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="2.5 6 4.5 8.5 9.5 3.5" />
+                            </svg>
+                          </span>
                           <span>{item}</span>
                         </li>
                       ))}
@@ -427,11 +519,17 @@ export default function CMMS() {
                   </div>
 
                   <div>
-                    <p className="text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">Advanced Analytics &amp; Reports</p>
-                    <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                    <span className="inline-flex items-center rounded-full border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/5 px-3 py-0.5 text-[0.7rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                      Advanced Analytics &amp; Reports
+                    </span>
+                    <ul className="mt-3 grid gap-2.5 sm:grid-cols-2">
                       {PROFESSIONAL_MODULES.reports.map((item) => (
-                        <li key={item} className="flex items-center gap-2 text-xs text-[var(--color-text-mist-2)]">
-                          <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand)] shrink-0" />
+                        <li key={item} className="flex items-center gap-2.5 text-xs text-[var(--color-text-ink)]">
+                          <span className="flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand)]/10 text-[var(--color-brand)]">
+                            <svg viewBox="0 0 12 12" className="h-2 w-2" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="2.5 6 4.5 8.5 9.5 3.5" />
+                            </svg>
+                          </span>
                           <span>{item}</span>
                         </li>
                       ))}
@@ -443,7 +541,7 @@ export default function CMMS() {
               <div className="mt-8 pt-6 border-t border-[var(--color-ink-line)]/50">
                 <a
                   href="/contact/"
-                  className="flex w-full items-center justify-center rounded-xl bg-[var(--color-brand)] py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-md transition-all hover:bg-[var(--color-brand)]/90 hover:shadow-lg"
+                  className="flex w-full items-center justify-center rounded-full bg-[var(--color-brand)] py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all duration-300 hover:bg-sky-500 hover:shadow-lg hover:-translate-y-0.5"
                 >
                   Choose Professional Plan ↗
                 </a>
@@ -453,33 +551,63 @@ export default function CMMS() {
         </section>
 
         {/* ── BOTTOM CTA ── */}
-        <section className="border-t border-[var(--color-ink-line)]/60 bg-[var(--color-foam-panel)] py-16 text-center">
-          <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-            <h2 className="font-display text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
-              Zero Downtime Starts With One Conversation.
-            </h2>
-            <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-[var(--color-text-mist-2)] sm:text-base">
-              Schedule a personalized walkthrough of the Sumant Cloud CMMS with our systems engineering team today.
-            </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
-              <a
-                href="/contact/"
-                className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-lg"
-              >
-                <span>Contact Us</span>
-                <span>↗</span>
-              </a>
-              <a
-                href="tel:+917028510950"
-                className="inline-flex items-center gap-2 rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-text-ink)] transition-colors hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
-              >
-                <span>+91 70285 10950</span>
-              </a>
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
+          <div className="relative overflow-hidden rounded-3xl sm:rounded-[36px] border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-8 sm:p-14 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.04)] text-center backdrop-blur-md">
+            <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full bg-[var(--color-brand)]/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-sky-400/10 blur-3xl" />
+
+            <div className="relative z-10 mx-auto max-w-3xl">
+              <h2 className="font-display text-2xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-[-0.03em] text-[var(--color-text-ink)] leading-snug">
+                Zero Downtime Starts With One Conversation.
+              </h2>
+              <p className="mt-4 text-sm sm:text-base leading-relaxed text-[var(--color-text-mist-2)]">
+                Schedule a personalized walkthrough of the Sumant Cloud CMMS with our systems engineering team today.
+              </p>
+
+              <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+                <a
+                  href="/contact/"
+                  className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-sky-500"
+                >
+                  <span>Contact Us</span>
+                  <span>↗</span>
+                </a>
+                <a
+                  href="tel:+917028510950"
+                  className="inline-flex items-center gap-2 rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-text-ink)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] hover:shadow-md"
+                >
+                  <span>+91 70285 10950</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
       </main>
       <Footer />
+    </div>
+  );
+}
+
+function SectionHeader({ badge, title, subtitle }) {
+  const [ref, visible] = useScrollReveal();
+  return (
+    <div
+      ref={ref}
+      className={`mb-10 flex flex-col justify-between gap-3 md:flex-row md:items-end ${
+        visible ? "animate-reveal-up" : "opacity-0 translate-y-6"
+      }`}
+    >
+      <div>
+        <span className="text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand)]">
+          {badge}
+        </span>
+        <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-4xl">
+          {title}
+        </h2>
+      </div>
+      <p className="max-w-md text-xs sm:text-sm text-[var(--color-text-mist-2)] leading-relaxed">
+        {subtitle}
+      </p>
     </div>
   );
 }

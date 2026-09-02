@@ -5,19 +5,15 @@ import TrustedBy from "./components/TrustedBy";
 import Products from "./components/Products";
 import SolutionsGrid from "./components/SolutionsGrid";
 import Approach from "./components/Approach";
-import About from "./components/About";
 import AboutPage from "./components/AboutPage";
 import CTA from "./components/CTA";
 import Footer from "./components/Footer";
-import SoftwareDevelopment from "./components/SoftwareDevelopment";
 import CMMS from "./components/CMMS";
 import PEM from "./components/PEM";
 import EP2P from "./components/EP2P";
 import CMS from "./components/CMS";
 import WMS from "./components/WMS";
 import EDIMS from "./components/EDIMS";
-import UIUXDesign from "./components/UIUXDesign";
-import WebsiteDesign from "./components/WebsiteDesign";
 import Contact from "./components/Contact";
 import AIMLHiringPage from "./components/AIMLHiringPage";
 import CustomSoftwarePage from "./components/CustomSoftwarePage";
@@ -43,10 +39,6 @@ export default function App() {
     return <AboutPage />;
   }
 
-  if (["/software-development", "/mobile-app-development", "/ecommerce-solutions", "/automation"].includes(pathname)) {
-    return <SoftwareDevelopment />;
-  }
-
   if (pathname === "/cmms") {
     return <CMMS />;
   }
@@ -69,14 +61,6 @@ export default function App() {
 
   if (pathname === "/e-dims" || pathname === "/edims") {
     return <EDIMS />;
-  }
-
-  if (pathname === "/ui-ux-design") {
-    return <UIUXDesign />;
-  }
-
-  if (pathname === "/website-design") {
-    return <WebsiteDesign />;
   }
 
   if (pathname === "/contact") {
@@ -107,7 +91,6 @@ export default function App() {
         <TrustedBy />
         <SolutionsGrid />
         <Products />
-        <Approach />
         <CTA />
       </main>
       <Footer />

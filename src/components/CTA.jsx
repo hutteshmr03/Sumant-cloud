@@ -7,170 +7,194 @@ export default function CTA() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+
     const observer = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) setVisible(true); },
-      { threshold: 0.2 }
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -120px 0px",
+      }
     );
-    if (sectionRef.current) observer.observe(sectionRef.current);
+
+    observer.observe(el);
     return () => observer.disconnect();
   }, []);
-
-  // Backgrounds per mode
-  const sectionBg = isDark
-    ? "linear-gradient(135deg, #061922 0%, #0f2036 50%, #0a1628 100%)"
-    : "linear-gradient(135deg, #f0f4ff 0%, #e8f4fa 50%, #f4f7f6 100%)";
-
-  const orbColor1 = isDark ? "#0070ad" : "#0070ad";
-  const orbColor2 = isDark ? "#17b8a6" : "#17b8a6";
 
   return (
     <section
       id="contact"
       ref={sectionRef}
-      className="relative overflow-hidden py-20 md:py-28"
-      style={{ background: sectionBg }}
+      className="relative overflow-hidden py-24 md:py-32"
+      style={{
+        background: isDark
+          ? "linear-gradient(135deg, #05141f 0%, #0a1f33 50%, #061524 100%)"
+          : "linear-gradient(135deg, #f3f8fc 0%, #eaf3f9 50%, #f4f8fb 100%)",
+      }}
     >
-      {/* ── Animated gradient orbs ── */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+      {/* ── Ambient Background Glow & Micro Grid ── */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        {/* Subtle geometric grid */}
         <div
-          className="absolute w-96 h-96 rounded-full"
+          className="absolute inset-0 opacity-[0.035] dark:opacity-[0.06]"
           style={{
-            background: `radial-gradient(circle, ${orbColor1}, transparent)`,
-            opacity: isDark ? 0.12 : 0.08,
-            top: "-5%", left: "-5%",
-            animation: "float-orb 8s ease-in-out infinite alternate",
+            backgroundImage: `radial-gradient(circle at 1px 1px, ${isDark ? "#00d4ff" : "#0070ad"} 1px, transparent 0)`,
+            backgroundSize: "32px 32px",
+          }}
+        />
+
+        {/* Dynamic ambient color orbs */}
+        <div
+          className="absolute -top-24 -left-24 w-[450px] h-[450px] rounded-full blur-[110px] pointer-events-none animate-pulse"
+          style={{
+            background: isDark ? "rgba(0, 112, 173, 0.2)" : "rgba(0, 112, 173, 0.12)",
+            animationDuration: "7s",
           }}
         />
         <div
-          className="absolute w-72 h-72 rounded-full"
+          className="absolute -bottom-24 -right-24 w-[450px] h-[450px] rounded-full blur-[120px] pointer-events-none animate-pulse"
           style={{
-            background: `radial-gradient(circle, ${orbColor2}, transparent)`,
-            opacity: isDark ? 0.12 : 0.08,
-            bottom: "-5%", right: "-5%",
-            animation: "float-orb 10s ease-in-out infinite alternate-reverse",
+            background: isDark ? "rgba(23, 184, 166, 0.18)" : "rgba(23, 184, 166, 0.1)",
+            animationDuration: "9s",
           }}
         />
-        {/* Small accent circles */}
-        {[
-          { w: 60, h: 60, top: "15%", left: "20%", delay: "0s" },
-          { w: 40, h: 40, top: "65%", left: "35%", delay: "1s" },
-          { w: 50, h: 50, top: "30%", right: "25%", delay: "2s" },
-        ].map((p, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              width: p.w, height: p.h,
-              top: p.top, left: p.left, right: p.right,
-              background: `radial-gradient(circle, #0070ad, transparent)`,
-              opacity: isDark ? 0.08 : 0.06,
-              animation: `float-orb ${3 + i}s ease-in-out infinite alternate`,
-              animationDelay: p.delay,
-            }}
-          />
-        ))}
       </div>
 
-      {/* ── Content ── */}
+      {/* ── Main Content Container ── */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 md:px-10">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-10">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-10 lg:gap-14">
 
-          {/* Left: text */}
-          <div
-            className="max-w-xl"
-            style={{
-              opacity: visible ? 1 : 0,
-              transform: visible ? "translateX(0)" : "translateX(-40px)",
-              transition: "opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s",
-            }}
-          >
-            <p
-              className="text-xs font-semibold uppercase tracking-[0.2em] mb-3"
-              style={{ color: "#0070ad" }}
+          {/* Left Column: Heading and copy with smooth slow stagger reveal */}
+          <div className="max-w-2xl">
+            {/* Eyebrow badge - clean and official */}
+            <div
+              style={{
+                opacity: visible ? 1 : 0,
+                transform: visible ? "translateY(0)" : "translateY(16px)",
+                filter: visible ? "blur(0)" : "blur(3px)",
+                transition: "all 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.15s",
+              }}
             >
-              Get in touch
-            </p>
+              <span className="inline-flex items-center rounded-full border border-[#0070ad]/25 bg-[#0070ad]/5 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[#0070ad] dark:text-[#4ab7ff]">
+                Get In Touch
+              </span>
+            </div>
+
+            {/* Headline with glowing animated gradient on keyword */}
             <h2
-              className="font-display text-2xl sm:text-3xl md:text-[2.6rem] font-bold leading-tight"
-              style={{ color: isDark ? "#edf6ff" : "#15011d" }}
+              className="mt-5 font-display text-3xl sm:text-4xl md:text-[2.85rem] font-bold leading-[1.14] tracking-[-0.03em]"
+              style={{
+                color: isDark ? "#edf6ff" : "#101e2e",
+                opacity: visible ? 1 : 0,
+                transform: visible ? "translateY(0)" : "translateY(24px)",
+                filter: visible ? "blur(0)" : "blur(6px)",
+                transition: "all 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.35s",
+              }}
             >
               Would you like to{" "}
-              <span style={{ color: "#0070ad" }}>start a project</span>{" "}
+              <span className="cta-gradient-shimmer inline-block">start a project</span>{" "}
               with us?
             </h2>
+
+            {/* Subline */}
             <p
-              className="mt-4 leading-relaxed text-sm md:text-base max-w-lg"
-              style={{ color: isDark ? "#8ea6b8" : "#6b7280" }}
+              className="mt-5 leading-relaxed text-sm sm:text-base md:text-[1.05rem] max-w-xl"
+              style={{
+                color: isDark ? "#9bb2c4" : "#4b5563",
+                opacity: visible ? 1 : 0,
+                transform: visible ? "translateY(0)" : "translateY(20px)",
+                filter: visible ? "blur(0)" : "blur(4px)",
+                transition: "all 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.55s",
+              }}
             >
               Our expertise lies in{" "}
-              <strong style={{ color: isDark ? "#edf6ff" : "#15011d" }}>
+              <strong className="font-semibold" style={{ color: isDark ? "#edf6ff" : "#15011d" }}>
                 custom software development, automation, and mobile app development
               </strong>
               , empowering businesses with{" "}
-              <strong style={{ color: isDark ? "#edf6ff" : "#15011d" }}>
+              <strong className="font-semibold" style={{ color: isDark ? "#edf6ff" : "#15011d" }}>
                 innovative, scalable, and future-ready
               </strong>{" "}
               technology.
             </p>
           </div>
 
-          {/* Right: buttons */}
+          {/* Right Column: Interactive Contact Action Capsule Cards */}
           <div
-            className="flex flex-col gap-4 shrink-0 w-full md:w-auto"
+            className="flex flex-col gap-3.5 shrink-0 w-full sm:w-auto min-w-[280px] sm:min-w-[320px]"
             style={{
               opacity: visible ? 1 : 0,
-              transform: visible ? "translateX(0)" : "translateX(40px)",
-              transition: "opacity 0.7s ease 0.4s, transform 0.7s ease 0.4s",
+              transform: visible ? "translateY(0)" : "translateY(24px)",
+              filter: visible ? "blur(0)" : "blur(6px)",
+              transition: "all 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.7s",
             }}
           >
-            {/* Primary CTA */}
+            {/* Primary Action Button */}
             <a
               href="/contact/"
-              className="group relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full px-8 py-3.5 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5"
-              style={{ background: "#0070ad", boxShadow: "0 4px 20px rgba(0,112,173,0.35)" }}
+              className="group relative inline-flex items-center justify-between gap-4 overflow-hidden rounded-2xl px-7 py-4 font-semibold text-white shadow-[0_8px_24px_rgba(0,112,173,0.32)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_32px_rgba(0,112,173,0.45)] active:scale-98"
+              style={{
+                background: "linear-gradient(135deg, #0070ad 0%, #0088d4 100%)",
+              }}
             >
-              <span className="relative z-10">Contact Us</span>
-              <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-              <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor" className="relative z-10 group-hover:translate-x-1 transition-transform duration-200">
-                <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-              </svg>
+              <div className="flex items-center gap-3">
+                <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/20 backdrop-blur-md">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                  </svg>
+                </span>
+                <span className="text-sm font-bold tracking-wide">Contact Us</span>
+              </div>
+              <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15 transition-transform duration-300 group-hover:translate-x-1 group-hover:bg-white/25">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
             </a>
 
-            {/* Email */}
+            {/* Email Capsule */}
             <a
               href="mailto:contact@sumantcloud.com"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-medium transition-all duration-200 break-all"
+              className="group flex items-center justify-between gap-3 rounded-2xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)]/90 px-6 py-3.5 text-xs sm:text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:border-[#0070ad] hover:shadow-md active:scale-98 backdrop-blur-sm"
               style={{
-                border: `2px solid ${isDark ? "rgba(0,112,173,0.4)" : "rgba(0,112,173,0.3)"}`,
-                color: "#0070ad",
-                background: isDark ? "rgba(0,112,173,0.08)" : "transparent",
+                color: isDark ? "#c8dff0" : "#1a365d",
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = "rgba(0,112,173,0.1)"; e.currentTarget.style.borderColor = "#0070ad"; }}
-              onMouseLeave={e => { e.currentTarget.style.background = isDark ? "rgba(0,112,173,0.08)" : "transparent"; e.currentTarget.style.borderColor = isDark ? "rgba(0,112,173,0.4)" : "rgba(0,112,173,0.3)"; }}
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                <polyline points="22,6 12,13 2,6" />
-              </svg>
-              <span className="break-all">contact@sumantcloud.com</span>
+              <div className="flex items-center gap-3 overflow-hidden">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#0070ad]/10 text-[#0070ad] transition-colors group-hover:bg-[#0070ad] group-hover:text-white">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <polyline points="22,6 12,13 2,6" />
+                  </svg>
+                </span>
+                <span className="truncate">contact@sumantcloud.com</span>
+              </div>
+              <span className="text-xs text-[var(--color-brand)] opacity-0 transition-opacity group-hover:opacity-100">↗</span>
             </a>
 
-            {/* Phone */}
+            {/* Phone Capsule */}
             <a
               href="tel:+917028510950"
-              className="inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-medium transition-all duration-200"
+              className="group flex items-center justify-between gap-3 rounded-2xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)]/90 px-6 py-3.5 text-xs sm:text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 hover:border-[#0070ad] hover:shadow-md active:scale-98 backdrop-blur-sm"
               style={{
-                border: `2px solid ${isDark ? "rgba(0,112,173,0.4)" : "rgba(0,112,173,0.3)"}`,
-                color: "#0070ad",
-                background: isDark ? "rgba(0,112,173,0.08)" : "transparent",
+                color: isDark ? "#c8dff0" : "#1a365d",
               }}
-              onMouseEnter={e => { e.currentTarget.style.background = "rgba(0,112,173,0.1)"; e.currentTarget.style.borderColor = "#0070ad"; }}
-              onMouseLeave={e => { e.currentTarget.style.background = isDark ? "rgba(0,112,173,0.08)" : "transparent"; e.currentTarget.style.borderColor = isDark ? "rgba(0,112,173,0.4)" : "rgba(0,112,173,0.3)"; }}
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 012 2.18 2 2 0 014 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" />
-              </svg>
-              +91 70285 10950
+              <div className="flex items-center gap-3">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#0070ad]/10 text-[#0070ad] transition-colors group-hover:bg-[#0070ad] group-hover:text-white">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 012 2.18 2 2 0 014 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92z" />
+                  </svg>
+                </span>
+                <span>+91 70285 10950</span>
+              </div>
+              <span className="text-xs text-[var(--color-brand)] opacity-0 transition-opacity group-hover:opacity-100">↗</span>
             </a>
           </div>
 
@@ -178,9 +202,16 @@ export default function CTA() {
       </div>
 
       <style>{`
-        @keyframes float-orb {
-          from { transform: translate(0, 0) scale(1); }
-          to   { transform: translate(25px, 15px) scale(1.08); }
+        .cta-gradient-shimmer {
+          background: linear-gradient(135deg, #0070ad 0%, #00b4d8 50%, #17b8a6 100%);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: cta-text-shimmer 4s ease-in-out infinite alternate;
+        }
+        @keyframes cta-text-shimmer {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 100% 50%; }
         }
       `}</style>
     </section>

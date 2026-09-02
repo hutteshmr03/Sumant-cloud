@@ -1,3 +1,4 @@
+import { useTheme } from "../context/ThemeContext";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const SOLUTIONS = [
@@ -12,9 +13,9 @@ const SOLUTIONS = [
       "Data & Analytics Enablement",
     ],
     accent: "#0284c7",
-    accentLight: "rgba(2, 132, 199, 0.12)",
+    accentLight: "rgba(2, 132, 199, 0.1)",
     accentBorder: "rgba(2, 132, 199, 0.28)",
-    accentGlow: "rgba(2, 132, 199, 0.22)",
+    accentGlow: "rgba(2, 132, 199, 0.25)",
     href: "/it-consulting",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -34,10 +35,10 @@ const SOLUTIONS = [
       "AI Product & Solution Leads",
       "Data Science & Analytics Talent",
     ],
-    accent: "#0284c7",
-    accentLight: "rgba(2, 132, 199, 0.12)",
-    accentBorder: "rgba(2, 132, 199, 0.28)",
-    accentGlow: "rgba(2, 132, 199, 0.22)",
+    accent: "#0070ad",
+    accentLight: "rgba(0, 112, 173, 0.1)",
+    accentBorder: "rgba(0, 112, 173, 0.28)",
+    accentGlow: "rgba(0, 112, 173, 0.25)",
     href: "/ai-ml-hiring",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -59,9 +60,9 @@ const SOLUTIONS = [
       "Unified Customer Experience Apps",
     ],
     accent: "#0284c7",
-    accentLight: "rgba(2, 132, 199, 0.12)",
+    accentLight: "rgba(2, 132, 199, 0.1)",
     accentBorder: "rgba(2, 132, 199, 0.28)",
-    accentGlow: "rgba(2, 132, 199, 0.22)",
+    accentGlow: "rgba(2, 132, 199, 0.25)",
     href: "/saas",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -83,10 +84,10 @@ const SOLUTIONS = [
       "Enterprise Customer Portals",
       "Automated Integration Pipelines",
     ],
-    accent: "#0284c7",
-    accentLight: "rgba(2, 132, 199, 0.12)",
-    accentBorder: "rgba(2, 132, 199, 0.28)",
-    accentGlow: "rgba(2, 132, 199, 0.22)",
+    accent: "#0070ad",
+    accentLight: "rgba(0, 112, 173, 0.1)",
+    accentBorder: "rgba(0, 112, 173, 0.28)",
+    accentGlow: "rgba(0, 112, 173, 0.25)",
     href: "/custom-software",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -102,25 +103,30 @@ export default function SolutionsGrid() {
   const [headerRef, headerVisible] = useScrollReveal();
 
   return (
-    <section id="services" className="relative overflow-hidden bg-[var(--color-foam)] py-14 md:py-20 lg:py-24 scroll-mt-20">
-      {/* Subtle background ambient blur blobs */}
-      <div className="pointer-events-none absolute -top-40 left-1/2 h-96 w-96 -translate-x-1/2 rounded-full bg-[var(--color-brand)]/5 blur-3xl" />
-      <div className="pointer-events-none absolute -bottom-40 right-10 h-96 w-96 rounded-full bg-[var(--color-tide)]/5 blur-3xl" />
+    <section id="services" className="relative overflow-hidden bg-[var(--color-foam)] py-20 md:py-28 scroll-mt-20 border-t border-[var(--color-ink-line)]/50">
+      {/* Background ambient lighting */}
+      <div className="pointer-events-none absolute -top-40 left-1/2 h-[500px] w-[500px] -translate-x-1/2 rounded-full bg-[var(--color-brand)]/5 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-40 right-10 h-[500px] w-[500px] rounded-full bg-[#0284c7]/5 blur-3xl" />
 
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 md:px-10">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 md:px-10">
+        {/* Section Header */}
         <div
           ref={headerRef}
-          className={`text-center ${headerVisible ? "animate-reveal-up" : "opacity-0 translate-y-6"}`}
+          className={`text-center max-w-3xl mx-auto ${headerVisible ? "animate-reveal-up" : "opacity-0 translate-y-6"}`}
         >
-          <h2 className="font-display text-[2.4rem] font-semibold tracking-[-0.05em] text-[var(--color-text-ink)] md:text-[3.2rem] lg:text-[3.5rem]">
+          <span className="inline-flex items-center rounded-full border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/5 px-4 py-1 text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
             Explore Our Services
+          </span>
+          <h2 className="mt-4 font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] leading-tight">
+            Architecting solutions for high-growth enterprises.
           </h2>
-          <p className="mx-auto mt-3.5 max-w-2xl text-sm leading-relaxed text-[var(--color-text-mist-2)] sm:text-base">
-            End-to-end technology solutions crafted to accelerate digital growth, optimize operations, and empower modern enterprises.
+          <p className="mt-4 text-sm sm:text-base leading-relaxed text-[var(--color-text-mist-2)]">
+            End-to-end technology guidance, custom software development, cloud SaaS platforms, and specialized AI/ML engineering.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-2 md:gap-7">
+        {/* 2x2 Balanced Luxury Grid */}
+        <div className="mt-14 grid gap-7 md:grid-cols-2 lg:gap-8">
           {SOLUTIONS.map((solution, index) => (
             <SolutionCard key={solution.id} solution={solution} delay={index * 100} />
           ))}
@@ -131,105 +137,121 @@ export default function SolutionsGrid() {
 }
 
 function SolutionCard({ solution, delay }) {
+  const { isDark } = useTheme();
   const [ref, visible] = useScrollReveal();
 
   return (
     <div
       ref={ref}
-      className={`group relative flex flex-col justify-between overflow-hidden rounded-[2rem] border border-[var(--color-ink-line)]/60 bg-[var(--color-foam-panel)] p-7 sm:p-8 shadow-[0_10px_30px_rgba(15,23,42,0.04)] backdrop-blur-sm transition-all duration-500 hover:-translate-y-1.5 hover:shadow-[0_24px_50px_-12px_rgba(15,23,42,0.12)] ${
+      className={`group relative flex flex-col justify-between rounded-[2.25rem] transition-all duration-500 hover:-translate-y-2 ${
         visible ? "animate-reveal-up" : "opacity-0 translate-y-6"
       }`}
       style={{
         animationDelay: `${delay}ms`,
       }}
     >
-      <div>
-        {/* Card Header: Icon & Category Tag */}
-        <div className="flex items-center justify-between gap-4">
-          <div
-            className="flex h-12 w-12 items-center justify-center rounded-2xl border transition-transform duration-500 group-hover:scale-110 group-hover:rotate-1"
-            style={{
-              background: solution.accentLight,
-              borderColor: solution.accentBorder,
-              color: solution.accent,
-              boxShadow: `0 8px 16px -4px ${solution.accentGlow}`,
-            }}
-          >
-            {solution.icon}
+      {/* 1. Soft Dim Blue-Violet Ambient Aura */}
+      <div
+        className="pointer-events-none absolute -inset-2.5 sm:-inset-3 rounded-[2.6rem] blur-2xl opacity-45 transition-all duration-500 group-hover:opacity-70 group-hover:-inset-3.5"
+        style={{
+          background: isDark
+            ? "linear-gradient(135deg, rgba(0, 212, 255, 0.35) 0%, rgba(99, 102, 241, 0.3) 50%, rgba(192, 132, 252, 0.35) 100%)"
+            : "linear-gradient(135deg, rgba(56, 189, 248, 0.45) 0%, rgba(129, 140, 248, 0.35) 50%, rgba(192, 132, 252, 0.4) 100%)",
+        }}
+      />
+
+      {/* 2. Secondary Subtle Diffused Bloom */}
+      <div
+        className="pointer-events-none absolute -inset-5 sm:-inset-6 rounded-[3rem] blur-3xl opacity-25 transition-all duration-500 group-hover:opacity-45"
+        style={{
+          background: isDark
+            ? "linear-gradient(135deg, rgba(2, 132, 199, 0.25) 0%, rgba(168, 85, 247, 0.25) 100%)"
+            : "linear-gradient(135deg, rgba(14, 165, 233, 0.3) 0%, rgba(168, 85, 247, 0.3) 100%)",
+        }}
+      />
+
+      {/* Main Card Surface with Refined Border & Soft Dim Shadow */}
+      <div
+        className="relative z-10 flex flex-col justify-between h-full overflow-hidden rounded-[2.2rem] border border-[var(--color-ink-line)]/60 bg-[var(--color-foam-panel)] p-7 sm:p-8 backdrop-blur-xl transition-all duration-500 group-hover:border-sky-400/40"
+        style={{
+          boxShadow: isDark
+            ? "0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 212, 255, 0.12)"
+            : "0 12px 32px rgba(15, 23, 42, 0.04), 0 0 20px rgba(56, 189, 248, 0.14)",
+        }}
+      >
+        <div>
+          {/* Card Top: Icon & Category Tag */}
+          <div className="flex items-center justify-between gap-4">
+            <div
+              className="flex h-13 w-13 items-center justify-center rounded-2xl border transition-all duration-500 group-hover:scale-110 group-hover:rotate-2"
+              style={{
+                background: solution.accentLight,
+                borderColor: solution.accentBorder,
+                color: solution.accent,
+                boxShadow: `0 8px 18px -4px ${solution.accentGlow}`,
+              }}
+            >
+              {solution.icon}
+            </div>
+
+            <span
+              className="rounded-full px-3 py-1 text-[0.7rem] font-bold uppercase tracking-wider"
+              style={{
+                background: solution.accentLight,
+                color: solution.accent,
+              }}
+            >
+              {solution.tag}
+            </span>
           </div>
 
-          <span
-            className="rounded-full px-3 py-1 text-[0.68rem] font-medium tracking-wide"
-            style={{
-              background: solution.accentLight,
-              color: solution.accent,
-            }}
+          {/* Title & Summary */}
+          <h3 className="mt-6 font-display text-xl sm:text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] transition-colors duration-300 group-hover:text-[var(--color-brand)]">
+            {solution.title}
+          </h3>
+
+          <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[var(--color-text-mist-2)]">
+            {solution.summary}
+          </p>
+
+          {/* Feature Points */}
+          <div className="mt-6 border-t border-[var(--color-ink-line)]/50 pt-5">
+            <ul className="space-y-2.5 text-xs sm:text-sm">
+              {solution.points.map((point) => (
+                <li key={point} className="flex items-start gap-2.5 text-[var(--color-text-ink)]">
+                  <span
+                    className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full"
+                    style={{
+                      background: solution.accentLight,
+                      color: solution.accent,
+                    }}
+                  >
+                    <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="2.5 6 4.5 8.5 9.5 3.5" />
+                    </svg>
+                  </span>
+                  <span className="font-medium text-[var(--color-text-ink)]/90">
+                    {point}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Action Button */}
+        <div className="mt-8 flex justify-start pt-2">
+          <a
+            href={solution.href}
+            className="group/btn inline-flex items-center gap-2.5 rounded-xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam)] px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--color-text-ink)] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:bg-[var(--color-brand)] hover:text-white hover:shadow-md"
           >
-            {solution.tag}
-          </span>
+            <span>Explore Solution</span>
+            <svg viewBox="0 0 16 16" className="h-3.5 w-3.5 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="3" y1="8" x2="13" y2="8" />
+              <polyline points="9 4 13 8 9 12" />
+            </svg>
+          </a>
         </div>
-
-        {/* Title & Summary */}
-        <h3 className="mt-6 font-display text-[1.65rem] font-semibold tracking-[-0.04em] text-[var(--color-text-ink)] transition-colors duration-300 group-hover:text-[var(--color-brand)] sm:text-[1.85rem]">
-          {solution.title}
-        </h3>
-
-        <p className="mt-2.5 text-[0.92rem] leading-relaxed text-[var(--color-text-mist-2)] sm:text-[0.96rem]">
-          {solution.summary}
-        </p>
-
-        {/* Feature List with Perfect Baseline Alignment */}
-        <div className="mt-6 border-t border-[var(--color-ink-line)]/50 pt-5">
-          <ul className="space-y-2.5 text-[0.88rem] sm:text-[0.92rem]">
-            {solution.points.map((point) => (
-              <li key={point} className="flex items-start gap-3 text-[var(--color-text-ink)]">
-                <span
-                  className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full"
-                  style={{
-                    background: solution.accentLight,
-                    color: solution.accent,
-                  }}
-                >
-                  <svg viewBox="0 0 12 12" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="2.5 6 4.5 8.5 9.5 3.5" />
-                  </svg>
-                </span>
-                <span className="font-medium leading-snug text-[var(--color-text-ink)]/90">
-                  {point}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
-      {/* Action Button */}
-      <div className="mt-8 pt-2">
-        <a
-          href={solution.href}
-          className="group/btn inline-flex items-center justify-between gap-3 rounded-xl border px-5 py-2.5 text-[0.78rem] font-semibold tracking-wider uppercase transition-all duration-300"
-          style={{
-            borderColor: "var(--color-ink-line)",
-            background: "var(--color-foam)",
-            color: "var(--color-text-ink)",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = solution.accent;
-            e.currentTarget.style.background = solution.accent;
-            e.currentTarget.style.color = "#ffffff";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "var(--color-ink-line)";
-            e.currentTarget.style.background = "var(--color-foam)";
-            e.currentTarget.style.color = "var(--color-text-ink)";
-          }}
-        >
-          <span>Explore Solution</span>
-          <svg viewBox="0 0 16 16" className="h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="3" y1="8" x2="13" y2="8" />
-            <polyline points="9 4 13 8 9 12" />
-          </svg>
-        </a>
       </div>
     </div>
   );

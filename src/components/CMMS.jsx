@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
 import cmmsHeroBg from "../assets/cmms-hero-bg.jpg";
+import cmmsCtaBg from "../assets/cmms-cta-bg.png";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const KEY_FEATURES = [
@@ -168,8 +169,8 @@ export default function CMMS() {
               alt="Computerized Maintenance Management System"
               className="h-full w-full object-cover object-center scale-105 transition-transform duration-1000"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#071728]/92 via-[#0a1e34]/80 to-[#071728]/70 backdrop-blur-[2px]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,112,173,0.35),transparent_65%)]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#080d14]/90 via-[#0b141f]/75 to-[#080d14]/65 backdrop-blur-[1px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,112,173,0.12),transparent_65%)]" />
           </div>
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -552,29 +553,40 @@ export default function CMMS() {
 
         {/* ── BOTTOM CTA ── */}
         <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
-          <div className="relative overflow-hidden rounded-3xl sm:rounded-[36px] border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-8 sm:p-14 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.04)] text-center backdrop-blur-md">
-            <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full bg-[var(--color-brand)]/10 blur-3xl" />
-            <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-sky-400/10 blur-3xl" />
+          <div className="group relative overflow-hidden rounded-3xl sm:rounded-[36px] border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-8 sm:p-14 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.06)] text-center backdrop-blur-md">
+            {/* Background Image with Blur Effect & Ambient Tint */}
+            <div className="absolute inset-0 z-0 overflow-hidden">
+              <img
+                src={cmmsCtaBg}
+                alt="Operations Scale"
+                className="h-full w-full object-cover object-center scale-105 blur-[4px] brightness-90 dark:brightness-[0.35] transition-transform duration-700 group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-white/80 dark:bg-slate-950/85 backdrop-blur-[3px]" />
+              <div className="absolute inset-0 bg-gradient-to-r from-sky-500/10 via-transparent to-indigo-500/10" />
+            </div>
+
+            <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full bg-[var(--color-brand)]/20 blur-3xl z-[1]" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-sky-400/20 blur-3xl z-[1]" />
 
             <div className="relative z-10 mx-auto max-w-3xl">
-              <h2 className="font-display text-2xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-[-0.03em] text-[var(--color-text-ink)] leading-snug">
+              <h2 className="font-display text-2xl sm:text-4xl lg:text-[2.6rem] font-bold tracking-[-0.03em] text-slate-900 dark:text-white leading-snug drop-shadow-sm">
                 Zero Downtime Starts With One Conversation.
               </h2>
-              <p className="mt-4 text-sm sm:text-base leading-relaxed text-[var(--color-text-mist-2)]">
+              <p className="mt-4 text-base sm:text-lg leading-relaxed text-slate-700 dark:text-slate-200 font-medium max-w-2xl mx-auto">
                 Schedule a personalized walkthrough of the Sumant Cloud CMMS with our systems engineering team today.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                 <a
                   href="/contact/"
-                  className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-sky-500"
+                  className="inline-flex items-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-sky-500"
                 >
                   <span>Contact Us</span>
                   <span>↗</span>
                 </a>
                 <a
                   href="tel:+917028510950"
-                  className="inline-flex items-center gap-2 rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-text-ink)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] hover:shadow-md"
+                  className="inline-flex items-center gap-2 rounded-full border border-slate-300/80 dark:border-white/20 bg-white/95 dark:bg-slate-900/90 backdrop-blur-md px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-slate-900 dark:text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] hover:shadow-md"
                 >
                   <span>+91 70285 10950</span>
                 </a>

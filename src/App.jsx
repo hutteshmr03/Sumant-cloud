@@ -14,6 +14,7 @@ import EP2P from "./components/EP2P";
 import CMS from "./components/CMS";
 import WMS from "./components/WMS";
 import EDIMS from "./components/EDIMS";
+import LMS from "./components/LMS";
 import Contact from "./components/Contact";
 import AIMLHiringPage from "./components/AIMLHiringPage";
 import CustomSoftwarePage from "./components/CustomSoftwarePage";
@@ -61,6 +62,10 @@ export default function App() {
 
   if (pathname === "/e-dims" || pathname === "/edims") {
     return <EDIMS />;
+  }
+
+  if (pathname === "/lms") {
+    return <LMS />;
   }
 
   if (pathname === "/contact") {

@@ -18,9 +18,9 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-t from-[#020b18]/70 via-transparent to-black/15 pointer-events-none" />
       <div className={`absolute inset-0 transition-colors duration-500 pointer-events-none ${isDark ? "bg-slate-950/25" : "bg-transparent"}`} />
 
-      {/* Subtle animated ambient glow orbs */}
-      <div className="pointer-events-none absolute top-1/4 right-1/4 h-80 w-80 rounded-full bg-cyan-500/10 blur-[100px] animate-pulse" style={{ animationDuration: "6s" }} />
-      <div className="pointer-events-none absolute bottom-1/3 left-1/3 h-96 w-96 rounded-full bg-blue-600/10 blur-[120px] animate-pulse" style={{ animationDuration: "8s" }} />
+      {/* Subtle animated ambient glow orbs (dimmed) */}
+      <div className="pointer-events-none absolute top-1/4 right-1/4 h-80 w-80 rounded-full bg-cyan-500/5 blur-[100px] animate-pulse" style={{ animationDuration: "6s" }} />
+      <div className="pointer-events-none absolute bottom-1/3 left-1/3 h-96 w-96 rounded-full bg-blue-600/5 blur-[120px] animate-pulse" style={{ animationDuration: "8s" }} />
 
       {/* Ink content card — bottom-left */}
       <div className="absolute bottom-0 sm:bottom-8 left-0 w-full sm:w-[54%] xl:w-[48%] z-10">

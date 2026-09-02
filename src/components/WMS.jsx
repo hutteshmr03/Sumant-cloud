@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import wmsHeroBg from "../assets/wms-hero-bg.jpg";
+import wmsHeroBg from "../assets/wms-hero-bg.png";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const WMS_FEATURES = [
@@ -110,10 +110,10 @@ export default function WMS() {
             <img
               src={wmsHeroBg}
               alt="Warehouse Management System"
-              className="h-full w-full object-cover object-center scale-105 transition-transform duration-1000"
+              className="h-full w-full object-cover object-[center_40%] sm:object-[center_35%] scale-105 transition-transform duration-1000"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#071728]/92 via-[#0a1e34]/80 to-[#071728]/70 backdrop-blur-[2px]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,112,173,0.35),transparent_65%)]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#080d14]/90 via-[#0b141f]/75 to-[#080d14]/65 backdrop-blur-[1px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,112,173,0.12),transparent_65%)]" />
           </div>
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

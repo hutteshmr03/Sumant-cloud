@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
@@ -20,7 +20,18 @@ const COUNTRIES = [
 ];
 
 export default function Contact() {
-  const { isDark } = useTheme();
+  const { isDark, setTheme } = useTheme();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Default Contact page to dark mode
+    setTheme("dark");
+
+    return () => {
+      // Revert back to light mode when navigating away from Contact page
+      setTheme("light");
+    };
+  }, []);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -61,7 +72,7 @@ export default function Contact() {
               alt="Reach Us"
               className="h-full w-full object-cover object-center"
             />
-            <div className="absolute inset-0 bg-[#0d223a]/55 backdrop-blur-[2px]" />
+            <div className="absolute inset-0 bg-[#090e16]/65 backdrop-blur-[1px]" />
           </div>
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -128,12 +139,12 @@ export default function Contact() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="mt-8 space-y-8">
+                <form onSubmit={handleSubmit} className="mt-8 space-y-9">
                   {/* First Name & Last Name */}
                   <div className="grid gap-8 sm:grid-cols-2">
-                    <div className="group">
-                      <label htmlFor="firstName" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
-                        First name <span className="text-rose-500">*</span>
+                    <div className="group relative">
+                      <label htmlFor="firstName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                        First Name <span className="text-rose-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -143,13 +154,13 @@ export default function Contact() {
                         value={formData.firstName}
                         onChange={handleChange}
                         placeholder="John"
-                        className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] placeholder-[var(--color-text-mist-2)]/35 transition-colors focus:border-[var(--color-brand)] focus:outline-none"
+                        className="mt-2 w-full border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 text-base font-medium text-slate-900 dark:text-white placeholder-slate-400/35 dark:placeholder-slate-500/35 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
                       />
                     </div>
 
-                    <div className="group">
-                      <label htmlFor="lastName" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
-                        Last name <span className="text-rose-500">*</span>
+                    <div className="group relative">
+                      <label htmlFor="lastName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                        Last Name <span className="text-rose-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -159,16 +170,16 @@ export default function Contact() {
                         value={formData.lastName}
                         onChange={handleChange}
                         placeholder="Doe"
-                        className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] placeholder-[var(--color-text-mist-2)]/35 transition-colors focus:border-[var(--color-brand)] focus:outline-none"
+                        className="mt-2 w-full border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 text-base font-medium text-slate-900 dark:text-white placeholder-slate-400/35 dark:placeholder-slate-500/35 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
                       />
                     </div>
                   </div>
 
                   {/* Email & Phone */}
                   <div className="grid gap-8 sm:grid-cols-2">
-                    <div className="group">
-                      <label htmlFor="email" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
-                        Email address <span className="text-rose-500">*</span>
+                    <div className="group relative">
+                      <label htmlFor="email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                        Email Address <span className="text-rose-500">*</span>
                       </label>
                       <input
                         type="email"
@@ -178,12 +189,12 @@ export default function Contact() {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="john@company.com"
-                        className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] placeholder-[var(--color-text-mist-2)]/35 transition-colors focus:border-[var(--color-brand)] focus:outline-none"
+                        className="mt-2 w-full border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 text-base font-medium text-slate-900 dark:text-white placeholder-slate-400/35 dark:placeholder-slate-500/35 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
                       />
                     </div>
 
-                    <div className="group">
-                      <label htmlFor="phone" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
+                    <div className="group relative">
+                      <label htmlFor="phone" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
                         Phone Number (incl. country code)
                       </label>
                       <input
@@ -193,42 +204,49 @@ export default function Contact() {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="+1 (555) 000-0000"
-                        className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] placeholder-[var(--color-text-mist-2)]/35 transition-colors focus:border-[var(--color-brand)] focus:outline-none"
+                        className="mt-2 w-full border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 text-base font-medium text-slate-900 dark:text-white placeholder-slate-400/35 dark:placeholder-slate-500/35 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
                       />
                     </div>
                   </div>
 
                   {/* Country/Region */}
-                  <div className="group">
-                    <label htmlFor="country" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
+                  <div className="group relative">
+                    <label htmlFor="country" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
                       Country / Region <span className="text-rose-500">*</span>
                     </label>
-                    <select
-                      id="country"
-                      name="country"
-                      required
-                      value={formData.country}
-                      onChange={handleChange}
-                      className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] transition-colors focus:border-[var(--color-brand)] focus:outline-none cursor-pointer"
-                    >
-                      <option value="" className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
-                        Select your country
-                      </option>
-                      {COUNTRIES.map((c) => (
-                        <option key={c} value={c} className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
-                          {c}
+                    <div className="relative">
+                      <select
+                        id="country"
+                        name="country"
+                        required
+                        value={formData.country}
+                        onChange={handleChange}
+                        className="mt-2 w-full appearance-none border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 pr-8 text-base font-medium text-slate-900 dark:text-white transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none cursor-pointer"
+                      >
+                        <option value="" className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
+                          Select your country
                         </option>
-                      ))}
-                    </select>
+                        {COUNTRIES.map((c) => (
+                          <option key={c} value={c} className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
+                            {c}
+                          </option>
+                        ))}
+                      </select>
+                      <div className="pointer-events-none absolute right-2 bottom-3 text-slate-400">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                      </div>
+                    </div>
                   </div>
 
                   {/* How can we help you? */}
-                  <div className="group">
+                  <div className="group relative">
                     <div className="flex items-center justify-between">
-                      <label htmlFor="message" className="block text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[var(--color-brand)]">
+                      <label htmlFor="message" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
                         How can we help you? <span className="text-rose-500">*</span>
                       </label>
-                      <span className="font-mono text-[0.7rem] text-[var(--color-text-mist-2)]">
+                      <span className="font-mono text-[0.68rem] font-medium text-[var(--color-text-mist-2)]">
                         {5000 - formData.message.length} chars left
                       </span>
                     </div>
@@ -241,19 +259,19 @@ export default function Contact() {
                       value={formData.message}
                       onChange={handleChange}
                       placeholder="Describe your project, timeline, tech stack, or operational challenges..."
-                      className="mt-1.5 w-full border-b border-[var(--color-ink-line)] bg-transparent py-2.5 text-sm font-medium text-[var(--color-text-ink)] placeholder-[var(--color-text-mist-2)]/35 transition-colors focus:border-[var(--color-brand)] focus:outline-none"
+                      className="mt-2 w-full border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 text-base font-medium text-slate-900 dark:text-white placeholder-slate-400/35 dark:placeholder-slate-500/35 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none resize-y"
                     />
                   </div>
 
                   {/* Submit Button */}
-                  <div className="pt-2">
+                  <div className="pt-4">
                     <button
                       type="submit"
                       disabled={loading}
-                      className="group inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(0,112,173,0.35)] disabled:opacity-50"
+                      className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#0070ad] to-[#0284c7] px-9 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_25px_rgba(0,112,173,0.3)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(0,112,173,0.45)] hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 cursor-pointer"
                     >
                       <span>{loading ? "Submitting..." : "Submit Inquiry"}</span>
-                      <span className="text-sm transition-transform duration-300 group-hover:translate-x-1">↗</span>
+                      <span className="text-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">↗</span>
                     </button>
                   </div>
                 </form>

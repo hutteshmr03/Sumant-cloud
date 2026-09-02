@@ -4,6 +4,34 @@ import useScrollReveal from "../hooks/useScrollReveal";
 
 const PRODUCTS = [
   {
+    code: "E-dims",
+    kicker: "PRODUCT / E-DIMS",
+    headline: "Electronic Document & Information Management System",
+    description: "Centralize and safeguard enterprise records with intelligent digital archiving, role-based access control, cryptographic verification, and lifecycle workflows.",
+    href: "/e-dims",
+    theme: "purple-gradient",
+    renderVisual: () => (
+      <div className="relative w-full h-full flex items-end justify-center overflow-hidden p-4">
+        {/* E-DIMS: Floating Digital Compliance Vault */}
+        <svg viewBox="0 0 320 220" className="w-full h-full max-h-[210px] relative z-10" fill="none">
+          <g transform="translate(105, 30)">
+            <rect x="22" y="10" width="80" height="110" rx="8" fill="rgba(255, 255, 255, 0.18)" stroke="rgba(255, 255, 255, 0.35)" strokeWidth="1.5" />
+            <rect x="11" y="22" width="80" height="110" rx="8" fill="rgba(255, 255, 255, 0.28)" stroke="rgba(255, 255, 255, 0.55)" strokeWidth="1.5" />
+            <rect x="0" y="34" width="80" height="110" rx="8" fill="rgba(255, 255, 255, 0.45)" stroke="rgba(255, 255, 255, 0.9)" strokeWidth="2" />
+
+            <line x1="15" y1="54" x2="55" y2="54" stroke="#ffffff" strokeWidth="2.8" strokeLinecap="round" />
+            <line x1="15" y1="69" x2="65" y2="69" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" opacity="0.9" />
+            <line x1="15" y1="84" x2="60" y2="84" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" opacity="0.9" />
+            <line x1="15" y1="99" x2="45" y2="99" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" opacity="0.9" />
+
+            <circle cx="65" cy="120" r="14" fill="#ffffff" />
+            <path d="M59 120 L63 124 L71 116" stroke="#9333ea" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          </g>
+        </svg>
+      </div>
+    ),
+  },
+  {
     code: "CMMS",
     kicker: "PRODUCT / CMMS",
     headline: "Computerized Maintenance Management System",
@@ -75,48 +103,74 @@ const PRODUCTS = [
     ),
   },
   {
-    code: "PEM",
-    kicker: "PRODUCT / PEM",
-    headline: "Project Expense Management",
-    description: "Accurately track, control, and optimize project expenses with real-time budget adherence, automated receipt approvals, and multi-tier governance.",
-    href: "/pem",
-    theme: "light",
+    code: "LMS",
+    kicker: "PRODUCT / LMS",
+    headline: "Learning Management System",
+    description: "Empower corporate upskilling and interactive digital learning with AI-driven course pathways, skill assessments, automated certification, and compliance analytics.",
+    href: "/lms",
+    theme: "dark",
     renderVisual: () => (
       <div className="relative w-full h-full flex items-end justify-center overflow-hidden p-4">
-        {/* PEM: Project Financial Budgeting Line Art */}
-        <svg viewBox="0 0 320 220" className="w-full h-full max-h-[210px]" fill="none" stroke="currentColor">
-          <rect x="25" y="45" width="75" height="110" rx="4" stroke="#cbd5e1" strokeWidth="1.5" fill="#f8fafc" className="dark:fill-[#1e2230] dark:stroke-slate-700" />
-          <line x1="35" y1="65" x2="85" y2="65" stroke="#94a3b8" strokeWidth="1.8" />
-          <line x1="35" y1="80" x2="70" y2="80" stroke="#94a3b8" strokeWidth="1.8" />
-          <line x1="35" y1="95" x2="80" y2="95" stroke="#94a3b8" strokeWidth="1.8" />
-          <rect x="35" y="112" width="55" height="24" rx="3" stroke="#9333ea" strokeWidth="1.5" fill="#f3e8ff" className="dark:fill-[#3b0764]" />
-          <path d="M45 124 L55 124 M65 120 L75 120" stroke="#9333ea" strokeWidth="2" strokeLinecap="round" />
+        {/* LMS: Interactive Digital Courseware, Graduation Cap & Skill Graph */}
+        <svg viewBox="0 0 320 220" className="w-full h-full max-h-[210px]" fill="none">
+          <defs>
+            <linearGradient id="lmsCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#38bdf8" />
+              <stop offset="100%" stopColor="#6366f1" />
+            </linearGradient>
+            <filter id="lmsGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="4.5" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
 
-          {/* Project Finance Manager at Monitor */}
-          <g transform="translate(110, 25)" stroke="#1e293b" className="dark:stroke-slate-100" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="15" y="15" width="105" height="75" rx="4" fill="#ffffff" className="dark:fill-[#1e2230]" />
-            <path d="M67 90 L67 110 M45 110 L90 110" />
-            <path d="M30 68 L52 48 L72 58 L105 30" stroke="#9333ea" strokeWidth="2.5" />
-            <circle cx="105" cy="30" r="3.5" fill="#9333ea" />
+          {/* Background Skill Graph Connection Network */}
+          <g stroke="#334155" strokeWidth="0.8" opacity="0.6">
+            <line x1="40" y1="50" x2="120" y2="30" />
+            <line x1="120" y1="30" x2="200" y2="50" />
+            <line x1="200" y1="50" x2="280" y2="30" />
+            <line x1="70" y1="105" x2="160" y2="75" />
+            <line x1="160" y1="75" x2="250" y2="105" />
+          </g>
 
-            <circle cx="145" cy="55" r="15" />
-            <path d="M130 115 C130 88, 160 88, 160 115" />
-            <path d="M135 95 L118 110" />
+          <ellipse cx="160" cy="135" rx="105" ry="38" stroke="#38bdf8" strokeWidth="1.2" strokeDasharray="4 4" opacity="0.8" />
 
-            <g transform="translate(60, -12)" stroke="#9333ea">
-              <path d="M10 18 C5 14, 5 6, 10 2 C15 6, 15 14, 10 18 Z" fill="#f3e8ff" className="dark:fill-[#581c87]" />
-              <line x1="10" y1="-3" x2="10" y2="-7" />
-              <line x1="17" y1="1" x2="21" y2="-2" />
-              <line x1="3" y1="1" x2="-1" y2="-2" />
+          {/* Left Course Module Node */}
+          <g transform="translate(55, 95)" filter="url(#lmsGlow)">
+            <circle cx="20" cy="20" r="18" stroke="#38bdf8" strokeWidth="1.5" fill="#0f172a" />
+            <rect x="12" y="10" width="16" height="20" rx="2" stroke="#7dd3fc" strokeWidth="1.5" />
+            <polygon points="17,16 23,20 17,24" fill="#38bdf8" />
+          </g>
+
+          {/* Center 3D Graduation Cap & Digital Academy Platform */}
+          <g transform="translate(115, 60)" filter="url(#lmsGlow)">
+            {/* Base Certificate Screen */}
+            <rect x="10" y="25" width="70" height="50" rx="6" stroke="#38bdf8" strokeWidth="2" fill="#0c1322" />
+            <line x1="20" y1="42" x2="55" y2="42" stroke="#7dd3fc" strokeWidth="1.8" strokeLinecap="round" />
+            <line x1="20" y1="52" x2="48" y2="52" stroke="#7dd3fc" strokeWidth="1.8" strokeLinecap="round" />
+            <circle cx="65" cy="52" r="7" stroke="#fbbf24" strokeWidth="1.5" fill="#78350f" />
+            <path d="M63 52 L65 54 L68 50" stroke="#fef08a" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+
+            {/* Floating 3D Graduation Cap */}
+            <g transform="translate(15, -15)">
+              <polygon points="30,0 60,10 30,20 0,10" fill="url(#lmsCyan)" stroke="#bae6fd" strokeWidth="1.5" />
+              <path d="M12 14 L12 25 C12 32, 48 32, 48 25 L48 14" fill="#1e293b" stroke="#7dd3fc" strokeWidth="1.2" />
+              <line x1="45" y1="15" x2="52" y2="28" stroke="#fbbf24" strokeWidth="1.8" strokeLinecap="round" />
+              <circle cx="52" cy="28" r="2" fill="#fbbf24" />
             </g>
           </g>
 
-          {/* 3D Expense Token Block */}
-          <g transform="translate(205, 120)" stroke="#9333ea" strokeWidth="1.2">
-            <path d="M0 16 L22 6 L44 16 L22 26 Z" fill="#faf5ff" className="dark:fill-[#2e1065]" />
-            <path d="M0 16 L22 26 L22 48 L0 38 Z" fill="#f3e8ff" className="dark:fill-[#3b0764]" />
-            <path d="M22 26 L44 16 L44 38 L22 48 Z" fill="#e9d5ff" className="dark:fill-[#581c87]" />
+          {/* Right Skill Assessment & Badge Node */}
+          <g transform="translate(230, 95)" filter="url(#lmsGlow)">
+            <circle cx="20" cy="20" r="18" stroke="#818cf8" strokeWidth="1.5" fill="#0f172a" />
+            <circle cx="20" cy="20" r="10" stroke="#a5b4fc" strokeWidth="1.2" strokeDasharray="3 3" />
+            <polygon points="20,13 22,17 26,18 23,21 24,25 20,23 16,25 17,21 14,18 18,17" fill="#fbbf24" />
           </g>
+
+          {/* Ambient Sparkles */}
+          <circle cx="85" cy="55" r="2" fill="#38bdf8" filter="url(#lmsGlow)" />
+          <circle cx="240" cy="50" r="2.5" fill="#818cf8" filter="url(#lmsGlow)" />
+          <circle cx="160" cy="30" r="3" fill="#ffffff" filter="url(#lmsGlow)" />
         </svg>
       </div>
     ),
@@ -218,6 +272,53 @@ const PRODUCTS = [
     ),
   },
   {
+    code: "PEM",
+    kicker: "PRODUCT / PEM",
+    headline: "Project Expense Management",
+    description: "Accurately track, control, and optimize project expenses with real-time budget adherence, automated receipt approvals, and multi-tier governance.",
+    href: "/pem",
+    theme: "light",
+    renderVisual: () => (
+      <div className="relative w-full h-full flex items-end justify-center overflow-hidden p-4">
+        {/* PEM: Project Financial Budgeting Line Art */}
+        <svg viewBox="0 0 320 220" className="w-full h-full max-h-[210px]" fill="none" stroke="currentColor">
+          <rect x="25" y="45" width="75" height="110" rx="4" stroke="#cbd5e1" strokeWidth="1.5" fill="#f8fafc" className="dark:fill-[#1e2230] dark:stroke-slate-700" />
+          <line x1="35" y1="65" x2="85" y2="65" stroke="#94a3b8" strokeWidth="1.8" />
+          <line x1="35" y1="80" x2="70" y2="80" stroke="#94a3b8" strokeWidth="1.8" />
+          <line x1="35" y1="95" x2="80" y2="95" stroke="#94a3b8" strokeWidth="1.8" />
+          <rect x="35" y="112" width="55" height="24" rx="3" stroke="#9333ea" strokeWidth="1.5" fill="#f3e8ff" className="dark:fill-[#3b0764]" />
+          <path d="M45 124 L55 124 M65 120 L75 120" stroke="#9333ea" strokeWidth="2" strokeLinecap="round" />
+
+          {/* Project Finance Manager at Monitor */}
+          <g transform="translate(110, 25)" stroke="#1e293b" className="dark:stroke-slate-100" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="15" y="15" width="105" height="75" rx="4" fill="#ffffff" className="dark:fill-[#1e2230]" />
+            <path d="M67 90 L67 110 M45 110 L90 110" />
+            <path d="M30 68 L52 48 L72 58 L105 30" stroke="#9333ea" strokeWidth="2.5" />
+            <circle cx="105" cy="30" r="3.5" fill="#9333ea" />
+
+            <circle cx="145" cy="55" r="15" />
+            <path d="M130 115 C130 88, 160 88, 160 115" />
+            <path d="M135 95 L118 110" />
+
+            <g transform="translate(60, -12)" stroke="#9333ea">
+              <path d="M10 18 C5 14, 5 6, 10 2 C15 6, 15 14, 10 18 Z" fill="#f3e8ff" className="dark:fill-[#581c87]" />
+              <line x1="10" y1="-3" x2="10" y2="-7" />
+              <line x1="17" y1="1" x2="21" y2="-2" />
+              <line x1="3" y1="1" x2="-1" y2="-2" />
+            </g>
+          </g>
+
+          {/* 3D Expense Token Block */}
+          <g transform="translate(205, 120)" stroke="#9333ea" strokeWidth="1.2">
+            <path d="M0 16 L22 6 L44 16 L22 26 Z" fill="#faf5ff" className="dark:fill-[#2e1065]" />
+            <path d="M0 16 L22 26 L22 48 L0 38 Z" fill="#f3e8ff" className="dark:fill-[#3b0764]" />
+            <path d="M22 26 L44 16 L44 38 L22 48 Z" fill="#e9d5ff" className="dark:fill-[#581c87]" />
+          </g>
+        </svg>
+      </div>
+    ),
+  },
+  {
     code: "WMS",
     kicker: "PRODUCT / WMS",
     headline: "Warehouse Management System",
@@ -251,34 +352,6 @@ const PRODUCTS = [
             {[45, 75, 105, 135, 165, 195, 225, 255, 285].map((x, i) => (
               <line key={x} x1={x} y1={75 + (i % 3) * 18} x2={x} y2={175 - (i % 3) * 14} />
             ))}
-          </g>
-        </svg>
-      </div>
-    ),
-  },
-  {
-    code: "E-dims",
-    kicker: "PRODUCT / E-DIMS",
-    headline: "Electronic Document & Information Management System",
-    description: "Centralize and safeguard enterprise records with intelligent digital archiving, role-based access control, cryptographic verification, and lifecycle workflows.",
-    href: "/e-dims",
-    theme: "purple-gradient",
-    renderVisual: () => (
-      <div className="relative w-full h-full flex items-end justify-center overflow-hidden p-4">
-        {/* E-DIMS: Floating Digital Compliance Vault */}
-        <svg viewBox="0 0 320 220" className="w-full h-full max-h-[210px] relative z-10" fill="none">
-          <g transform="translate(105, 30)">
-            <rect x="22" y="10" width="80" height="110" rx="8" fill="rgba(255, 255, 255, 0.18)" stroke="rgba(255, 255, 255, 0.35)" strokeWidth="1.5" />
-            <rect x="11" y="22" width="80" height="110" rx="8" fill="rgba(255, 255, 255, 0.28)" stroke="rgba(255, 255, 255, 0.55)" strokeWidth="1.5" />
-            <rect x="0" y="34" width="80" height="110" rx="8" fill="rgba(255, 255, 255, 0.45)" stroke="rgba(255, 255, 255, 0.9)" strokeWidth="2" />
-
-            <line x1="15" y1="54" x2="55" y2="54" stroke="#ffffff" strokeWidth="2.8" strokeLinecap="round" />
-            <line x1="15" y1="69" x2="65" y2="69" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" opacity="0.9" />
-            <line x1="15" y1="84" x2="60" y2="84" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" opacity="0.9" />
-            <line x1="15" y1="99" x2="45" y2="99" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" opacity="0.9" />
-
-            <circle cx="65" cy="120" r="14" fill="#ffffff" />
-            <path d="M59 120 L63 124 L71 116" stroke="#9333ea" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
           </g>
         </svg>
       </div>

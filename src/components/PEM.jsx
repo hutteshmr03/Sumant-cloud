@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import pemHeroBg from "../assets/pem-hero-bg.jpg";
+import pemHeroBg from "../assets/pem-hero-bg.webp";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const PEM_FEATURES = [

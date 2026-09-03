@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import motionStreaksBg from "../assets/motion-light-streaks.jpg";
+import motionStreaksBg from "../assets/motion-light-streaks.webp";
 
 function AnimatedCounter({ end, duration = 2200, delay = 0, prefix = "", suffix = "", padZero = false }) {
   const [count, setCount] = useState(0);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import saasHeroBg from "../assets/saas-hero-bg.jpg";
+import saasHeroBg from "../assets/saas-hero-bg.webp";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const SERVICES = [

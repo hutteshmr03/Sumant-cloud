@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import cmsHeroBg from "../assets/cms-hero-bg.jpg";
+import cmsHeroBg from "../assets/cms-hero-bg.webp";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const CMS_FEATURES = [

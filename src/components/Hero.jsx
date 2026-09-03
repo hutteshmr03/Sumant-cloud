@@ -1,5 +1,5 @@
 import { useTheme } from "../context/ThemeContext";
-import heroSoftwareImage from "../assets/software-hero-bg.jpg";
+import heroSoftwareImage from "../assets/software-hero-bg.webp";
 
 const HERO_IMAGE = heroSoftwareImage;
 
@@ -8,11 +8,16 @@ export default function Hero() {
 
   return (
     <section id="top" className="relative w-full overflow-hidden" style={{ height: "100vh", minHeight: "620px" }}>
-      {/* Full-bleed background image with smooth ambient scale */}
-      <div
-        className="absolute inset-0 bg-cover bg-center md:bg-[center_top_20%] transition-transform duration-1000 scale-100 animate-ken-burns"
-        style={{ backgroundImage: `url(${HERO_IMAGE})` }}
-      />
+      {/* Full-bleed high-priority background image with smooth ambient scale */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <img
+          src={HERO_IMAGE}
+          alt="Sumant Cloud Innovation"
+          fetchPriority="high"
+          decoding="async"
+          className="w-full h-full object-cover object-center md:object-[center_top_20%] scale-100 animate-ken-burns"
+        />
+      </div>
 
       {/* Balanced natural gradient scrim for clarity and depth */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#020b18]/70 via-transparent to-black/15 pointer-events-none" />

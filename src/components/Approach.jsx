@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import motionStreaksBg from "../assets/motion-light-streaks.jpg";
+import motionStreaksBg from "../assets/motion-light-streaks.webp";
 import { useTheme } from "../context/ThemeContext";
 
 const PROCESS_STEPS = [

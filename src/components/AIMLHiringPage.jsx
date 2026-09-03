@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import aimlHiringHeroBg from "../assets/aiml-hiring-hero-bg.jpg";
+import aimlHiringHeroBg from "../assets/aiml-hiring-hero-bg.webp";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const CORE_SERVICES = [

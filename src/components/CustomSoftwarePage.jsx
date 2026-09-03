@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import customSoftwareHeroBg from "../assets/custom-software-hero-bg.jpg";
+import customSoftwareHeroBg from "../assets/custom-software-hero-bg.webp";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const SERVICES = [

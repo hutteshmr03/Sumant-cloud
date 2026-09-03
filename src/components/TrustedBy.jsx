@@ -1,6 +1,6 @@
 import useScrollReveal from "../hooks/useScrollReveal";
-import ciplaLogo from "../assets/cipla.png";
-import globalToLocalLogo from "../assets/global-to-local.png";
+import ciplaLogo from "../assets/cipla.webp";
+import globalToLocalLogo from "../assets/global-to-local.webp";
 
 const TRUSTED_COMPANIES = [
   {

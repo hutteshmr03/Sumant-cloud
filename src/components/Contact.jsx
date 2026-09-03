@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import contactHeroBg from "../assets/contact-hero-bg.jpg";
+import contactHeroBg from "../assets/contact-hero-bg.webp";
 
 const COUNTRIES = [
   "India",

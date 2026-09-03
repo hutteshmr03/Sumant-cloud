@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import edimsHeroBg from "../assets/edims-hero-bg.jpg";
+import edimsHeroBg from "../assets/edims-hero-bg.webp";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const EDIMS_KEY_FEATURES = [

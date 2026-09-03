@@ -5,7 +5,7 @@ const INDUSTRIES = [
   {
     name: "Pharmaceutical",
     desc: "Regulatory-compliant DMS, validation workflows, batch records, and quality audit trails.",
-    bgImage: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=900&q=85",
+    bgImage: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=600&q=75&fm=webp",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M10.5 20.5l10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z" />
@@ -16,7 +16,7 @@ const INDUSTRIES = [
   {
     name: "Healthcare",
     desc: "Clinic management systems, patient records, appointment scheduling, and EHR integration.",
-    bgImage: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=900&q=85",
+    bgImage: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600&q=75&fm=webp",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
@@ -26,7 +26,7 @@ const INDUSTRIES = [
   {
     name: "Construction",
     desc: "Project cost tracking, vendor management, equipment maintenance, and procurement workflows.",
-    bgImage: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=900&q=85",
+    bgImage: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=75&fm=webp",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M2 20h20" />
@@ -40,7 +40,7 @@ const INDUSTRIES = [
   {
     name: "Hospitality",
     desc: "Operations management, guest services scheduling, expense tracking, and facility maintenance.",
-    bgImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=900&q=85",
+    bgImage: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=75&fm=webp",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z" />
@@ -52,7 +52,7 @@ const INDUSTRIES = [
   {
     name: "Manufacturing",
     desc: "Plant asset CMMS, warehouse management (WMS), automated maintenance, and supply chain control.",
-    bgImage: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=900&q=85",
+    bgImage: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=75&fm=webp",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M6 20h12" />
@@ -65,7 +65,7 @@ const INDUSTRIES = [
   {
     name: "Education",
     desc: "Enterprise LMS, compliance training portals, student assessment engines, and competency tracking.",
-    bgImage: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=900&q=85",
+    bgImage: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=75&fm=webp",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
@@ -76,7 +76,7 @@ const INDUSTRIES = [
   {
     name: "Entertainment",
     desc: "Digital media management, event operations, licensing workflows, and content scheduling portals.",
-    bgImage: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=900&q=85",
+    bgImage: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=75&fm=webp",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
@@ -93,7 +93,7 @@ const INDUSTRIES = [
   {
     name: "E-commerce",
     desc: "Order processing, inventory sync, warehouse logistics, multi-channel payment, and billing automation.",
-    bgImage: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=900&q=85",
+    bgImage: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=75&fm=webp",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <circle cx="8" cy="21" r="1" />
@@ -105,7 +105,7 @@ const INDUSTRIES = [
   {
     name: "Human Resources",
     desc: "Talent training systems, employee onboarding, competency matrices, and performance management.",
-    bgImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=900&q=85",
+    bgImage: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=75&fm=webp",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
@@ -161,6 +161,7 @@ export default function Industries() {
                   src={ind.bgImage}
                   alt={ind.name}
                   loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover object-center filter contrast-[1.06] brightness-[0.88] opacity-85 group-hover:opacity-100 group-hover:scale-108 transition-all duration-700"
                 />
                 {/* Cinematic Bottom Dark Scrim for High-Contrast Readable Text */}

@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import cmmsHeroBg from "../assets/cmms-hero-bg.jpg";
-import cmmsCtaBg from "../assets/cmms-cta-bg.png";
+import cmmsHeroBg from "../assets/cmms-hero-bg.webp";
+import cmmsCtaBg from "../assets/cmms-cta-bg.webp";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const KEY_FEATURES = [

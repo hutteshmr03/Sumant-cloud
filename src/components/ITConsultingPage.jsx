@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import itConsultingHeroBg from "../assets/it-consulting-hero-bg.jpg";
+import itConsultingHeroBg from "../assets/it-consulting-hero-bg.webp";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const CONSULTING_SERVICES = [

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import wmsHeroBg from "../assets/wms-hero-bg.png";
+import wmsHeroBg from "../assets/wms-hero-bg.webp";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const WMS_FEATURES = [

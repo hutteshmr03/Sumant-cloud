@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
 import useScrollReveal from "../hooks/useScrollReveal";
-import lmsHeroBg from "../assets/software-hero-bg.jpg";
+import lmsHeroBg from "../assets/software-hero-bg.webp";
 
 const LMS_KEY_FEATURES = [
   {

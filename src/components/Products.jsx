@@ -4,10 +4,10 @@ import useScrollReveal from "../hooks/useScrollReveal";
 
 const PRODUCTS = [
   {
-    code: "E-dims",
+    code: "E-DIMS",
     kicker: "PRODUCT / E-DIMS",
-    headline: "Electronic Document & Information Management System",
-    description: "Centralize and safeguard enterprise records with intelligent digital archiving, role-based access control, cryptographic verification, and lifecycle workflows.",
+    headline: "Document Inventory Management System",
+    description: "Streamline and control pharmaceutical documentation with centralized tracking, SOP & BMR/BPR workflows, complete audit trails, and instant retrieval.",
     href: "/e-dims",
     theme: "purple-gradient",
     renderVisual: () => (
@@ -106,7 +106,7 @@ const PRODUCTS = [
     code: "LMS",
     kicker: "PRODUCT / LMS",
     headline: "Learning Management System",
-    description: "Empower corporate upskilling and interactive digital learning with AI-driven course pathways, skill assessments, automated certification, and compliance analytics.",
+    description: "Empower your pharmaceutical workforce with centralized employee training, SOP compliance, assessments, progress tracking, and complete audit readiness.",
     href: "/lms",
     theme: "dark",
     renderVisual: () => (

@@ -18,7 +18,7 @@ const NAV = [
     label: "Product",
     href: "/#products",
     items: [
-      { label: "E-dims", href: "/e-dims" },
+      { label: "E-DIMS", href: "/e-dims" },
       { label: "CMMS", href: "/cmms" },
       { label: "LMS", href: "/lms" },
       { label: "EP2P", href: "/ep2p" },

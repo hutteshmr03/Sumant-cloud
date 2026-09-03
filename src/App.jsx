@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import TrustedBy from "./components/TrustedBy";
 import Products from "./components/Products";
+import Industries from "./components/Industries";
 import SolutionsGrid from "./components/SolutionsGrid";
 import Approach from "./components/Approach";
 import AboutPage from "./components/AboutPage";
@@ -96,6 +97,7 @@ export default function App() {
         <TrustedBy />
         <SolutionsGrid />
         <Products />
+        <Industries />
         <CTA />
       </main>
       <Footer />

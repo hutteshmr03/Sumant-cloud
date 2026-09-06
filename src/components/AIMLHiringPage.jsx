@@ -107,13 +107,13 @@ const ENGAGEMENT_MODELS = [
 const PRICING = [
   {
     role: "Node.js / React Devs",
-    rate: "€250–€300",
+    rate: "€150–€250",
     unit: "day",
     desc: "Senior fullstack & frontend specialists for modern web applications.",
   },
   {
     role: "PHP Devs",
-    rate: "€200–€230",
+    rate: "€90–€150",
     unit: "day",
     desc: "Experienced engineers for custom portals, CMS, and backend integrations.",
   },

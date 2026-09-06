@@ -19,6 +19,89 @@ const COUNTRIES = [
   "Other",
 ];
 
+function SuccessModal({ isOpen, onClose, name }) {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      const handleKeyDown = (e) => {
+        if (e.key === "Escape") onClose();
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = "auto";
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    } else {
+      document.body.style.overflow = "auto";
+    }
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+      role="dialog"
+      aria-modal="true"
+    >
+      {/* Frosted Glass Backdrop */}
+      <div
+        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 animate-fadeIn"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
+      {/* Premium Minimal Pop-up Card */}
+      <div className="relative w-full max-w-[420px] overflow-hidden rounded-3xl border border-white/10 bg-[#0c1322] p-7 sm:p-9 text-center shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] backdrop-blur-2xl transition-all duration-300 animate-modalPop z-10">
+        {/* Subtle Ambient Radial Glow */}
+        <div className="pointer-events-none absolute -top-20 -right-20 h-48 w-48 rounded-full bg-sky-500/15 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-20 -left-20 h-48 w-48 rounded-full bg-emerald-500/10 blur-3xl" />
+
+        {/* Close Button (✖) */}
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-white/10 hover:text-white transition-all cursor-pointer"
+          aria-label="Close modal"
+        >
+          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18" />
+            <line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+
+        {/* Refined Checkmark Icon */}
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.15)]">
+          <svg viewBox="0 0 24 24" className="h-7 w-7 animate-checkmark" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+
+        {/* Headline */}
+        <h3 className="mt-5 font-display text-xl sm:text-[1.35rem] font-bold tracking-tight text-white leading-snug">
+          Our team will get in touch with you <span className="text-sky-400">within 24 hours</span>.
+        </h3>
+
+        {/* Subtext */}
+        <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-slate-300">
+          Thank you{name ? `, ${name}` : ""}! We have received your inquiry and our team will review your requirements promptly.
+        </p>
+
+        {/* Single Action Button */}
+        <div className="mt-7">
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full rounded-full bg-gradient-to-r from-[#0070ad] to-sky-600 py-3 px-6 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-[0_4px_16px_rgba(0,112,173,0.3)] transition-all duration-300 hover:bg-sky-500 hover:shadow-[0_8px_24px_rgba(0,112,173,0.45)] hover:-translate-y-0.5 active:scale-98 cursor-pointer"
+          >
+            Okay, Got It
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Contact() {
   const { isDark, setTheme } = useTheme();
 
@@ -32,6 +115,7 @@ export default function Contact() {
       setTheme("light");
     };
   }, []);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -40,7 +124,8 @@ export default function Contact() {
     country: "",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [submittedName, setSubmittedName] = useState("");
   const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
@@ -56,8 +141,21 @@ export default function Contact() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-      setSubmitted(true);
+      setSubmittedName(formData.firstName ? `${formData.firstName} ${formData.lastName}`.trim() : "");
+      setShowModal(true);
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        country: "",
+        message: "",
+      });
     }, 600);
+  }
+
+  function handleCloseModal() {
+    setShowModal(false);
   }
 
   return (
@@ -107,175 +205,148 @@ export default function Contact() {
                 </p>
               </div>
 
-              {submitted ? (
-                <div className="mt-8 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-8 text-center">
-                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/20 text-emerald-500 shadow-inner">
-                    <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <h3 className="mt-4 font-display text-xl font-bold text-[var(--color-text-ink)]">
-                    Thank you! Your request has been received.
-                  </h3>
-                  <p className="mt-2 text-sm text-[var(--color-text-mist-2)] max-w-md mx-auto">
-                    Our engineering leads will review your requirements and reach out within 24 hours.
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSubmitted(false);
-                      setFormData({
-                        firstName: "",
-                        lastName: "",
-                        email: "",
-                        phone: "",
-                        country: "",
-                        message: "",
-                      });
-                    }}
-                    className="mt-6 inline-flex rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] px-6 py-2.5 text-xs font-semibold uppercase tracking-wider text-[var(--color-text-ink)] transition-colors hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
-                  >
-                    Submit Another Request
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="mt-8 space-y-9">
-                  {/* First Name & Last Name */}
-                  <div className="grid gap-8 sm:grid-cols-2">
-                    <div className="group relative">
-                      <label htmlFor="firstName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                        First Name <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="firstName"
-                        name="firstName"
-                        required
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        placeholder="John"
-                        className="mt-2 w-full border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 text-base font-medium text-slate-900 dark:text-white placeholder-slate-400/35 dark:placeholder-slate-500/35 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                      />
-                    </div>
-
-                    <div className="group relative">
-                      <label htmlFor="lastName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                        Last Name <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="lastName"
-                        name="lastName"
-                        required
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        placeholder="Doe"
-                        className="mt-2 w-full border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 text-base font-medium text-slate-900 dark:text-white placeholder-slate-400/35 dark:placeholder-slate-500/35 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Email & Phone */}
-                  <div className="grid gap-8 sm:grid-cols-2">
-                    <div className="group relative">
-                      <label htmlFor="email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                        Email Address <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="john@company.com"
-                        className="mt-2 w-full border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 text-base font-medium text-slate-900 dark:text-white placeholder-slate-400/35 dark:placeholder-slate-500/35 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                      />
-                    </div>
-
-                    <div className="group relative">
-                      <label htmlFor="phone" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                        Phone Number (incl. country code)
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        placeholder="+1 (555) 000-0000"
-                        className="mt-2 w-full border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 text-base font-medium text-slate-900 dark:text-white placeholder-slate-400/35 dark:placeholder-slate-500/35 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Country/Region */}
+              <form onSubmit={handleSubmit} className="mt-8 space-y-9">
+                {/* First Name & Last Name */}
+                <div className="grid gap-8 sm:grid-cols-2">
                   <div className="group relative">
-                    <label htmlFor="country" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                      Country / Region <span className="text-rose-500">*</span>
+                    <label htmlFor="firstName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                      First Name <span className="text-rose-500">*</span>
                     </label>
-                    <div className="relative">
-                      <select
-                        id="country"
-                        name="country"
-                        required
-                        value={formData.country}
-                        onChange={handleChange}
-                        className="mt-2 w-full appearance-none border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 pr-8 text-base font-medium text-slate-900 dark:text-white transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none cursor-pointer"
-                      >
-                        <option value="" className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
-                          Select your country
-                        </option>
-                        {COUNTRIES.map((c) => (
-                          <option key={c} value={c} className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
-                            {c}
-                          </option>
-                        ))}
-                      </select>
-                      <div className="pointer-events-none absolute right-2 bottom-3 text-slate-400">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* How can we help you? */}
-                  <div className="group relative">
-                    <div className="flex items-center justify-between">
-                      <label htmlFor="message" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                        How can we help you? <span className="text-rose-500">*</span>
-                      </label>
-                      <span className="font-mono text-[0.68rem] font-medium text-[var(--color-text-mist-2)]">
-                        {5000 - formData.message.length} chars left
-                      </span>
-                    </div>
-                    <textarea
-                      id="message"
-                      name="message"
+                    <input
+                      type="text"
+                      id="firstName"
+                      name="firstName"
                       required
-                      maxLength={5000}
-                      rows={4}
-                      value={formData.message}
+                      value={formData.firstName}
                       onChange={handleChange}
-                      placeholder="Describe your project, timeline, tech stack, or operational challenges..."
-                      className="mt-2 w-full border-b-2 border-slate-200 dark:border-white/15 bg-transparent py-2.5 text-base font-medium text-slate-900 dark:text-white placeholder-slate-400/35 dark:placeholder-slate-500/35 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none resize-y"
+                      placeholder="John"
+                      style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                      className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
                     />
                   </div>
 
-                  {/* Submit Button */}
-                  <div className="pt-4">
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#0070ad] to-[#0284c7] px-9 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_25px_rgba(0,112,173,0.3)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(0,112,173,0.45)] hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 cursor-pointer"
-                    >
-                      <span>{loading ? "Submitting..." : "Submit Inquiry"}</span>
-                      <span className="text-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">↗</span>
-                    </button>
+                  <div className="group relative">
+                    <label htmlFor="lastName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                      Last Name <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="lastName"
+                      name="lastName"
+                      required
+                      value={formData.lastName}
+                      onChange={handleChange}
+                      placeholder="Doe"
+                      style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                      className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                    />
                   </div>
-                </form>
-              )}
+                </div>
+
+                {/* Email & Phone */}
+                <div className="grid gap-8 sm:grid-cols-2">
+                  <div className="group relative">
+                    <label htmlFor="email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                      Email Address <span className="text-rose-500">*</span>
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      required
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="john@company.com"
+                      style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                      className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                    />
+                  </div>
+
+                  <div className="group relative">
+                    <label htmlFor="phone" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                      Phone Number (incl. country code)
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="+1 (555) 000-0000"
+                      style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                      className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Country/Region */}
+                <div className="group relative">
+                  <label htmlFor="country" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                    Country / Region <span className="text-rose-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="country"
+                      name="country"
+                      required
+                      value={formData.country}
+                      onChange={handleChange}
+                      style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                      className="mt-2 w-full appearance-none border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 pr-8 text-base font-medium transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none cursor-pointer"
+                    >
+                      <option value="" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                        Select your country
+                      </option>
+                      {COUNTRIES.map((c) => (
+                        <option key={c} value={c} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
+                          {c}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="pointer-events-none absolute right-2 bottom-3 text-slate-400">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+
+                {/* How can we help you? */}
+                <div className="group relative">
+                  <div className="flex items-center justify-between">
+                    <label htmlFor="message" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                      How can we help you? <span className="text-rose-500">*</span>
+                    </label>
+                    <span className="font-mono text-[0.68rem] font-medium text-[var(--color-text-mist-2)]">
+                      {5000 - formData.message.length} chars left
+                    </span>
+                  </div>
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    maxLength={5000}
+                    rows={4}
+                    value={formData.message}
+                    onChange={handleChange}
+                    style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                    placeholder="Describe your project, timeline, tech stack, or operational challenges..."
+                    className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none resize-y"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <div className="pt-4">
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#0070ad] to-[#0284c7] px-9 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_25px_rgba(0,112,173,0.3)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(0,112,173,0.45)] hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 cursor-pointer"
+                  >
+                    <span>{loading ? "Submitting..." : "Submit Inquiry"}</span>
+                    <span className="text-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">↗</span>
+                  </button>
+                </div>
+              </form>
             </div>
 
             {/* Right: Direct Reach & Location (Clean, Editorial, Completely Box-Free) */}
@@ -352,6 +423,7 @@ export default function Contact() {
         </section>
       </main>
       <Footer />
+      <SuccessModal isOpen={showModal} onClose={handleCloseModal} name={submittedName} />
     </div>
   );
 }

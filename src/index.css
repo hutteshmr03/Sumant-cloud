@@ -1306,3 +1306,53 @@ img, svg { max-width: 100%; }
   #services .service-card-media { height: 160px; }
   footer > div:first-child { grid-template-columns: 1fr; }
 }
+
+/* Modal Popup & Inquiry Submission Animations */
+@keyframes modalPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes checkmarkStroke {
+  0% {
+    stroke-dashoffset: 48;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-modalPop {
+  animation: modalPop 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-checkmark {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: checkmarkStroke 0.65s cubic-bezier(0.65, 0, 0.45, 1) 0.15s forwards;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out forwards;
+}
+

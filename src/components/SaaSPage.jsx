@@ -51,54 +51,51 @@ const SERVICES = [
   },
 ];
 
-const PRICING_PLANS = [
+const SAAS_PRODUCTS = [
   {
-    name: "Starter",
-    monthly: 799,
-    yearly: 7990,
-    description: "For early-stage SaaS launches and MVPs.",
+    id: "e-dims",
+    name: "E-DIMS",
+    fullName: "Document Inventory Management System",
+    category: "Pharma & Life Sciences",
+    tagline: "Streamline & Control Pharmaceutical Documentation",
+    description:
+      "A centralized platform designed for pharmaceutical organizations to manage, track, store, and retrieve critical quality records and master dossiers with complete audit readiness.",
     features: [
-      "Product discovery & roadmap",
-      "MVP feature build",
-      "Core integrations & billing setup",
-      "Basic user analytics",
+      "Centralized Document Repository",
+      "Document Inventory & Location Tracking",
+      "Version & Revision Lifecycle Control",
+      "Review & Approval Workflows with Audit Trails",
     ],
-    featured: false,
+    buttonText: "Explore E-DIMS Platform",
+    href: "/e-dims",
+    accentGlow: "from-emerald-500/20 via-sky-500/10 to-transparent",
   },
   {
-    name: "Growth",
-    monthly: 1499,
-    yearly: 14990,
-    description: "For scaling teams that need performance and reliability.",
+    id: "cmms",
+    name: "CMMS",
+    fullName: "Computerized Maintenance Management System",
+    category: "Industrial & Manufacturing",
+    tagline: "Streamline Maintenance & Asset Management",
+    description:
+      "A digital platform that helps businesses plan, track, and optimize maintenance operations, asset tracking, and spare parts inventory for maximum equipment uptime.",
     features: [
-      "Advanced multi-tenant architecture",
-      "Custom dashboards & analytics",
-      "Subscription & payment engine",
-      "Cloud deployment & scaling optimization",
+      "Automated Work Order Management",
+      "Asset Lifecycle & Equipment Tracking",
+      "Preventive & Predictive Maintenance",
+      "Spare Parts Inventory & MTBF/MTTR Analytics",
     ],
-    featured: true,
-  },
-  {
-    name: "Scale",
-    monthly: 2499,
-    yearly: 24990,
-    description: "For mature SaaS products requiring enterprise-grade delivery.",
-    features: [
-      "Enterprise multi-tenant platform",
-      "Automated business workflows",
-      "Security, compliance & SLA guarantees",
-      "Priority 24/7 dedicated support",
-    ],
-    featured: false,
+    buttonText: "Explore CMMS Platform",
+    href: "/cmms",
+    accentGlow: "from-sky-500/20 via-blue-600/10 to-transparent",
   },
 ];
 
 export default function SaaSPage() {
   const { isDark } = useTheme();
-  const [billing, setBilling] = useState("month");
   const [heroVisible, setHeroVisible] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const timer = setTimeout(() => setHeroVisible(true), 80);
     return () => clearTimeout(timer);
   }, []);
@@ -107,7 +104,7 @@ export default function SaaSPage() {
     <div className={isDark ? "dark" : "light"}>
       <Navbar forceSolid />
       <main className="bg-[var(--color-foam)] text-[var(--color-text-ink)] overflow-hidden">
-        {/* ── Hero Section with Staggered Reveal ── */}
+        {/* ── Hero Section ── */}
         <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28 lg:pt-44 lg:pb-32 text-white">
           <div className="absolute inset-0 z-0">
             <img
@@ -196,7 +193,7 @@ export default function SaaSPage() {
           </div>
         </section>
 
-        {/* ── Our SaaS Services ── */}
+        {/* ── Our SaaS Services (The 4 Cards) ── */}
         <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
           <SectionHeader
             badge="End-to-End Capabilities"
@@ -234,111 +231,93 @@ export default function SaaSPage() {
           </div>
         </section>
 
-        {/* ── Why Choose & Pricing Section ── */}
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between mb-12">
-            <div className="max-w-2xl">
-              <span className="inline-flex items-center rounded-full border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/5 px-3.5 py-1 text-xs font-bold uppercase tracking-[0.18em] text-[var(--color-brand)]">
-                Why Choose Our SaaS Development Services?
-              </span>
-              <h2 className="mt-4 font-display text-xl sm:text-2xl font-semibold tracking-[-0.03em] text-[var(--color-text-ink)] leading-relaxed">
-                We combine product thinking, modern technology, and scalable architecture to help you build SaaS products that are ready for real-world customers and long-term growth.
-              </h2>
-            </div>
+        {/* ── Flagship SaaS Products (E-DIMS & CMMS Showcase) ── */}
+        <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
+          <SectionHeader
+            badge="Our SaaS Platforms"
+            title="Flagship SaaS Products: E-DIMS & CMMS"
+            subtitle="Ready-to-deploy, scalable SaaS products engineered to solve complex operational and regulatory challenges."
+          />
 
-            <div className="inline-flex rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] p-1.5 shrink-0 shadow-sm">
-              <button
-                type="button"
-                onClick={() => setBilling("month")}
-                className={`rounded-full px-5 py-2 text-xs font-bold transition-all duration-300 ${
-                  billing === "month"
-                    ? "bg-[var(--color-brand)] text-white shadow-md"
-                    : "text-[var(--color-text-mist-2)] hover:text-[var(--color-text-ink)]"
-                }`}
+          <div className="mt-14 grid lg:grid-cols-2 gap-8">
+            {SAAS_PRODUCTS.map((prod) => (
+              <div
+                key={prod.id}
+                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-7 sm:p-9 lg:p-10 shadow-[0_10px_36px_rgba(0,0,0,0.05)] transition-all duration-500 hover:border-[var(--color-brand)]/60 hover:shadow-[0_20px_50px_rgba(0,112,173,0.14)] hover:-translate-y-1"
               >
-                Monthly
-              </button>
-              <button
-                type="button"
-                onClick={() => setBilling("year")}
-                className={`rounded-full px-5 py-2 text-xs font-bold transition-all duration-300 ${
-                  billing === "year"
-                    ? "bg-[var(--color-brand)] text-white shadow-md"
-                    : "text-[var(--color-text-mist-2)] hover:text-[var(--color-text-ink)]"
-                }`}
-              >
-                Yearly (-15%)
-              </button>
-            </div>
-          </div>
+                {/* Ambient Radial Accent Glow */}
+                <div className={`pointer-events-none absolute -top-32 -right-32 h-80 w-80 rounded-full bg-gradient-to-br ${prod.accentGlow} blur-3xl opacity-60`} />
 
-          <div className="grid gap-6 lg:grid-cols-3">
-            {PRICING_PLANS.map((plan) => {
-              const displayPrice = billing === "month" ? `$${plan.monthly}` : `$${plan.yearly}`;
-
-              return (
-                <div
-                  key={plan.name}
-                  className={`group relative flex flex-col justify-between rounded-3xl border p-7 sm:p-9 transition-all duration-500 hover:-translate-y-2 ${
-                    plan.featured
-                      ? "border-[var(--color-brand)] bg-[var(--color-foam-panel)] shadow-[0_20px_45px_rgba(0,112,173,0.15)] ring-1 ring-[var(--color-brand)]/40"
-                      : "border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] shadow-[0_8px_24px_rgba(0,0,0,0.03)] hover:border-[var(--color-brand)]/50 hover:shadow-xl"
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between">
-                      <h3 className="font-display text-xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)]">
-                        {plan.name}
-                      </h3>
-                      {plan.featured && (
-                        <span className="rounded-full bg-[var(--color-brand)] px-3 py-1 text-[0.65rem] font-bold uppercase tracking-wider text-white shadow-sm">
-                          Most Popular
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[var(--color-text-mist-2)]">{plan.description}</p>
-
-                    <div className="mt-6 flex items-baseline gap-1.5">
-                      <span className="font-display text-3xl sm:text-4xl font-bold tracking-[-0.04em] text-[var(--color-text-ink)]">
-                        {displayPrice}
-                      </span>
-                      <span className="text-xs font-semibold text-[var(--color-text-mist-2)]">
-                        {billing === "month" ? "/ month" : "/ year"}
-                      </span>
-                    </div>
-
-                    <ul className="mt-6 space-y-3 border-t border-[var(--color-ink-line)]/50 pt-5">
-                      {plan.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-3 text-xs sm:text-sm text-[var(--color-text-ink)]">
-                          <span className="mt-0.5 flex h-4.5 w-4.5 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand)]/10 text-[var(--color-brand)]">
-                            <svg viewBox="0 0 12 12" className="h-2.5 w-2.5" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                              <polyline points="2.5 6 4.5 8.5 9.5 3.5" />
-                            </svg>
-                          </span>
-                          <span className="leading-snug text-[var(--color-text-mist-2)]">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
+                {/* Top Section */}
+                <div className="relative z-10">
+                  {/* Top Header */}
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <span className="font-display text-2xl sm:text-3xl font-extrabold text-[var(--color-brand)] tracking-tight">
+                      {prod.name}
+                    </span>
+                    <span className="inline-flex items-center rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-3 py-1 text-[0.68rem] font-bold uppercase tracking-wider text-[var(--color-text-mist-2)]">
+                      {prod.category}
+                    </span>
                   </div>
 
+                  {/* Full System Name & Tagline */}
+                  <div>
+                    <h3 className="mt-4 font-display text-lg sm:text-xl font-bold tracking-tight text-[var(--color-text-ink)] leading-snug">
+                      {prod.fullName}
+                    </h3>
+                    <p className="mt-1 text-xs sm:text-sm font-semibold text-[var(--color-brand)]">
+                      {prod.tagline}
+                    </p>
+                  </div>
+
+                  {/* Description */}
+                  <p className="mt-3 text-xs sm:text-sm leading-relaxed text-[var(--color-text-mist-2)]">
+                    {prod.description}
+                  </p>
+
+                  {/* Key Highlights Checklist */}
+                  <div className="mt-6 border-t border-[var(--color-ink-line)]/50 pt-5">
+                    <p className="text-[0.7rem] font-bold uppercase tracking-[0.16em] text-[var(--color-brand)] mb-3">
+                      Core Features
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-2.5">
+                      {prod.features.map((feat) => (
+                        <div key={feat} className="flex items-start gap-2">
+                          <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-500 text-[0.65rem] font-bold">
+                            ✓
+                          </span>
+                          <span className="text-xs font-medium text-[var(--color-text-ink)] leading-snug">
+                            {feat}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Action Buttons */}
+                <div className="mt-8 pt-6 border-t border-[var(--color-ink-line)]/50 flex flex-wrap items-center gap-3 relative z-10">
                   <a
-                    href="/contact/"
-                    className={`mt-8 inline-flex w-full items-center justify-center rounded-full px-4 py-3.5 text-xs font-bold uppercase tracking-[0.14em] transition-all duration-300 ${
-                      plan.featured
-                        ? "bg-[var(--color-brand)] text-white shadow-md hover:bg-sky-500 hover:shadow-lg hover:-translate-y-0.5"
-                        : "border border-[var(--color-ink-line)] bg-[var(--color-foam)] text-[var(--color-text-ink)] hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] hover:-translate-y-0.5"
-                    }`}
+                    href={prod.href}
+                    className="inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-[var(--color-brand)] px-6 py-3 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-[0_4px_16px_rgba(0,112,173,0.3)] transition-all duration-300 hover:bg-sky-500 hover:shadow-[0_8px_24px_rgba(0,112,173,0.4)] hover:-translate-y-0.5"
                   >
-                    {plan.featured ? "Get Started" : "Choose Plan"}
+                    <span>{prod.buttonText}</span>
+                    <span className="text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
+                  </a>
+
+                  <a
+                    href="/contact"
+                    className="inline-flex items-center justify-center rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-5 py-3 text-xs font-bold uppercase tracking-[0.12em] text-[var(--color-text-ink)] transition-all duration-300 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)]"
+                  >
+                    Request Demo
                   </a>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </section>
 
-        {/* ── CTA Section ── */}
+        {/* ── Ready to Deploy CTA ── */}
         <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
           <div className="relative overflow-hidden rounded-3xl sm:rounded-[36px] border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-8 sm:p-14 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.04)] text-center backdrop-blur-md">
             <div className="pointer-events-none absolute -top-24 -left-24 w-80 h-80 rounded-full bg-[var(--color-brand)]/10 blur-3xl" />
@@ -401,3 +380,4 @@ function SectionHeader({ badge, title, subtitle }) {
     </div>
   );
 }
+

@@ -19,101 +19,11 @@ const COUNTRIES = [
   "Other",
 ];
 
-function SuccessModal({ isOpen, onClose, name }) {
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      const handleKeyDown = (e) => {
-        if (e.key === "Escape") onClose();
-      };
-      window.addEventListener("keydown", handleKeyDown);
-      return () => {
-        document.body.style.overflow = "auto";
-        window.removeEventListener("keydown", handleKeyDown);
-      };
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [isOpen, onClose]);
-
-  if (!isOpen) return null;
-
-  return (
-    <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
-      role="dialog"
-      aria-modal="true"
-    >
-      {/* Frosted Glass Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm transition-opacity duration-300 animate-fadeIn"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      {/* Premium Minimal Pop-up Card */}
-      <div className="relative w-full max-w-[420px] overflow-hidden rounded-3xl border border-white/10 bg-[#0c1322] p-7 sm:p-9 text-center shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] backdrop-blur-2xl transition-all duration-300 animate-modalPop z-10">
-        {/* Subtle Ambient Radial Glow */}
-        <div className="pointer-events-none absolute -top-20 -right-20 h-48 w-48 rounded-full bg-sky-500/15 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-20 -left-20 h-48 w-48 rounded-full bg-emerald-500/10 blur-3xl" />
-
-        {/* Close Button (✖) */}
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-white/10 hover:text-white transition-all cursor-pointer"
-          aria-label="Close modal"
-        >
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
-        </button>
-
-        {/* Refined Checkmark Icon */}
-        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.15)]">
-          <svg viewBox="0 0 24 24" className="h-7 w-7 animate-checkmark" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-        </div>
-
-        {/* Headline */}
-        <h3 className="mt-5 font-display text-xl sm:text-[1.35rem] font-bold tracking-tight text-white leading-snug">
-          Our team will get in touch with you <span className="text-sky-400">within 24 hours</span>.
-        </h3>
-
-        {/* Subtext */}
-        <p className="mt-2.5 text-xs sm:text-sm leading-relaxed text-slate-300">
-          Thank you{name ? `, ${name}` : ""}! We have received your inquiry and our team will review your requirements promptly.
-        </p>
-
-        {/* Single Action Button */}
-        <div className="mt-7">
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full rounded-full bg-gradient-to-r from-[#0070ad] to-sky-600 py-3 px-6 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-[0_4px_16px_rgba(0,112,173,0.3)] transition-all duration-300 hover:bg-sky-500 hover:shadow-[0_8px_24px_rgba(0,112,173,0.45)] hover:-translate-y-0.5 active:scale-98 cursor-pointer"
-          >
-            Okay, Got It
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function Contact() {
-  const { isDark, setTheme } = useTheme();
+  const { isDark } = useTheme();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Default Contact page to dark mode
-    setTheme("dark");
-
-    return () => {
-      // Revert back to light mode when navigating away from Contact page
-      setTheme("light");
-    };
   }, []);
 
   const [formData, setFormData] = useState({
@@ -124,7 +34,7 @@ export default function Contact() {
     country: "",
     message: "",
   });
-  const [showModal, setShowModal] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [submittedName, setSubmittedName] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -142,7 +52,7 @@ export default function Contact() {
     setTimeout(() => {
       setLoading(false);
       setSubmittedName(formData.firstName ? `${formData.firstName} ${formData.lastName}`.trim() : "");
-      setShowModal(true);
+      setIsSubmitted(true);
       setFormData({
         firstName: "",
         lastName: "",
@@ -152,10 +62,6 @@ export default function Contact() {
         message: "",
       });
     }, 600);
-  }
-
-  function handleCloseModal() {
-    setShowModal(false);
   }
 
   return (
@@ -190,163 +96,209 @@ export default function Contact() {
 
         {/* Ultra-Premium, Unboxed 2-Column Split */}
         <section className="mx-auto max-w-7xl px-4 pb-24 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50 pt-12">
-          <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20 items-start">
-            {/* Left: The Form (Sleek, Minimalist, Luxury Underline Fields) */}
-            <div>
-              <div className="border-b border-[var(--color-ink-line)]/40 pb-5">
-                <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
-                  Inquiry Form
-                </span>
-                <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-3xl">
-                  Tell us about your project
-                </h2>
-                <p className="mt-1.5 text-xs text-[var(--color-text-mist-2)]">
-                  Fill in your details below and our solution architects will connect with you promptly.
-                </p>
-              </div>
+          <div className="grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20 items-center">
+            {/* Left: Form or On-Page Success Confirmation */}
+            <div className="w-full flex flex-col justify-center">
+              {isSubmitted ? (
+                <div className="max-w-md mx-auto w-full rounded-2xl sm:rounded-3xl border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] p-6 sm:p-8 text-center shadow-[0_8px_30px_rgba(0,112,173,0.06)] backdrop-blur-xl transition-all duration-500 animate-fadeIn relative overflow-hidden">
+                  {/* Subtle Ambient Radial Glow */}
+                  <div className="pointer-events-none absolute -top-20 -right-20 h-48 w-48 rounded-full bg-sky-500/10 blur-2xl" />
+                  <div className="pointer-events-none absolute -bottom-20 -left-20 h-48 w-48 rounded-full bg-emerald-500/10 blur-2xl" />
 
-              <form onSubmit={handleSubmit} className="mt-8 space-y-9">
-                {/* First Name & Last Name */}
-                <div className="grid gap-8 sm:grid-cols-2">
-                  <div className="group relative">
-                    <label htmlFor="firstName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                      First Name <span className="text-rose-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="firstName"
-                      name="firstName"
-                      required
-                      value={formData.firstName}
-                      onChange={handleChange}
-                      placeholder="John"
-                      style={{ color: isDark ? "#ffffff" : "#0f172a" }}
-                      className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                    />
+                  {/* Refined Checkmark Icon */}
+                  <div className="relative mx-auto mb-3.5 flex h-11 w-11 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500 shadow-xs">
+                    <svg viewBox="0 0 24 24" className="h-5 w-5 animate-checkmark" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
                   </div>
 
-                  <div className="group relative">
-                    <label htmlFor="lastName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                      Last Name <span className="text-rose-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="lastName"
-                      name="lastName"
-                      required
-                      value={formData.lastName}
-                      onChange={handleChange}
-                      placeholder="Doe"
-                      style={{ color: isDark ? "#ffffff" : "#0f172a" }}
-                      className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Email & Phone */}
-                <div className="grid gap-8 sm:grid-cols-2">
-                  <div className="group relative">
-                    <label htmlFor="email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                      Email Address <span className="text-rose-500">*</span>
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="john@company.com"
-                      style={{ color: isDark ? "#ffffff" : "#0f172a" }}
-                      className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                    />
-                  </div>
-
-                  <div className="group relative">
-                    <label htmlFor="phone" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                      Phone Number (incl. country code)
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      placeholder="+1 (555) 000-0000"
-                      style={{ color: isDark ? "#ffffff" : "#0f172a" }}
-                      className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Country/Region */}
-                <div className="group relative">
-                  <label htmlFor="country" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                    Country / Region <span className="text-rose-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <select
-                      id="country"
-                      name="country"
-                      required
-                      value={formData.country}
-                      onChange={handleChange}
-                      style={{ color: isDark ? "#ffffff" : "#0f172a" }}
-                      className="mt-2 w-full appearance-none border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 pr-8 text-base font-medium transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none cursor-pointer"
-                    >
-                      <option value="" className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
-                        Select your country
-                      </option>
-                      {COUNTRIES.map((c) => (
-                        <option key={c} value={c} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
-                          {c}
-                        </option>
-                      ))}
-                    </select>
-                    <div className="pointer-events-none absolute right-2 bottom-3 text-slate-400">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="6 9 12 15 18 9" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* How can we help you? */}
-                <div className="group relative">
-                  <div className="flex items-center justify-between">
-                    <label htmlFor="message" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                      How can we help you? <span className="text-rose-500">*</span>
-                    </label>
-                    <span className="font-mono text-[0.68rem] font-medium text-[var(--color-text-mist-2)]">
-                      {5000 - formData.message.length} chars left
+                  {/* Eyebrow Tag */}
+                  <div className="mb-2.5">
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-brand)]/10 px-3 py-1 text-[0.65rem] font-bold uppercase tracking-[0.16em] text-[var(--color-brand)]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[var(--color-brand)]" />
+                      Inquiry Received
                     </span>
                   </div>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    maxLength={5000}
-                    rows={4}
-                    value={formData.message}
-                    onChange={handleChange}
-                    style={{ color: isDark ? "#ffffff" : "#0f172a" }}
-                    placeholder="Describe your project, timeline, tech stack, or operational challenges..."
-                    className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none resize-y"
-                  />
-                </div>
 
-                {/* Submit Button */}
-                <div className="pt-4">
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#0070ad] to-[#0284c7] px-9 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_25px_rgba(0,112,173,0.3)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(0,112,173,0.45)] hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 cursor-pointer"
-                  >
-                    <span>{loading ? "Submitting..." : "Submit Inquiry"}</span>
-                    <span className="text-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">↗</span>
-                  </button>
+                  {/* Main Headline */}
+                  <h3 className="font-display text-lg sm:text-xl font-bold tracking-tight text-[var(--color-text-ink)] leading-snug">
+                    Our team will get in touch with you <span className="text-[var(--color-brand)]">within 24 hours</span>.
+                  </h3>
+
+                  {/* Subtext */}
+                  <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[var(--color-text-mist-2)]">
+                    Thank you{submittedName ? `, ${submittedName}` : ""}! We have received your inquiry and our team will review your requirements promptly.
+                  </p>
+
+                  {/* Action Button */}
+                  <div className="mt-6 pt-4 border-t border-[var(--color-ink-line)]/50 flex items-center justify-center">
+                    <button
+                      type="button"
+                      onClick={() => setIsSubmitted(false)}
+                      className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand)] px-6 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-white shadow-[0_4px_14px_rgba(0,112,173,0.25)] transition-all duration-300 hover:bg-sky-500 hover:shadow-[0_6px_20px_rgba(0,112,173,0.4)] hover:-translate-y-0.5 active:scale-98 cursor-pointer"
+                    >
+                      Okay, Got It
+                    </button>
+                  </div>
                 </div>
-              </form>
+              ) : (
+                <div>
+                  <div className="border-b border-[var(--color-ink-line)]/40 pb-5">
+                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
+                      Inquiry Form
+                    </span>
+                    <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-3xl">
+                      Tell us about your project
+                    </h2>
+                    <p className="mt-1.5 text-xs text-[var(--color-text-mist-2)]">
+                      Fill in your details below and our solution architects will connect with you promptly.
+                    </p>
+                  </div>
+
+                  <form onSubmit={handleSubmit} className="mt-8 space-y-9">
+                    {/* First Name & Last Name */}
+                    <div className="grid gap-8 sm:grid-cols-2">
+                      <div className="group relative">
+                        <label htmlFor="firstName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          First Name <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          id="firstName"
+                          name="firstName"
+                          required
+                          value={formData.firstName}
+                          onChange={handleChange}
+                          placeholder="John"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="group relative">
+                        <label htmlFor="lastName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Last Name <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          id="lastName"
+                          name="lastName"
+                          required
+                          value={formData.lastName}
+                          onChange={handleChange}
+                          placeholder="Doe"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Email & Phone */}
+                    <div className="grid gap-8 sm:grid-cols-2">
+                      <div className="group relative">
+                        <label htmlFor="email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Email Address <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          required
+                          value={formData.email}
+                          onChange={handleChange}
+                          placeholder="john@company.com"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="group relative">
+                        <label htmlFor="phone" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Phone Number (incl. country code)
+                        </label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          placeholder="+1 (555) 000-0000"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Country/Region */}
+                    <div className="group relative">
+                      <label htmlFor="country" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                        Country / Region <span className="text-rose-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <select
+                          id="country"
+                          name="country"
+                          required
+                          value={formData.country}
+                          onChange={handleChange}
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none appearance-none cursor-pointer"
+                        >
+                          <option value="" disabled className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200">
+                            Select your country
+                          </option>
+                          {COUNTRIES.map((c) => (
+                            <option key={c} value={c} className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200">
+                              {c}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="pointer-events-none absolute right-2 bottom-3 text-slate-400">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="6 9 12 15 18 9" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* How can we help you? */}
+                    <div className="group relative">
+                      <div className="flex items-center justify-between">
+                        <label htmlFor="message" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          How can we help you? <span className="text-rose-500">*</span>
+                        </label>
+                        <span className="font-mono text-[0.68rem] font-medium text-[var(--color-text-mist-2)]">
+                          {5000 - formData.message.length} chars left
+                        </span>
+                      </div>
+                      <textarea
+                        id="message"
+                        name="message"
+                        required
+                        maxLength={5000}
+                        rows={4}
+                        value={formData.message}
+                        onChange={handleChange}
+                        style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                        placeholder="Describe your project, timeline, tech stack, or operational challenges..."
+                        className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none resize-y"
+                      />
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="pt-4">
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#0070ad] to-[#0284c7] px-9 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_25px_rgba(0,112,173,0.3)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(0,112,173,0.45)] hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 cursor-pointer"
+                      >
+                        <span>{loading ? "Submitting..." : "Submit Inquiry"}</span>
+                        <span className="text-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">↗</span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
             </div>
 
             {/* Right: Direct Reach & Location (Clean, Editorial, Completely Box-Free) */}
@@ -423,7 +375,6 @@ export default function Contact() {
         </section>
       </main>
       <Footer />
-      <SuccessModal isOpen={showModal} onClose={handleCloseModal} name={submittedName} />
     </div>
   );
 }

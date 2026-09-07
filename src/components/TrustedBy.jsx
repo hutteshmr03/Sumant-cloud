@@ -5,6 +5,8 @@ import globalToLocalLogo from "../assets/global-to-local.webp";
 import perfectSolutionLogo from "../assets/the-perfect-solution.jpg";
 import marksansLogo from "../assets/marksans.jpg";
 import hlplLogo from "../assets/hlpl.jpg";
+import akLogoLight from "../assets/ak-logo-light.png";
+import akLogoDark from "../assets/ak-logo-dark.png";
 
 const TRUSTED_COMPANIES = [
   {
@@ -40,6 +42,7 @@ const TRUSTED_COMPANIES = [
   {
     name: "A.K Construction",
     mark: "ak-construction",
+    logo: akLogoLight,
     label: "Infrastructure & Build",
   },
   {
@@ -193,14 +196,14 @@ export default function TrustedBy() {
 function BrandPill({ company }) {
   return (
     <div
-      className="brand-pill group relative flex shrink-0 items-center gap-3.5 rounded-2xl border border-slate-200/90 dark:border-slate-700/80 bg-white dark:bg-[#1a1d21] px-4 py-2.5 sm:px-5 sm:py-3 shadow-[0_4px_16px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#0070ad] dark:hover:border-sky-400 hover:shadow-[0_12px_28px_rgba(0,112,173,0.18)]"
+      className="brand-pill group relative flex shrink-0 items-center gap-4 rounded-2xl border border-slate-200/90 dark:border-slate-700/80 bg-white dark:bg-[#1a1d21] px-5 py-3 sm:px-6 sm:py-3.5 shadow-[0_4px_16px_rgba(0,0,0,0.05)] dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-[#0070ad] dark:hover:border-sky-400 hover:shadow-[0_12px_28px_rgba(0,112,173,0.18)]"
     >
-      <div className="brand-mark relative flex h-11 w-12 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-100 dark:border-slate-700 bg-white p-1.5 shadow-sm transition-transform duration-300 group-hover:scale-105">
+      <div className="brand-mark relative flex h-14 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-[#151c26] p-1.5 shadow-sm transition-transform duration-300 group-hover:scale-105">
         {company.mark === "cipla" && (
           <img
             src={company.logo}
             alt="Cipla"
-            className="h-auto max-h-7 max-w-full object-contain filter contrast-125"
+            className="h-auto max-h-10 sm:max-h-11 max-w-full object-contain filter contrast-125"
           />
         )}
 
@@ -208,7 +211,7 @@ function BrandPill({ company }) {
           <img
             src={company.logo || marksansLogo}
             alt={company.name}
-            className="h-auto max-h-7 max-w-full object-contain filter contrast-125"
+            className="h-auto max-h-10 sm:max-h-11 max-w-full object-contain filter contrast-125"
           />
         )}
 
@@ -216,7 +219,7 @@ function BrandPill({ company }) {
           <img
             src={company.logo || perfectSolutionLogo}
             alt={company.name}
-            className="h-auto max-h-7 max-w-full object-contain filter contrast-125"
+            className="h-auto max-h-10 sm:max-h-11 max-w-full object-contain filter contrast-125"
           />
         )}
 
@@ -224,27 +227,22 @@ function BrandPill({ company }) {
           <img
             src={company.logo || hlplLogo}
             alt={company.name}
-            className="h-auto max-h-7 max-w-full object-contain filter contrast-125"
+            className="h-auto max-h-10 sm:max-h-11 max-w-full object-contain filter contrast-125"
           />
         )}
 
         {company.mark === "ak-construction" && (
-          <div className="relative flex items-center justify-center h-full w-full">
-            <svg viewBox="0 0 80 64" className="h-7 w-auto max-w-full drop-shadow-sm text-slate-800" fill="none">
-              {/* Mountain blueprint truss lines */}
-              <line x1="32" y1="4" x2="4" y2="60" stroke="currentColor" strokeWidth="2.8" strokeDasharray="3 2" />
-              <line x1="32" y1="4" x2="52" y2="40" stroke="currentColor" strokeWidth="2.8" strokeDasharray="3 2" />
-              <line x1="32" y1="4" x2="32" y2="35" stroke="currentColor" strokeWidth="2.2" strokeDasharray="2 2" opacity="0.75" />
-              {/* Construction bridge / crane arc */}
-              <path d="M4 52 Q 32 18 58 14" stroke="currentColor" strokeWidth="3.2" strokeLinecap="round" />
-              {/* Solid Blue Triangle Peak */}
-              <polygon points="46,32 34,60 58,60" fill="#0070ad" className="fill-[#0070ad]" />
-              {/* Bold Capital A */}
-              <path
-                d="M58 14 L50 60 H56 L58 48 H68 L70 60 H76 L68 14 H58 Z M60 40 L63 24 L66 40 H60 Z"
-                fill="currentColor"
-              />
-            </svg>
+          <div className="relative flex items-center justify-center h-full w-full px-1">
+            <img
+              src={akLogoLight}
+              alt="A.K Construction"
+              className="h-auto max-h-9 sm:max-h-10 max-w-full object-contain filter contrast-125 dark:hidden"
+            />
+            <img
+              src={akLogoDark}
+              alt="A.K Construction"
+              className="h-auto max-h-9 sm:max-h-10 max-w-full object-contain filter contrast-125 hidden dark:block"
+            />
           </div>
         )}
 
@@ -252,13 +250,13 @@ function BrandPill({ company }) {
           <img
             src={company.logo}
             alt="Global to Local"
-            className="h-auto max-h-8 max-w-full rounded-full object-contain filter"
+            className="h-auto max-h-11 sm:max-h-12 max-w-full rounded-full object-contain filter"
           />
         )}
 
         {company.mark === "sustainable-green" && (
           <div className="relative flex items-center justify-center h-full w-full">
-            <svg viewBox="0 0 90 80" className="h-7 w-auto max-w-full drop-shadow-sm" fill="none">
+            <svg viewBox="0 0 90 80" className="h-10 w-auto max-w-full drop-shadow-sm" fill="none">
               <defs>
                 <linearGradient id="sgcLoopGrad1" x1="0%" y1="100%" x2="50%" y2="0%">
                   <stop offset="0%" stopColor="#84cc16" />
@@ -299,7 +297,7 @@ function BrandPill({ company }) {
 
         {company.mark === "bookmyspa" && (
           <div className="relative flex items-center justify-center h-full w-full">
-            <svg viewBox="0 0 56 76" className="h-7 w-auto max-w-full drop-shadow-sm" fill="none">
+            <svg viewBox="0 0 56 76" className="h-10 w-auto max-w-full drop-shadow-sm" fill="none">
               <defs>
                 <linearGradient id="bmsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stopColor="#9ee03a" />
@@ -321,7 +319,7 @@ function BrandPill({ company }) {
       </div>
 
       <div className="text-left">
-        <div className="brand-name font-display text-[0.92rem] sm:text-[0.98rem] font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
+        <div className="brand-name font-display text-[0.98rem] sm:text-[1.05rem] font-bold tracking-tight text-slate-900 dark:text-white whitespace-nowrap">
           {company.name}
         </div>
       </div>

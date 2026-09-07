@@ -80,37 +80,37 @@ function SunMoonToggle({ solid, isDark }) {
           ? "inset 0 1px 0 rgba(255,255,255,0.08), 0 2px 6px rgba(0,0,0,0.06)"
           : "inset 0 1px 0 rgba(255,255,255,0.22), 0 2px 8px rgba(0,0,0,0.12)",
       }}
-      className="relative flex items-center h-8 w-16 rounded-full p-0.5 cursor-pointer shrink-0 transition-all duration-300 group"
+      className="relative grid grid-cols-2 items-center h-8 w-[64px] rounded-full p-0.5 cursor-pointer shrink-0 transition-all duration-300 group"
     >
       {/* Sliding Active Indicator */}
       <span
-        className={`absolute top-0.5 bottom-0.5 w-[calc(50%-2px)] rounded-full transition-all duration-300 ease-out shadow-sm ${
+        className={`absolute top-0.5 bottom-0.5 w-[28px] rounded-full transition-all duration-300 ease-out shadow-sm ${
           isDark
-            ? "left-[calc(50%+1px)] bg-[#0070ad]"
-            : "left-0.5 bg-[#0070ad]"
+            ? "left-[33px] bg-[#0070ad]"
+            : "left-[2px] bg-[#0070ad]"
         }`}
       />
 
       {/* Sun Icon */}
       <span
-        className={`relative z-10 flex items-center justify-center w-7 h-7 rounded-full transition-colors duration-300 ${
+        className={`relative z-10 flex items-center justify-center w-full h-full transition-colors duration-300 ${
           !isDark ? "text-white" : "text-gray-400 group-hover:text-white"
         }`}
       >
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <circle cx="12" cy="12" r="4" />
-          <path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4l1.4-1.4M17 7l1.4-1.4" />
+          <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
         </svg>
       </span>
 
       {/* Moon Icon */}
       <span
-        className={`relative z-10 flex items-center justify-center w-7 h-7 rounded-full transition-colors duration-300 ${
+        className={`relative z-10 flex items-center justify-center w-full h-full transition-colors duration-300 ${
           isDark ? "text-white" : "text-gray-400 group-hover:text-gray-700"
         }`}
       >
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <path d="M20 14.5A7.5 7.5 0 0 1 9.5 4 9.5 9.5 0 1 0 20 14.5z" />
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
       </span>
     </button>
@@ -307,14 +307,14 @@ export default function Navbar({ forceSolid = false }) {
             >
               <a
                 href="/contact/"
-                className="group inline-flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white transition-all duration-300 whitespace-nowrap hover:-translate-y-px hover:shadow-[0_8px_18px_rgba(0,112,173,0.34)]"
+                className="group inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-semibold text-white transition-all duration-300 whitespace-nowrap hover:-translate-y-px hover:shadow-[0_8px_18px_rgba(0,112,173,0.34)]"
                 style={{
                   background: "linear-gradient(135deg, #0b92d2 0%, #0070ad 58%, #005b94 100%)",
                   boxShadow: "inset 0 1px 0 rgba(255,255,255,0.3), 0 4px 10px rgba(0,75,125,0.28)",
                 }}
               >
-                Contact us
-                <span className="flex h-4 w-4 items-center justify-center rounded-full border border-white/35 text-xs leading-none transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
+                <span>Contact us</span>
+                <span className="text-sm leading-none transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
               </a>
               <SunMoonToggle solid={solid} isDark={isDark} />
             </div>

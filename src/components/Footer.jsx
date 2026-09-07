@@ -1,9 +1,8 @@
 import Logo from "./Logo";
 
 const SOCIAL_LINKS = [
-  { label: "Instagram", href: "https://www.instagram.com/", icon: "instagram" },
-  { label: "Google", href: "https://www.google.com/", icon: "google" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/", icon: "linkedin" },
+  { label: "Google", href: "https://sumant-cloud-ideas.vercel.app/", icon: "google" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/sumant-cloud-5b527a362/", icon: "linkedin" },
 ];
 
 function SocialIcon({ type }) {

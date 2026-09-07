@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
-import motionStreaksBg from "../assets/motion-light-streaks.webp";
+import modernSoftwareHero from "../assets/modern-software-hero.webp";
 
 function AnimatedCounter({ end, duration = 2200, delay = 0, prefix = "", suffix = "", padZero = false }) {
   const [count, setCount] = useState(0);
@@ -174,50 +174,100 @@ const PROCESS_STEPS = [
 ];
 
 function ProcessSlider({ steps }) {
-  const scrollRef = useRef(null);
-  const [isPaused, setIsPaused] = useState(false);
+  const trackRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+
+  // Triple steps for seamless infinite loop in both directions
+  const loopedSteps = [...steps, ...steps, ...steps];
+
+  // Auto-scroll loop like TrustedBy marquee when not dragging or hovering
+  useEffect(() => {
+    const el = trackRef.current;
+    if (!el) return;
+
+    let animId;
+    const speed = 1.6;
+
+    const tick = () => {
+      if (!isHovered && !isDraggingRef.current && el) {
+        el.scrollLeft += speed;
+        const oneThird = el.scrollWidth / 3;
+        if (el.scrollLeft >= oneThird * 2) {
+          el.scrollLeft -= oneThird;
+        } else if (el.scrollLeft <= 0) {
+          el.scrollLeft += oneThird;
+        }
+      }
+      animId = requestAnimationFrame(tick);
+    };
+
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, [isHovered]);
+
+  // Set initial scroll position to middle set
+  useEffect(() => {
+    const el = trackRef.current;
+    if (el && el.scrollWidth > 0) {
+      el.scrollLeft = el.scrollWidth / 3;
+    }
+  }, []);
+
+  // Mouse drag handlers
+  const handleMouseDown = (e) => {
+    isDraggingRef.current = true;
+    setIsDragging(true);
+    startXRef.current = e.pageX - (trackRef.current?.offsetLeft || 0);
+    scrollLeftRef.current = trackRef.current?.scrollLeft || 0;
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDraggingRef.current || !trackRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - (trackRef.current.offsetLeft || 0);
+    const walk = (x - startXRef.current) * 1.5;
+    let newScrollLeft = scrollLeftRef.current - walk;
+
+    const oneThird = trackRef.current.scrollWidth / 3;
+    if (newScrollLeft >= oneThird * 2) {
+      newScrollLeft -= oneThird;
+      scrollLeftRef.current -= oneThird;
+    } else if (newScrollLeft <= 0) {
+      newScrollLeft += oneThird;
+      scrollLeftRef.current += oneThird;
+    }
+    trackRef.current.scrollLeft = newScrollLeft;
+  };
+
+  const stopDragging = () => {
+    isDraggingRef.current = false;
+    setIsDragging(false);
+  };
 
   const scrollLeft = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: -380, behavior: "smooth" });
+    if (trackRef.current) {
+      trackRef.current.scrollBy({ left: -380, behavior: "smooth" });
     }
   };
 
   const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({ left: 380, behavior: "smooth" });
+    if (trackRef.current) {
+      trackRef.current.scrollBy({ left: 380, behavior: "smooth" });
     }
   };
-
-  // Silky smooth auto-scroll from right to left
-  useEffect(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-
-    let animId;
-
-    const autoScroll = () => {
-      if (!isPaused && el) {
-        el.scrollLeft += 0.75;
-        if (el.scrollLeft >= el.scrollWidth / 2) {
-          el.scrollLeft = 0;
-        }
-      }
-      animId = requestAnimationFrame(autoScroll);
-    };
-
-    animId = requestAnimationFrame(autoScroll);
-    return () => cancelAnimationFrame(animId);
-  }, [isPaused]);
-
-  // Duplicate steps for seamless continuous loop
-  const loopedSteps = [...steps, ...steps];
 
   return (
     <div
       className="relative group -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        stopDragging();
+      }}
     >
       {/* ── Floating Left Switch Arrow Button ── */}
       <button
@@ -243,16 +293,29 @@ function ProcessSlider({ steps }) {
         </svg>
       </button>
 
-      {/* ── Scrollable Track ── */}
+      {/* ── Scrollable Track with Marquee Mask & Cursor Drag ── */}
       <div
-        ref={scrollRef}
-        className="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth py-6 px-4 sm:px-8 cursor-grab active:cursor-grabbing select-none"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        ref={trackRef}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={stopDragging}
+        onTouchStart={handleMouseDown}
+        onTouchMove={handleMouseMove}
+        onTouchEnd={stopDragging}
+        className={`flex gap-6 overflow-x-auto no-scrollbar py-6 px-4 sm:px-8 select-none ${
+          isDragging ? "cursor-grabbing" : "cursor-grab"
+        }`}
+        style={{
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
+          maskImage: "linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(90deg, transparent 0%, #000 4%, #000 96%, transparent 100%)",
+        }}
       >
         {loopedSteps.map((step, idx) => (
           <div
             key={`${step.num}-${idx}`}
-            className="w-[300px] sm:w-[340px] md:w-[360px] shrink-0 flex flex-col justify-between overflow-hidden rounded-3xl border border-white/20 bg-white/95 dark:bg-[#0c121e]/90 p-7 sm:p-8 shadow-[0_20px_45px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-sky-400/80 hover:shadow-[0_25px_60px_rgba(0,112,173,0.4)]"
+            className="w-[300px] sm:w-[340px] md:w-[360px] shrink-0 flex flex-col justify-between overflow-hidden rounded-3xl border border-white/20 bg-white/95 dark:bg-[#0c121e]/90 p-7 sm:p-8 shadow-[0_20px_45px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-sky-400/80 hover:shadow-[0_25px_60px_rgba(0,112,173,0.4)] pointer-events-auto"
           >
             <div>
               {/* Header: Icon + Number badge */}
@@ -288,14 +351,6 @@ function ProcessSlider({ steps }) {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* ── Status Indicator Bar ── */}
-      <div className="mt-4 flex items-center justify-center gap-2">
-        <span className="inline-flex items-center gap-2 text-xs font-medium text-slate-200 bg-black/40 border border-white/20 rounded-full px-4 py-1.5 shadow-md backdrop-blur-md">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-          <span>{isPaused ? "Paused on hover" : "Auto-flowing • Hover to pause"}</span>
-        </span>
       </div>
     </div>
   );
@@ -334,9 +389,9 @@ const HIGHLIGHTS = [
 ];
 
 const STATS = [
-  { end: 87, suffix: "", label: "Satisfied Clients" },
-  { end: 150, suffix: "", label: "Projects Completed" },
-  { end: 28, suffix: "", label: "Accolades Earned" },
+  { end: 60, suffix: "", label: "Satisfied Clients" },
+  { end: 100, suffix: "", label: "Projects Completed" },
+  { end: 65, suffix: "", label: "Accolades Earned" },
   { end: 56, suffix: "K+", label: "Lines of Code" },
 ];
 
@@ -546,17 +601,18 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* Our 6-D Process - With Motion Light Streaks Background Image */}
+        {/* Our 6-D Process - With Enterprise Software Engineering Background */}
         <section className="relative overflow-hidden py-20 md:py-28 border-t border-b border-white/10 my-8">
-          {/* ── Motion Light Streaks Background Image ── */}
+          {/* ── Modern Enterprise Software Tech Background Image ── */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img
-              src={motionStreaksBg}
-              alt="Motion Light Streaks Background"
-              className="h-full w-full object-cover object-center filter brightness-100 contrast-115 saturate-135"
+              src={modernSoftwareHero}
+              alt="Engineering & Process Background"
+              className="h-full w-full object-cover object-center filter brightness-90 contrast-110"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/65 via-black/35 to-black/65" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/65" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#060e18]/92 via-[#0a1828]/82 to-[#060e18]/92" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,112,173,0.18),transparent_70%)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#060e18]/80 via-transparent to-[#060e18]/85" />
           </div>
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

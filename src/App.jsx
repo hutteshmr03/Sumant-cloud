@@ -61,7 +61,7 @@ export default function App() {
     return <WMS />;
   }
 
-  if (pathname === "/e-dims" || pathname === "/edims") {
+  if (pathname === "/e-dims" || pathname === "/edims" || pathname === "/e-dms" || pathname === "/edms") {
     return <EDIMS />;
   }
 

@@ -21,16 +21,18 @@ const COUNTRIES = [
 
 export default function Contact() {
   const { isDark } = useTheme();
+  const [heroVisible, setHeroVisible] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const timer = setTimeout(() => setHeroVisible(true), 80);
+    return () => clearTimeout(timer);
   }, []);
 
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
     country: "",
     message: "",
   });
@@ -57,7 +59,6 @@ export default function Contact() {
         firstName: "",
         lastName: "",
         email: "",
-        phone: "",
         country: "",
         message: "",
       });
@@ -67,27 +68,58 @@ export default function Contact() {
   return (
     <div className={isDark ? "dark" : "light"}>
       <Navbar forceSolid />
-      <main className="bg-[var(--color-foam)] text-[var(--color-text-ink)]">
-        {/* Hero Section with Contextual Background */}
-        <section className="relative overflow-hidden pt-28 pb-16 sm:pt-36 sm:pb-24 lg:pt-40 lg:pb-28 text-white">
+      <main className="bg-[var(--color-foam)] text-[var(--color-text-ink)] overflow-hidden">
+        {/* Hero Section with Contextual Background & Staggered Reveal Animation */}
+        <section className="relative overflow-hidden pt-28 pb-20 sm:pt-36 sm:pb-28 lg:pt-44 lg:pb-32 text-white">
           <div className="absolute inset-0 z-0">
             <img
               src={contactHeroBg}
               alt="Reach Us"
-              className="h-full w-full object-cover object-center"
+              className="h-full w-full object-cover object-center scale-105 transition-transform duration-1000"
             />
-            <div className="absolute inset-0 bg-[#090e16]/65 backdrop-blur-[1px]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#080d14]/90 via-[#0b141f]/75 to-[#080d14]/65 backdrop-blur-[1px]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,112,173,0.12),transparent_65%)]" />
           </div>
 
           <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl">
-              <span className="inline-flex items-center rounded-full border border-sky-400/40 bg-sky-500/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-sky-300 backdrop-blur-md">
-                Reach Us
-              </span>
-              <h1 className="mt-5 font-display text-4xl font-bold tracking-[-0.04em] text-white sm:text-5xl lg:text-6xl drop-shadow-sm">
-                Let&apos;s Build Something Great Together.
+              {/* Eyebrow Badge */}
+              <div
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
+                }}
+              >
+                <span className="inline-flex items-center rounded-full border border-sky-400/30 bg-sky-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sky-300 backdrop-blur-md shadow-sm">
+                  Reach Us
+                </span>
+              </div>
+
+              {/* Main Headline */}
+              <h1
+                className="mt-5 font-display text-4xl sm:text-5xl lg:text-[3.65rem] font-bold tracking-[-0.04em] text-white leading-[1.12] drop-shadow-md"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(24px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s",
+                }}
+              >
+                Let&apos;s Build Something{" "}
+                <span className="bg-gradient-to-r from-sky-300 via-cyan-200 to-teal-300 bg-clip-text text-transparent">
+                  Great Together.
+                </span>
               </h1>
-              <p className="mt-6 text-base leading-relaxed text-slate-200 sm:text-lg">
+
+              {/* Paragraph */}
+              <p
+                className="mt-6 text-sm sm:text-base lg:text-lg leading-relaxed text-slate-200 max-w-3xl"
+                style={{
+                  opacity: heroVisible ? 1 : 0,
+                  transform: heroVisible ? "translateY(0)" : "translateY(20px)",
+                  transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.4s",
+                }}
+              >
                 Would you like to start a project with us? Share your technical requirements and business goals, and our engineering leads will get back to you promptly.
               </p>
             </div>
@@ -193,40 +225,22 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    {/* Email & Phone */}
-                    <div className="grid gap-8 sm:grid-cols-2">
-                      <div className="group relative">
-                        <label htmlFor="email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                          Email Address <span className="text-rose-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          required
-                          value={formData.email}
-                          onChange={handleChange}
-                          placeholder="john@company.com"
-                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
-                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                        />
-                      </div>
-
-                      <div className="group relative">
-                        <label htmlFor="phone" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                          Phone Number (incl. country code)
-                        </label>
-                        <input
-                          type="tel"
-                          id="phone"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleChange}
-                          placeholder="+1 (555) 000-0000"
-                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
-                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                        />
-                      </div>
+                    {/* Email */}
+                    <div className="group relative">
+                      <label htmlFor="email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                        Email Address <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="john@company.com"
+                        style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                        className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                      />
                     </div>
 
                     {/* Country/Region */}
@@ -311,7 +325,7 @@ export default function Contact() {
                   Get in touch directly
                 </h3>
                 <p className="mt-1.5 text-xs leading-relaxed text-[var(--color-text-mist-2)]">
-                  Reach out through our direct channels or visit our engineering headquarters in Goa.
+                  Reach out through our email channel or visit our engineering headquarters in Goa.
                 </p>
               </div>
 
@@ -326,18 +340,6 @@ export default function Contact() {
                     className="mt-1 inline-block text-lg font-semibold text-[var(--color-text-ink)] hover:text-[var(--color-brand)] transition-colors"
                   >
                     contact@sumantcloud.com
-                  </a>
-                </div>
-
-                <div>
-                  <p className="text-[0.72rem] font-bold uppercase tracking-wider text-[var(--color-brand)]">
-                    Direct Phone Line
-                  </p>
-                  <a
-                    href="tel:+917028510950"
-                    className="mt-1 inline-block text-lg font-semibold text-[var(--color-text-ink)] hover:text-[var(--color-brand)] transition-colors"
-                  >
-                    +91 70285 10950
                   </a>
                 </div>
 

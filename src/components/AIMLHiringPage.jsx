@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
 import aimlHiringHeroBg from "../assets/aiml-hiring-hero-bg.webp";
+import aimlTeamDaylight from "../assets/aiml-team-daylight.jpg";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const CORE_SERVICES = [
@@ -163,6 +164,33 @@ export default function AIMLHiringPage() {
   const { isDark } = useTheme();
   const [heroVisible, setHeroVisible] = useState(false);
 
+  // Hiring Form State
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    projectName: "",
+    projectDescription: "",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }, 600);
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => setHeroVisible(true), 80);
     return () => clearTimeout(timer);
@@ -233,7 +261,7 @@ export default function AIMLHiringPage() {
                 }}
               >
                 <a
-                  href="/contact/"
+                  href="#hire-form"
                   className="inline-flex items-center justify-center rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-[0_4px_14px_rgba(0,112,173,0.22)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-sky-500 hover:shadow-[0_6px_18px_rgba(0,112,173,0.3)]"
                 >
                   Book a 15-Minute Discovery Call
@@ -467,6 +495,237 @@ export default function AIMLHiringPage() {
           </div>
         </section>
 
+        {/* ── HIRING INQUIRY & DISCOVERY CALL FORM SECTION ── */}
+        <section id="hire-form" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50 scroll-mt-24">
+          <div className="grid gap-8 lg:grid-cols-12 items-stretch">
+            {/* Left Column: Minimalist Underline Form (Matching EDMS / Contact Style) */}
+            <div className="lg:col-span-7 rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-8 sm:p-12 shadow-[0_15px_40px_rgba(0,0,0,0.04)] backdrop-blur-md flex flex-col justify-between">
+              {isSubmitted ? (
+                <div className="py-16 text-center animate-reveal-up my-auto">
+                  <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-brand)]/10 text-[var(--color-brand)] ring-8 ring-[var(--color-brand)]/5">
+                    <svg viewBox="0 0 24 24" className="h-10 w-10" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <h3 className="font-display text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)]">
+                    Hiring Inquiry Submitted!
+                  </h3>
+                  <p className="mx-auto mt-3 max-w-md text-sm sm:text-base text-[var(--color-text-mist-2)] leading-relaxed">
+                    Thank you, <strong className="text-[var(--color-text-ink)]">{formData.firstName || "there"}</strong>. Our technical talent team will review your requirements and schedule your 15-minute discovery call within 4 business hours.
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsSubmitted(false);
+                      setFormData({
+                        firstName: "",
+                        lastName: "",
+                        email: "",
+                        phone: "",
+                        projectName: "",
+                        projectDescription: "",
+                      });
+                    }}
+                    className="mt-8 inline-flex items-center justify-center gap-2 rounded-full border border-[var(--color-brand)]/30 bg-[var(--color-brand)]/10 px-8 py-3 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-brand)] transition-all duration-300 hover:bg-[var(--color-brand)] hover:text-white cursor-pointer"
+                  >
+                    <span>Submit Another Inquiry</span>
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <div className="mb-6">
+                    <span className="inline-flex items-center rounded-full border border-[var(--color-brand)]/20 bg-[var(--color-brand)]/5 px-3 py-0.5 text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
+                      Hire Tech Talent
+                    </span>
+                    <h3 className="mt-3 font-display text-2xl sm:text-3xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)]">
+                      Book a Discovery Call &amp; Hire Developers
+                    </h3>
+                    <p className="mt-1.5 text-xs sm:text-sm text-[var(--color-text-mist-2)]">
+                      Fill in your developer requirements below to receive curated candidate profiles and launch your paid trial.
+                    </p>
+                  </div>
+
+                  <hr className="my-6 border-[var(--color-ink-line)]/60" />
+
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    {/* Row 1: First Name & Last Name */}
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                      <div className="group relative">
+                        <label htmlFor="aiml-firstName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          First Name <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          id="aiml-firstName"
+                          name="firstName"
+                          required
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          placeholder="e.g. Alexander"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="group relative">
+                        <label htmlFor="aiml-lastName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Last Name <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          id="aiml-lastName"
+                          name="lastName"
+                          required
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          placeholder="e.g. Weber"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Row 2: Work Email & Phone / WhatsApp */}
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                      <div className="group relative">
+                        <label htmlFor="aiml-email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Work Email <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          id="aiml-email"
+                          name="email"
+                          required
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          placeholder="alex@company.com"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="group relative">
+                        <label htmlFor="aiml-phone" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Phone Number / WhatsApp
+                        </label>
+                        <input
+                          type="tel"
+                          id="aiml-phone"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          placeholder="+49 170 1234567"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Row 3: Project Name */}
+                    <div className="group relative">
+                      <label htmlFor="aiml-projectName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                        Project Name <span className="text-rose-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="aiml-projectName"
+                        name="projectName"
+                        required
+                        value={formData.projectName}
+                        onChange={handleInputChange}
+                        placeholder="e.g. AI-Powered Recommendation Engine & Analytics Portal"
+                        style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                        className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                      />
+                    </div>
+
+                    {/* Row 4: Project Description */}
+                    <div className="group relative">
+                      <div className="flex items-center justify-between">
+                        <label htmlFor="aiml-projectDescription" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Project Description <span className="text-rose-500">*</span>
+                        </label>
+                        <span className="font-mono text-[0.68rem] font-medium text-[var(--color-text-mist-2)]">
+                          {5000 - formData.projectDescription.length} chars left
+                        </span>
+                      </div>
+                      <textarea
+                        id="aiml-projectDescription"
+                        name="projectDescription"
+                        required
+                        maxLength={5000}
+                        rows={3}
+                        value={formData.projectDescription}
+                        onChange={handleInputChange}
+                        style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                        placeholder="Describe your project goals, required technologies, timeline, deliverables, or team requirements..."
+                        className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none resize-y"
+                      />
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="pt-3">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#0070ad] to-[#0284c7] px-9 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_25px_rgba(0,112,173,0.3)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(0,112,173,0.45)] hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 cursor-pointer"
+                      >
+                        <span>{isSubmitting ? "Submitting Inquiry..." : "Submit Hiring Inquiry"}</span>
+                        <span className="text-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">↗</span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
+            </div>
+
+            {/* Right Column: Full-Height Bright Daylight Image Card */}
+            <div className="lg:col-span-5 relative flex flex-col justify-end overflow-hidden rounded-3xl border border-[var(--color-ink-line)]/80 shadow-[0_15px_40px_rgba(0,0,0,0.04)] min-h-[500px] lg:min-h-full group">
+              {/* Full-bleed background image with natural daylight */}
+              <img
+                src={aimlTeamDaylight}
+                alt="Hire AI/ML Developers"
+                className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+              />
+
+              {/* Gentle bottom scrim for crisp typography overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent pointer-events-none" />
+
+              {/* Bottom Information & Guarantees matching Main Goal */}
+              <div className="relative z-10 p-6 sm:p-8 space-y-4">
+                <div className="text-white">
+                  <h4 className="font-display text-2xl sm:text-3xl font-bold tracking-tight drop-shadow-md">
+                    Hire AI/ML <span className="bg-gradient-to-r from-sky-300 via-cyan-200 to-teal-300 bg-clip-text text-transparent">Developers</span>
+                  </h4>
+                  <p className="mt-2 text-xs sm:text-sm text-slate-200 leading-relaxed drop-shadow">
+                    Scale your development capacity with dedicated senior Node.js, React, PHP developers, and QA testing specialists. Transparent daily rates, seamless EU working-hour overlap, and flexible engagement terms.
+                  </p>
+                </div>
+
+                {/* 2x2 Glassmorphic Stats Grid - Compact without emojis */}
+                <div className="grid grid-cols-2 gap-2 pt-1">
+                  <div className="rounded-xl border border-white/15 bg-black/40 backdrop-blur-md px-3 py-2 text-white">
+                    <div className="text-[0.72rem] font-bold text-sky-300">&lt; 24h Response</div>
+                    <div className="text-[0.62rem] text-slate-200/90 leading-tight mt-0.5">Curated CVs &amp; matching</div>
+                  </div>
+                  <div className="rounded-xl border border-white/15 bg-black/40 backdrop-blur-md px-3 py-2 text-white">
+                    <div className="text-[0.72rem] font-bold text-sky-300">1–2 Wk Paid Trial</div>
+                    <div className="text-[0.62rem] text-slate-200/90 leading-tight mt-0.5">Risk-free evaluation</div>
+                  </div>
+                  <div className="rounded-xl border border-white/15 bg-black/40 backdrop-blur-md px-3 py-2 text-white">
+                    <div className="text-[0.72rem] font-bold text-sky-300">EU Timezone Overlap</div>
+                    <div className="text-[0.62rem] text-slate-200/90 leading-tight mt-0.5">Real-time daily sync</div>
+                  </div>
+                  <div className="rounded-xl border border-white/15 bg-black/40 backdrop-blur-md px-3 py-2 text-white">
+                    <div className="text-[0.72rem] font-bold text-sky-300">Full NDA &amp; IP Rights</div>
+                    <div className="text-[0.62rem] text-slate-200/90 leading-tight mt-0.5">100% IP security</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* ── Final CTA Banner ── */}
         <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
           <div className="relative overflow-hidden rounded-3xl sm:rounded-[36px] border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-8 sm:p-14 lg:p-16 shadow-[0_20px_50px_rgba(0,0,0,0.04)] text-center backdrop-blur-md">
@@ -486,7 +745,7 @@ export default function AIMLHiringPage() {
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
                 <a
-                  href="/contact/"
+                  href="#hire-form"
                   className="inline-flex items-center justify-center rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:bg-sky-500"
                 >
                   Book a 15-Minute Discovery Call

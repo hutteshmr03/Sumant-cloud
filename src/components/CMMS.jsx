@@ -585,10 +585,11 @@ export default function CMMS() {
                   <span>↗</span>
                 </a>
                 <a
-                  href="tel:+917028510950"
+                  href="/contact/"
                   className="inline-flex items-center gap-2 rounded-full border border-slate-300/80 dark:border-white/20 bg-white/95 dark:bg-slate-900/90 backdrop-blur-md px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-slate-900 dark:text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] hover:shadow-md"
                 >
-                  <span>+91 70285 10950</span>
+                  <span>Talk to Our Expert</span>
+                  <span>↗</span>
                 </a>
               </div>
             </div>

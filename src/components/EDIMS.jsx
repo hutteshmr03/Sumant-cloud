@@ -124,66 +124,51 @@ const EDIMS_KEY_FEATURES = [
   },
 ];
 
-const PHARMA_DOCUMENT_TYPES = [
-  {
-    title: "SOPs",
-    sub: "Standard Operating Procedures",
-    desc: "Standardize production, laboratory, and sanitation protocols across facilities.",
-    tag: "Quality Operations",
-  },
-  {
-    title: "BMR & BPR",
-    sub: "Batch Manufacturing & Production",
-    desc: "Complete batch release documentation, formula records, and packaging logs.",
-    tag: "Manufacturing",
-  },
-  {
-    title: "Specifications",
-    sub: "Raw Material & Finished Product",
-    desc: "Critical quality attributes, testing methods, and analytical limit sheets.",
-    tag: "Quality Control",
-  },
-  {
-    title: "Quality Documents",
-    sub: "Deviations, CAPA & Change Control",
-    desc: "End-to-end quality event tracking, risk assessments, and investigation reports.",
-    tag: "Quality Assurance",
-  },
-  {
-    title: "Validation Records",
-    sub: "IQ / OQ / PQ & Process Validation",
-    desc: "Equipment qualification, cleaning validation, and analytical method verification.",
-    tag: "Engineering & Validation",
-  },
-  {
-    title: "Certificates (CoA)",
-    sub: "Certificates of Analysis & Compliance",
-    desc: "Vendor CoAs, internal analytical test results, and batch release clearance certificates.",
-    tag: "Compliance",
-  },
-  {
-    title: "Regulatory Documents",
-    sub: "Dossiers, Submissions & Licenses",
-    desc: "Drug master files, market authorization filings, and site master files.",
-    tag: "Regulatory Affairs",
-  },
-  {
-    title: "Training Records",
-    sub: "Personnel Qualification & Sign-offs",
-    desc: "SOP training matrix, electronic sign-offs, and auditor-ready personnel profiles.",
-    tag: "Human Resources",
-  },
-];
-
 export default function EDIMS() {
   const { isDark } = useTheme();
   const [heroVisible, setHeroVisible] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    company: "",
+    usersCount: "5 Users (Base Package - ₹44,000)",
+    modules: ["SOPs & BMR/BPR Control", "21 CFR Part 11 Audit Trail"],
+    requirements: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     const timer = setTimeout(() => setHeroVisible(true), 80);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const toggleModule = (moduleName) => {
+    setFormData((prev) => {
+      const exists = prev.modules.includes(moduleName);
+      if (exists) {
+        return { ...prev, modules: prev.modules.filter((m) => m !== moduleName) };
+      } else {
+        return { ...prev, modules: [...prev.modules, moduleName] };
+      }
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }, 600);
+  };
 
   return (
     <div className={isDark ? "dark" : "light"}>
@@ -194,7 +179,7 @@ export default function EDIMS() {
           <div className="absolute inset-0 z-0">
             <img
               src={edimsHeroBg}
-              alt="Document Inventory Management System"
+              alt="Document Management System"
               className="h-full w-full object-cover object-center scale-105 transition-transform duration-1000"
             />
             {/* Soft Dimmed Neutral Slate Scrim */}
@@ -212,7 +197,7 @@ export default function EDIMS() {
                 }}
               >
                 <span className="inline-flex items-center rounded-full border border-sky-400/30 bg-sky-500/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-sky-300 backdrop-blur-md shadow-sm">
-                  Product / E-DIMS
+                  Product / E-DMS
                 </span>
               </div>
 
@@ -224,9 +209,9 @@ export default function EDIMS() {
                   transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.25s",
                 }}
               >
-                Document Inventory Management System{" "}
+                Document Management System{" "}
                 <span className="bg-gradient-to-r from-sky-300 via-cyan-200 to-teal-300 bg-clip-text text-transparent">
-                  (E-DIMS)
+                  (E-DMS)
                 </span>
               </h1>
 
@@ -249,7 +234,7 @@ export default function EDIMS() {
                   transition: "all 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.55s",
                 }}
               >
-                Streamline and control your pharmaceutical documentation with our <strong>Document Inventory Management System (DMS)</strong>. Designed specifically for pharmaceutical organizations, the system provides a centralized platform to manage, track, store, and retrieve critical documents efficiently.
+                Streamline and control your pharmaceutical documentation with our <strong>Document Management System (E-DMS)</strong>. Designed specifically for pharmaceutical organizations, the system provides a centralized platform to manage, track, store, and retrieve critical documents efficiently.
               </p>
 
               <div
@@ -286,45 +271,11 @@ export default function EDIMS() {
           </div>
         </section>
 
-        {/* ── PHARMACEUTICAL DOCUMENT COVERAGE ── */}
-        <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24 border-t border-[var(--color-ink-line)]/50">
-          <SectionHeader
-            badge="Comprehensive Scope"
-            title="Complete Visibility Across Every Pharma Record"
-            subtitle="Manage SOPs, BMR/BPR, specifications, quality documents, validation records, certificates, regulatory documents, and more with complete visibility and control."
-          />
-
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {PHARMA_DOCUMENT_TYPES.map((doc, idx) => (
-              <div
-                key={doc.title}
-                className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[var(--color-ink-line)]/80 bg-[var(--color-foam-panel)] p-6 shadow-[0_8px_24px_rgba(0,0,0,0.03)] backdrop-blur-md transition-all duration-500 hover:-translate-y-1.5 hover:border-[var(--color-brand)]/60 hover:shadow-[0_16px_36px_rgba(0,112,173,0.1)]"
-                style={{ animationDelay: `${idx * 60}ms` }}
-              >
-                <div>
-                  <span className="text-[0.65rem] font-mono font-bold tracking-wider uppercase text-[var(--color-brand)] bg-[var(--color-foam)] border border-[var(--color-ink-line)] px-2.5 py-0.5 rounded-full inline-block">
-                    {doc.tag}
-                  </span>
-                  <h3 className="mt-4 font-display text-xl font-bold tracking-tight text-[var(--color-text-ink)] group-hover:text-[var(--color-brand)] transition-colors">
-                    {doc.title}
-                  </h3>
-                  <p className="mt-1 text-xs font-semibold text-sky-600 dark:text-sky-400">
-                    {doc.sub}
-                  </p>
-                  <p className="mt-3 text-xs leading-relaxed text-[var(--color-text-mist-2)]">
-                    {doc.desc}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* ── KEY FEATURES SECTION ── */}
         <section id="features" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24 border-t border-[var(--color-ink-line)]/50">
           <SectionHeader
             badge="Core Capabilities"
-            title="Key Features of E-DIMS"
+            title="Key Features of E-DMS"
             subtitle="Engineered to provide strict compliance, granular access control, and complete audit readiness across all departments."
           />
 
@@ -449,88 +400,315 @@ export default function EDIMS() {
           </div>
         </section>
 
-        {/* ── OFFICIAL PRICING SECTION ── */}
-        <section id="pricing" className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20 border-t border-[var(--color-ink-line)]/50">
-          <div className="text-center max-w-2xl mx-auto mb-10">
+        {/* ── OFFICIAL PRICING & CUSTOM DEMO / QUOTE SECTION ── */}
+        <section id="pricing" className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20 border-t border-[var(--color-ink-line)]/50">
+          <div className="text-center max-w-3xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
-              Official Pricing
+              Official Pricing &amp; Custom Quote
             </span>
             <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-3xl lg:text-4xl">
-              Simple &amp; Transparent Pricing
+              Transparent Pricing &amp; Tailored Consultation
             </h2>
             <p className="mt-2 text-xs sm:text-sm text-[var(--color-text-mist-2)]">
-              Base package with 5 users included, scale with additional users as needed.
+              Choose the standard base package or configure a custom quote and live walkthrough according to your pharma facility needs.
             </p>
           </div>
 
-          {/* Clean Focused Pricing Card */}
-          <div className="overflow-hidden rounded-3xl border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] p-8 sm:p-12 shadow-lg backdrop-blur-md">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pb-8 border-b border-[var(--color-ink-line)]">
+          {/* 2-Column Side-by-Side Grid */}
+          <div className="grid gap-8 lg:grid-cols-12 items-stretch">
+            {/* ── Left Box: Official Pricing Card ── */}
+            <div className="lg:col-span-5 flex flex-col justify-between overflow-hidden rounded-3xl border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] p-7 sm:p-9 shadow-lg backdrop-blur-md">
               <div>
-                <span className="inline-flex items-center rounded-full bg-[var(--color-brand)]/10 border border-[var(--color-brand)]/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[var(--color-brand)]">
-                  E-DIMS Base Package
-                </span>
-                <h3 className="mt-3 font-display text-2xl sm:text-3xl font-bold text-[var(--color-text-ink)]">
-                  Core Platform Deployment
-                </h3>
-                <p className="mt-1 text-xs sm:text-sm text-[var(--color-text-mist-2)]">
-                  Includes <strong>5 Full Named Users</strong> with complete platform features.
-                </p>
-              </div>
-
-              <div className="md:text-right">
-                <div className="flex items-baseline md:justify-end gap-2">
-                  <span className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-[var(--color-text-ink)]">
-                    ₹44,000
+                <div className="flex items-center justify-between gap-3">
+                  <span className="inline-flex items-center rounded-full bg-[var(--color-brand)]/10 border border-[var(--color-brand)]/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                    E-DMS Base Package
                   </span>
-                  <span className="text-xs sm:text-sm font-semibold text-[var(--color-text-mist-2)]">
-                    (5 Users)
+                  <span className="text-[0.68rem] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full">
+                    21 CFR Part 11
                   </span>
                 </div>
-                <p className="mt-1.5 text-xs sm:text-sm font-semibold text-sky-600 dark:text-sky-400">
-                  + ₹2,500 each for additional users
+
+                <h3 className="mt-4 font-display text-2xl sm:text-3xl font-bold text-[var(--color-text-ink)]">
+                  Core Platform Deployment
+                </h3>
+                <p className="mt-1.5 text-xs sm:text-sm text-[var(--color-text-mist-2)]">
+                  Includes <strong>5 Full Named Users</strong> with complete platform features.
+                </p>
+
+                {/* Price Display */}
+                <div className="mt-6 rounded-2xl border border-[var(--color-ink-line)] bg-[var(--color-foam)] p-4 sm:p-5">
+                  <div className="flex items-baseline gap-2">
+                    <span className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--color-text-ink)]">
+                      ₹44,000
+                    </span>
+                    <span className="text-xs sm:text-sm font-semibold text-[var(--color-text-mist-2)]">
+                      (Base 5 Users)
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-xs sm:text-sm font-semibold text-sky-600 dark:text-sky-400">
+                    + ₹2,500 each for additional users
+                  </p>
+                </div>
+
+                {/* Features Checklist */}
+                <div className="mt-6 pt-5 border-t border-[var(--color-ink-line)]">
+                  <h4 className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-[var(--color-brand)] mb-3">
+                    What&apos;s Included:
+                  </h4>
+                  <ul className="space-y-2.5 text-xs sm:text-[0.82rem] text-[var(--color-text-ink)]">
+                    {[
+                      "5 Full Named User Licenses Included",
+                      "Master Document Vault & Vault Location Tracking",
+                      "Strict Revision Lifecycle & Multi-Tier Approvals",
+                      "21 CFR Part 11 Electronic Signatures & Audit Logs",
+                      "Document Expiry, Renewal & Periodic Review Alerts",
+                      "Role-Based Access Governance & Department Segregation",
+                      "Daily Automated Backups & End-to-End SSL Security",
+                      "Seamlessly add extra users at ₹2,500 / user",
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2.5">
+                        <svg className="h-4 w-4 text-emerald-500 flex-shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              {/* Bottom Quick Note */}
+              <div className="mt-6 pt-4 border-t border-[var(--color-ink-line)]">
+                <p className="text-[0.72rem] text-[var(--color-text-mist-2)]">
+                  💡 Need enterprise multi-plant scale or custom integrations? Fill out the inquiry form beside to receive a comprehensive rollout plan.
                 </p>
               </div>
             </div>
 
-            {/* Features Checklist */}
-            <div className="py-8">
-              <h4 className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-brand)] mb-4">
-                What&apos;s Included in Base Package:
-              </h4>
-              <div className="grid gap-3 sm:grid-cols-2 text-xs sm:text-sm text-[var(--color-text-ink)]">
-                {[
-                  "5 Full Named User Licenses Included",
-                  "Centralized Master Document Vault & Location Tracking",
-                  "Strict Version Control & Multi-Tier Approval Workflows",
-                  "21 CFR Part 11 Compliant Audit Trails & E-Signatures",
-                  "Document Expiry, Renewal & Periodic Review Alerts",
-                  "Granular Role-Based Access Governance",
-                  "Cloud Storage, Daily Backups & SSL Security",
-                  "Add extra users anytime for ₹2,500 / user",
-                ].map((item) => (
-                  <div key={item} className="flex items-center gap-2.5">
-                    <svg className="h-4 w-4 text-emerald-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+            {/* ── Right Box: Interactive E-DMS Inquiry & Quote Form ── */}
+            <div className="lg:col-span-7 flex flex-col justify-between overflow-hidden rounded-3xl border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] p-7 sm:p-10 shadow-lg backdrop-blur-md">
+              {isSubmitted ? (
+                <div className="my-auto py-10 text-center animate-fadeIn">
+                  <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10 text-emerald-500 shadow-sm">
+                    <svg viewBox="0 0 24 24" className="h-7 w-7" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
                     </svg>
-                    <span>{item}</span>
                   </div>
-                ))}
-              </div>
-            </div>
+                  <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--color-brand)]/10 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                    Inquiry Received
+                  </span>
+                  <h3 className="mt-3 font-display text-2xl font-bold text-[var(--color-text-ink)]">
+                    Thank You, {formData.fullName || "Partner"}!
+                  </h3>
+                  <p className="mt-2 text-sm text-[var(--color-text-mist-2)] max-w-md mx-auto">
+                    We have received your E-DMS requirement details for <strong>{formData.company || "your organization"}</strong>. Our pharmaceutical solutions specialist will get back to you with a customized quote and demo schedule within 24 hours.
+                  </p>
+                  <button
+                    onClick={() => {
+                      setIsSubmitted(false);
+                      setFormData({
+                        fullName: "",
+                        email: "",
+                        phone: "",
+                        company: "",
+                        usersCount: "5 Users (Base Package - ₹44,000)",
+                        modules: ["SOPs & BMR/BPR Control", "21 CFR Part 11 Audit Trail"],
+                        requirements: "",
+                      });
+                    }}
+                    type="button"
+                    className="mt-6 inline-flex items-center gap-2 rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-6 py-2.5 text-xs font-bold uppercase tracking-wider text-[var(--color-text-ink)] hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] transition-colors cursor-pointer"
+                  >
+                    <span>Submit Another Request</span>
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <div className="border-b border-[var(--color-ink-line)]/40 pb-5">
+                    <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
+                      Inquiry Form
+                    </span>
+                    <h3 className="mt-2 font-display text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-3xl">
+                      Tell us about your project
+                    </h3>
+                    <p className="mt-1.5 text-xs text-[var(--color-text-mist-2)]">
+                      Fill in your details below and our solution architects will connect with you promptly.
+                    </p>
+                  </div>
 
-            {/* Bottom Actions */}
-            <div className="pt-6 border-t border-[var(--color-ink-line)] flex flex-wrap items-center justify-between gap-4">
-              <a
-                href="/contact/"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all duration-300 hover:bg-sky-500 hover:shadow-lg hover:-translate-y-0.5"
-              >
-                <span>Request a Demo / Quote</span>
-                <span>↗</span>
-              </a>
-              <span className="text-xs text-[var(--color-text-mist-2)] font-medium">
-                Base price ₹44,000 for 5 users • ₹2,500 each extra user
-              </span>
+                  <form onSubmit={handleSubmit} className="mt-8 space-y-7">
+                    {/* Row 1: Full Name & Email */}
+                    <div className="grid gap-7 sm:grid-cols-2">
+                      <div className="group relative">
+                        <label htmlFor="edms-fullName" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Full Name <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          id="edms-fullName"
+                          name="fullName"
+                          required
+                          value={formData.fullName}
+                          onChange={handleInputChange}
+                          placeholder="John Doe"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="group relative">
+                        <label htmlFor="edms-email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Email Address <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          id="edms-email"
+                          name="email"
+                          required
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          placeholder="john@company.com"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Row 2: Phone & Company */}
+                    <div className="grid gap-7 sm:grid-cols-2">
+                      <div className="group relative">
+                        <label htmlFor="edms-phone" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Phone / WhatsApp Number
+                        </label>
+                        <input
+                          type="tel"
+                          id="edms-phone"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          placeholder="+91 98765 43210"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="group relative">
+                        <label htmlFor="edms-company" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Company / Pharma Facility Name
+                        </label>
+                        <input
+                          type="text"
+                          id="edms-company"
+                          name="company"
+                          value={formData.company}
+                          onChange={handleInputChange}
+                          placeholder="e.g. Apex Life Sciences Ltd"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Row 3: Users Scale Select */}
+                    <div className="group relative">
+                      <label htmlFor="edms-usersCount" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                        Required User Licenses / Scale <span className="text-rose-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <select
+                          id="edms-usersCount"
+                          name="usersCount"
+                          value={formData.usersCount}
+                          onChange={handleInputChange}
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none appearance-none cursor-pointer"
+                        >
+                          <option value="5 Users (Base Package - ₹44,000)" className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200">5 Users (Base Package - ₹44,000)</option>
+                          <option value="6 - 15 Users (Base + Extra Users)" className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200">6 - 15 Users (Base + Extra Users at ₹2,500/user)</option>
+                          <option value="16 - 30 Users (Multi-Department)" className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200">16 - 30 Users (Multi-Department)</option>
+                          <option value="31 - 50 Users (Multi-Site Pharma)" className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200">31 - 50 Users (Multi-Site Pharma)</option>
+                          <option value="50+ Users (Enterprise Plant Rollout)" className="bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200">50+ Users (Enterprise Plant Rollout)</option>
+                        </select>
+                        <div className="pointer-events-none absolute right-2 bottom-3 text-slate-400">
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="6 9 12 15 18 9" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Row 4: Module selection pills */}
+                    <div className="group relative">
+                      <label className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] mb-2">
+                        Specific E-DMS Modules / Workflows of Interest
+                      </label>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          "SOPs & BMR/BPR Control",
+                          "21 CFR Part 11 Audit Trail",
+                          "Validation & IQ/OQ/PQ",
+                          "CAPA & Change Control",
+                          "CoA Certificates Tracking",
+                          "Multi-Site Archive Tracking",
+                        ].map((mod) => {
+                          const isSelected = formData.modules.includes(mod);
+                          return (
+                            <button
+                              type="button"
+                              key={mod}
+                              onClick={() => toggleModule(mod)}
+                              className={`rounded-full px-3 py-1 text-[0.72rem] font-semibold transition-all duration-200 cursor-pointer border ${
+                                isSelected
+                                  ? "bg-[var(--color-brand)] text-white border-[var(--color-brand)] shadow-sm"
+                                  : "bg-[var(--color-foam)] text-[var(--color-text-mist-2)] border-[var(--color-ink-line)] hover:border-[var(--color-brand)]/50"
+                              }`}
+                            >
+                              {isSelected ? "✓ " : "+ "}
+                              {mod}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    {/* Row 5: How can we help you / Additional Requirements */}
+                    <div className="group relative">
+                      <div className="flex items-center justify-between">
+                        <label htmlFor="edms-requirements" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          How can we help you? <span className="text-rose-500">*</span>
+                        </label>
+                        <span className="font-mono text-[0.68rem] font-medium text-[var(--color-text-mist-2)]">
+                          {5000 - formData.requirements.length} chars left
+                        </span>
+                      </div>
+                      <textarea
+                        id="edms-requirements"
+                        name="requirements"
+                        required
+                        maxLength={5000}
+                        rows={3}
+                        value={formData.requirements}
+                        onChange={handleInputChange}
+                        style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                        placeholder="Describe your project, timeline, tech stack, or operational challenges..."
+                        className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none resize-y"
+                      />
+                    </div>
+
+                    {/* Submit Button */}
+                    <div className="pt-3">
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="group inline-flex items-center justify-center gap-2.5 rounded-full bg-gradient-to-r from-[#0070ad] to-[#0284c7] px-9 py-4 text-xs font-bold uppercase tracking-[0.18em] text-white shadow-[0_8px_25px_rgba(0,112,173,0.3)] transition-all duration-300 hover:shadow-[0_12px_32px_rgba(0,112,173,0.45)] hover:-translate-y-0.5 active:scale-95 disabled:opacity-50 cursor-pointer"
+                      >
+                        <span>{isSubmitting ? "Submitting..." : "Submit Inquiry"}</span>
+                        <span className="text-sm transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5">↗</span>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              )}
             </div>
           </div>
         </section>
@@ -546,7 +724,7 @@ export default function EDIMS() {
                 Ready to Simplify Your Document Management?
               </h2>
               <p className="mt-4 text-sm sm:text-base leading-relaxed text-[var(--color-text-mist-2)]">
-                Book a Free Demo Today and discover how our Document Inventory Management System can help your organization improve control, visibility, and audit readiness.
+                Book a Free Demo Today and discover how our Document Management System (E-DMS) can help your organization improve control, visibility, and audit readiness.
               </p>
 
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4">

@@ -6,7 +6,7 @@ const NAV = [
   { label: "Home", href: "/" },
   {
     label: "Services",
-    href: "/#services",
+    href: "#",
     items: [
       { label: "Custom Software", href: "/custom-software" },
       { label: "SaaS Platforms", href: "/saas" },
@@ -16,15 +16,15 @@ const NAV = [
   },
   {
     label: "Product",
-    href: "/#products",
+    href: "#",
     items: [
-      { label: "E-DIMS", href: "/e-dims" },
-      { label: "CMMS", href: "/cmms" },
-      { label: "LMS", href: "/lms" },
-      { label: "EP2P", href: "/ep2p" },
-      { label: "CMS", href: "/cms" },
-      { label: "PEM", href: "/pem" },
-      { label: "WMS", href: "/wms" },
+      { label: "Document Management System (E-DMS)", href: "/e-dims" },
+      { label: "Computerized Maintenance Management System (CMMS)", href: "/cmms" },
+      { label: "Learning Management System (LMS)", href: "/lms" },
+      { label: "Electronic Purchase to Pay (EP2P)", href: "/ep2p" },
+      { label: "Clinic Management System (CMS)", href: "/cms" },
+      { label: "Project Expense Management (PEM)", href: "/pem" },
+      { label: "Warehouse Management System (WMS)", href: "/wms" },
     ],
   },
   { label: "About", href: "/about" },
@@ -178,52 +178,28 @@ function NavDropdown({ item, solid, isDark }) {
     : {};
 
   function handleMainLinkClick(e) {
-    if (item.href.startsWith("/#") || item.href.startsWith("#")) {
-      const targetId = item.href.replace(/^\/?#/, "");
-      const isHomePage = window.location.pathname === "/" || window.location.pathname === "";
-      if (isHomePage) {
-        e.preventDefault();
-        const el = document.getElementById(targetId);
-        if (el) {
-          el.scrollIntoView({ behavior: "smooth" });
-          window.history.pushState(null, "", `/#${targetId}`);
-        }
-        setOpen(false);
-      } else {
-        window.location.href = `/#${targetId}`;
-      }
-    }
+    e.preventDefault();
+    setOpen((o) => !o);
   }
-
-  const triggerClickProps = !hoverCapable
-    ? {
-        onClick: (e) => {
-          handleMainLinkClick(e);
-          setOpen((o) => !o);
-        },
-      }
-    : {
-        onClick: handleMainLinkClick,
-      };
 
   return (
     <div ref={ref} className="relative" {...containerHoverProps}>
-      <a
-        href={item.href}
+      <button
+        type="button"
         style={linkStyle}
-        className={`inline-flex items-center gap-1 ${linkBase}`}
+        className={`inline-flex items-center gap-1 ${linkBase} bg-transparent border-none p-0 cursor-pointer`}
         aria-haspopup="true"
         aria-expanded={open}
         onMouseEnter={e => (e.currentTarget.style.color = hoverColor)}
         onMouseLeave={e => (e.currentTarget.style.color = textColor)}
-        {...triggerClickProps}
+        onClick={handleMainLinkClick}
       >
         {item.label}
         <Chevron className={`mt-0.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
-      </a>
+      </button>
 
       <div
-        className={`absolute top-full left-0 pt-2 min-w-[200px] z-50 transition-all duration-200 origin-top ${
+        className={`absolute top-full left-0 pt-2 min-w-[220px] w-max max-w-[450px] z-50 transition-all duration-200 origin-top ${
           open ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"
         }`}
       >
@@ -235,7 +211,7 @@ function NavDropdown({ item, solid, isDark }) {
                 key={sub.label}
                 href={sub.href}
                 onClick={() => setOpen(false)}
-                className={`block rounded-xl px-4 py-2.5 text-[0.875rem] font-medium transition-colors duration-150 ${
+                className={`block rounded-xl px-4 py-2.5 text-[0.875rem] font-medium transition-colors duration-150 whitespace-nowrap ${
                   isActive
                     ? "text-[var(--color-brand)] font-semibold bg-[var(--color-foam)]"
                     : "text-[var(--color-text-ink)] hover:text-[var(--color-brand)] hover:bg-[var(--color-foam)]"

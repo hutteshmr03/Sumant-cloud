@@ -4,9 +4,9 @@ import useScrollReveal from "../hooks/useScrollReveal";
 
 const PRODUCTS = [
   {
-    code: "E-DIMS",
-    kicker: "PRODUCT / E-DIMS",
-    headline: "Document Inventory Management System",
+    code: "E-DMS",
+    kicker: "PRODUCT / E-DMS",
+    headline: "Document Management System",
     description: "Streamline and control pharmaceutical documentation with centralized tracking, SOP & BMR/BPR workflows, complete audit trails, and instant retrieval.",
     href: "/e-dims",
     theme: "purple-gradient",

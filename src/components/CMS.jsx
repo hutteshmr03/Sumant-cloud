@@ -244,10 +244,11 @@ export default function CMS() {
                   <span>↗</span>
                 </a>
                 <a
-                  href="tel:+917028510950"
+                  href="/contact/"
                   className="inline-flex items-center gap-2 rounded-full border border-[var(--color-ink-line)] bg-[var(--color-foam)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-text-ink)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--color-brand)] hover:text-[var(--color-brand)] hover:shadow-md"
                 >
-                  <span>+91 70285 10950</span>
+                  <span>Talk to Our Expert</span>
+                  <span>↗</span>
                 </a>
               </div>
             </div>

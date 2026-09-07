@@ -74,19 +74,16 @@ const INDUSTRIES = [
     ),
   },
   {
-    name: "Entertainment",
-    desc: "Digital media management, event operations, licensing workflows, and content scheduling portals.",
-    bgImage: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=75&fm=webp",
+    name: "PR Media",
+    desc: "Press release distribution, media relations portals, digital brand campaigns, and journalist outreach management.",
+    bgImage: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=600&q=75&fm=webp",
     icon: (
       <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18" />
-        <line x1="7" y1="2" x2="7" y2="22" />
-        <line x1="17" y1="2" x2="17" y2="22" />
-        <line x1="2" y1="12" x2="22" y2="12" />
-        <line x1="2" y1="7" x2="7" y2="7" />
-        <line x1="2" y1="17" x2="7" y2="17" />
-        <line x1="17" y1="17" x2="22" y2="17" />
-        <line x1="17" y1="7" x2="22" y2="7" />
+        <path d="m3 11 18-5v12L3 13v-2z" />
+        <path d="M11.6 16.8a3 3 0 1 1-5.8-1.6" />
+        <path d="M21 12h2" />
+        <path d="M18.4 6.6 20 5" />
+        <path d="M18.4 17.4 20 19" />
       </svg>
     ),
   },

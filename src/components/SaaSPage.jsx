@@ -54,8 +54,8 @@ const SERVICES = [
 const SAAS_PRODUCTS = [
   {
     id: "e-dims",
-    name: "E-DIMS",
-    fullName: "Document Inventory Management System",
+    name: "E-DMS",
+    fullName: "Document Management System",
     category: "Pharma & Life Sciences",
     tagline: "Streamline & Control Pharmaceutical Documentation",
     description:
@@ -66,7 +66,7 @@ const SAAS_PRODUCTS = [
       "Version & Revision Lifecycle Control",
       "Review & Approval Workflows with Audit Trails",
     ],
-    buttonText: "Explore E-DIMS Platform",
+    buttonText: "Explore E-DMS Platform",
     href: "/e-dims",
     accentGlow: "from-emerald-500/20 via-sky-500/10 to-transparent",
   },
@@ -231,11 +231,11 @@ export default function SaaSPage() {
           </div>
         </section>
 
-        {/* ── Flagship SaaS Products (E-DIMS & CMMS Showcase) ── */}
+        {/* ── Flagship SaaS Products (E-DMS & CMMS Showcase) ── */}
         <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-[var(--color-ink-line)]/50">
           <SectionHeader
             badge="Our SaaS Platforms"
-            title="Flagship SaaS Products: E-DIMS & CMMS"
+            title="Flagship SaaS Products: E-DMS & CMMS"
             subtitle="Ready-to-deploy, scalable SaaS products engineered to solve complex operational and regulatory challenges."
           />
 

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&family=Inter:wght@400;500;600;700&display=swap');
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   /* Sumant Cloud + Capgemini-inspired palette */
@@ -148,7 +149,7 @@
   padding-right: 1.25rem;
   padding-top: 6px;
   padding-bottom: 6px;
-  animation: trust-marquee-smooth 48s linear infinite;
+  animation: trust-marquee-smooth 35s linear infinite;
   will-change: transform;
 }
 
@@ -211,9 +212,19 @@
   padding-bottom: 0;
 }
 
+.brand-pill {
+  color: #0f172a;
+}
+
 .dark .brand-pill {
-  background: rgba(26, 29, 33, 0.88);
+  color: #ffffff !important;
+  background: #181b20 !important;
+  border-color: #30353c !important;
   box-shadow: 0 10px 24px rgba(2, 6, 23, 0.2);
+}
+
+.dark .brand-pill .brand-name {
+  color: #f8fafc !important;
 }
 
 .dark .brand-pill:hover {
@@ -222,7 +233,8 @@
 }
 
 .dark .brand-mark {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  background: #ffffff;
+  border-color: #334155 !important;
 }
 
 @keyframes trust-marquee-smooth {

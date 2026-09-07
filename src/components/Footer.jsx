@@ -39,8 +39,8 @@ export default function Footer() {
   const year = new Date().getFullYear();
   return (
     <footer className="bg-ink pt-12 md:pt-16 pb-10 border-t border-ink-line">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 grid sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10">
-        <div className="col-span-2 md:col-span-1">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 grid sm:grid-cols-2 lg:grid-cols-[1.1fr_0.8fr_1.8fr_1.1fr] gap-8 md:gap-10">
+        <div>
           <a href="#top" className="inline-block">
             <Logo variant="on-dark" className="h-16 w-auto" />
           </a>
@@ -62,18 +62,18 @@ export default function Footer() {
           <h4 className="text-xs font-semibold uppercase tracking-wider text-text-mist-2 mb-4">Products</h4>
           <ul className="space-y-2.5 text-sm text-text-mist">
             {[
-              { label: "E-DIMS", href: "/e-dims" },
-              { label: "CMMS", href: "/cmms" },
-              { label: "LMS", href: "/lms" },
-              { label: "EP2P", href: "/ep2p" },
-              { label: "CMS", href: "/cms" },
-              { label: "PEM", href: "/pem" },
-              { label: "WMS", href: "/wms" },
+              { label: "Document Management System (E-DMS)", href: "/e-dims" },
+              { label: "Computerized Maintenance Management System (CMMS)", href: "/cmms" },
+              { label: "Learning Management System (LMS)", href: "/lms" },
+              { label: "Electronic Purchase to Pay (EP2P)", href: "/ep2p" },
+              { label: "Clinic Management System (CMS)", href: "/cms" },
+              { label: "Project Expense Management (PEM)", href: "/pem" },
+              { label: "Warehouse Management System (WMS)", href: "/wms" },
             ].map((p) => (
               <li key={p.label}>
                 <a
                   href={p.href}
-                  className="hover:text-cyan transition-colors"
+                  className="hover:text-cyan transition-colors leading-relaxed block"
                 >
                   {p.label}
                 </a>
@@ -86,7 +86,6 @@ export default function Footer() {
           <h4 className="text-xs font-semibold uppercase tracking-wider text-text-mist-2 mb-4">Get in touch</h4>
           <ul className="space-y-2.5 text-sm text-text-mist">
             <li><a href="mailto:contact@sumantcloud.com" className="hover:text-cyan transition-colors break-all">contact@sumantcloud.com</a></li>
-            <li><a href="tel:+917028510950" className="hover:text-cyan transition-colors">+91 70285 10950</a></li>
           </ul>
         </div>
 

@@ -122,6 +122,42 @@ const EDIMS_KEY_FEATURES = [
       </svg>
     ),
   },
+  {
+    num: "11",
+    title: "21 CFR Part 11 & EU Annex 11",
+    text: "Compliant electronic signatures, tamper-evident audit logs, dual-factor authentication, and automated session lockouts aligned with FDA/EMA standards.",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+    ),
+  },
+  {
+    num: "12",
+    title: "ALCOA+ Data Integrity Standard",
+    text: "Guarantees complete data lifecycle governance: Attributable, Legible, Contemporaneous, Original, Accurate, Complete, Consistent, Enduring, and Available.",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <circle cx="12" cy="14" r="3" />
+        <path d="m11 14 1 1 2-2" />
+      </svg>
+    ),
+  },
+  {
+    num: "13",
+    title: "CAPA & Deviation Workflows",
+    text: "Closed-loop corrective & preventive action tracking, automated deviation logging, root-cause investigations, and quality effectiveness verification.",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+        <line x1="12" y1="9" x2="12" y2="13" />
+        <line x1="12" y1="17" x2="12.01" y2="17" />
+      </svg>
+    ),
+  },
 ];
 
 export default function EDIMS() {

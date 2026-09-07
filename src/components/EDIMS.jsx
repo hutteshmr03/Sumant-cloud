@@ -268,6 +268,13 @@ export default function EDIMS() {
                   <span className="transition-transform duration-300 group-hover:translate-x-0.5">↗</span>
                 </a>
                 <a
+                  href="#pricing"
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-sky-400/40 bg-sky-500/15 backdrop-blur-md px-7 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-sky-200 transition-all duration-300 hover:bg-sky-500/25 hover:border-sky-400 hover:text-white hover:-translate-y-0.5"
+                >
+                  <span>View Pricing (₹44,000)</span>
+                  <span>↓</span>
+                </a>
+                <a
                   href="#features"
                   className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/[0.04] backdrop-blur-md px-7 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-slate-200 transition-all duration-300 hover:bg-white/[0.08] hover:border-white/25 hover:text-white hover:-translate-y-0.5"
                 >
@@ -438,6 +445,92 @@ export default function EDIMS() {
                   Secure physical barcode tracking linked seamlessly with cloud document replicas.
                 </p>
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── OFFICIAL PRICING SECTION ── */}
+        <section id="pricing" className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8 lg:py-20 border-t border-[var(--color-ink-line)]/50">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-[var(--color-brand)]">
+              Official Pricing
+            </span>
+            <h2 className="mt-2 font-display text-2xl font-bold tracking-[-0.03em] text-[var(--color-text-ink)] sm:text-3xl lg:text-4xl">
+              Simple &amp; Transparent Pricing
+            </h2>
+            <p className="mt-2 text-xs sm:text-sm text-[var(--color-text-mist-2)]">
+              Base package with 5 users included, scale with additional users as needed.
+            </p>
+          </div>
+
+          {/* Clean Focused Pricing Card */}
+          <div className="overflow-hidden rounded-3xl border border-[var(--color-ink-line)] bg-[var(--color-foam-panel)] p-8 sm:p-12 shadow-lg backdrop-blur-md">
+            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 pb-8 border-b border-[var(--color-ink-line)]">
+              <div>
+                <span className="inline-flex items-center rounded-full bg-[var(--color-brand)]/10 border border-[var(--color-brand)]/20 px-3.5 py-1 text-xs font-bold uppercase tracking-wider text-[var(--color-brand)]">
+                  E-DIMS Base Package
+                </span>
+                <h3 className="mt-3 font-display text-2xl sm:text-3xl font-bold text-[var(--color-text-ink)]">
+                  Core Platform Deployment
+                </h3>
+                <p className="mt-1 text-xs sm:text-sm text-[var(--color-text-mist-2)]">
+                  Includes <strong>5 Full Named Users</strong> with complete platform features.
+                </p>
+              </div>
+
+              <div className="md:text-right">
+                <div className="flex items-baseline md:justify-end gap-2">
+                  <span className="font-display text-4xl sm:text-5xl font-bold tracking-tight text-[var(--color-text-ink)]">
+                    ₹44,000
+                  </span>
+                  <span className="text-xs sm:text-sm font-semibold text-[var(--color-text-mist-2)]">
+                    (5 Users)
+                  </span>
+                </div>
+                <p className="mt-1.5 text-xs sm:text-sm font-semibold text-sky-600 dark:text-sky-400">
+                  + ₹2,500 each for additional users
+                </p>
+              </div>
+            </div>
+
+            {/* Features Checklist */}
+            <div className="py-8">
+              <h4 className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-brand)] mb-4">
+                What&apos;s Included in Base Package:
+              </h4>
+              <div className="grid gap-3 sm:grid-cols-2 text-xs sm:text-sm text-[var(--color-text-ink)]">
+                {[
+                  "5 Full Named User Licenses Included",
+                  "Centralized Master Document Vault & Location Tracking",
+                  "Strict Version Control & Multi-Tier Approval Workflows",
+                  "21 CFR Part 11 Compliant Audit Trails & E-Signatures",
+                  "Document Expiry, Renewal & Periodic Review Alerts",
+                  "Granular Role-Based Access Governance",
+                  "Cloud Storage, Daily Backups & SSL Security",
+                  "Add extra users anytime for ₹2,500 / user",
+                ].map((item) => (
+                  <div key={item} className="flex items-center gap-2.5">
+                    <svg className="h-4 w-4 text-emerald-500 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span>{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Bottom Actions */}
+            <div className="pt-6 border-t border-[var(--color-ink-line)] flex flex-wrap items-center justify-between gap-4">
+              <a
+                href="/contact/"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--color-brand)] px-8 py-3.5 text-xs font-bold uppercase tracking-[0.14em] text-white shadow-md transition-all duration-300 hover:bg-sky-500 hover:shadow-lg hover:-translate-y-0.5"
+              >
+                <span>Request a Demo / Quote</span>
+                <span>↗</span>
+              </a>
+              <span className="text-xs text-[var(--color-text-mist-2)] font-medium">
+                Base price ₹44,000 for 5 users • ₹2,500 each extra user
+              </span>
             </div>
           </div>
         </section>

@@ -2,11 +2,11 @@ import { useRef, useState, useEffect } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
 import ciplaLogo from "../assets/cipla.webp";
 import globalToLocalLogo from "../assets/global-to-local.webp";
-import perfectSolutionLogo from "../assets/the-perfect-solution.jpg";
+import perfectSolutionLogo from "../assets/the-perfect-solution-emblem.png";
 import marksansLogo from "../assets/marksans.jpg";
-import hlplLogo from "../assets/hlpl.jpg";
-import akLogoLight from "../assets/ak-logo-light.png";
-import akLogoDark from "../assets/ak-logo-dark.png";
+import hlplLogo from "../assets/hlpl-emblem.png";
+import akEmblemLight from "../assets/ak-emblem-light.png";
+import akEmblemDark from "../assets/ak-emblem-dark.png";
 
 const TRUSTED_COMPANIES = [
   {
@@ -42,7 +42,7 @@ const TRUSTED_COMPANIES = [
   {
     name: "A.K Construction",
     mark: "ak-construction",
-    logo: akLogoLight,
+    logo: akEmblemLight,
     label: "Infrastructure & Build",
   },
   {
@@ -219,7 +219,7 @@ function BrandPill({ company }) {
           <img
             src={company.logo || perfectSolutionLogo}
             alt={company.name}
-            className="h-auto max-h-10 sm:max-h-11 max-w-full object-contain filter contrast-125"
+            className="h-auto max-h-11 sm:max-h-12 max-w-full object-contain filter contrast-125"
           />
         )}
 
@@ -227,21 +227,21 @@ function BrandPill({ company }) {
           <img
             src={company.logo || hlplLogo}
             alt={company.name}
-            className="h-auto max-h-10 sm:max-h-11 max-w-full object-contain filter contrast-125"
+            className="h-auto max-h-11 sm:max-h-12 max-w-full object-contain filter contrast-125"
           />
         )}
 
         {company.mark === "ak-construction" && (
-          <div className="relative flex items-center justify-center h-full w-full px-1">
+          <div className="relative flex items-center justify-center h-full w-full">
             <img
-              src={akLogoLight}
+              src={akEmblemLight}
               alt="A.K Construction"
-              className="h-auto max-h-9 sm:max-h-10 max-w-full object-contain filter contrast-125 dark:hidden"
+              className="h-auto max-h-11 sm:max-h-12 max-w-full object-contain filter contrast-125 dark:hidden"
             />
             <img
-              src={akLogoDark}
+              src={akEmblemDark}
               alt="A.K Construction"
-              className="h-auto max-h-9 sm:max-h-10 max-w-full object-contain filter contrast-125 hidden dark:block"
+              className="h-auto max-h-11 sm:max-h-12 max-w-full object-contain filter contrast-125 hidden dark:block"
             />
           </div>
         )}

@@ -1,7 +1,7 @@
 ﻿/**
  * Dual-Delivery Form Email Dispatcher
- * Sends to FormSubmit.co (100% deliverability directly into inboxes)
- * and /api/send-email.php as a secondary backup.
+ * Sends to FormSubmit.co using verified secure token: 8698d951f674a4363313e3361c2938bf
+ * Delivered to contact@sumantcloud.com and sejal@sumantcloud.com
  */
 export async function submitWebsiteForm({ formType, data, subject }) {
   const formattedData = {};
@@ -26,8 +26,8 @@ export async function submitWebsiteForm({ formType, data, subject }) {
   };
 
   const attempts = [
-    // 1. FormSubmit.co AJAX Endpoint (SPF/DKIM signed, guaranteed inbox delivery)
-    fetch("https://formsubmit.co/ajax/contact@sumantcloud.com", {
+    // 1. FormSubmit.co Secure Token (Direct delivery to contact@sumantcloud.com + sejal@sumantcloud.com)
+    fetch("https://formsubmit.co/ajax/8698d951f674a4363313e3361c2938bf", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

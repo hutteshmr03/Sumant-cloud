@@ -48,10 +48,21 @@ export default function Contact() {
     }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
+    try {
+      await fetch("/api/send-email.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          formType: "Contact Us Inquiry",
+          data: formData,
+        }),
+      });
+    } catch (err) {
+      console.error("Submission error:", err);
+    } finally {
       setLoading(false);
       setSubmittedName(formData.firstName ? `${formData.firstName} ${formData.lastName}`.trim() : "");
       setIsSubmitted(true);
@@ -62,7 +73,7 @@ export default function Contact() {
         country: "",
         message: "",
       });
-    }, 600);
+    }
   }
 
   return (

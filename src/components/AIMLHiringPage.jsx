@@ -182,13 +182,24 @@ export default function AIMLHiringPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+    try {
+      await fetch("/api/send-email.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          formType: "AI/ML Tech Talent & Dedicated Hiring Inquiry",
+          data: formData,
+        }),
+      });
+    } catch (err) {
+      console.error("Submission error:", err);
+    } finally {
       setIsSubmitting(false);
       setIsSubmitted(true);
-    }, 600);
+    }
   };
 
   useEffect(() => {

@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
 import contactHeroBg from "../assets/contact-hero-bg.webp";
+import { submitWebsiteForm } from "../utils/sendEmail";
 
 const COUNTRIES = [
   "India",
@@ -52,13 +53,9 @@ export default function Contact() {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch("/api/send-email.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          formType: "Contact Us Inquiry",
-          data: formData,
-        }),
+      await submitWebsiteForm({
+        formType: "Contact Us Inquiry",
+        data: formData,
       });
     } catch (err) {
       console.error("Submission error:", err);

@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import { useTheme } from "../context/ThemeContext";
 import edimsHeroBg from "../assets/edims-hero-bg.webp";
 import useScrollReveal from "../hooks/useScrollReveal";
+import { submitWebsiteForm } from "../utils/sendEmail";
 
 const EDIMS_KEY_FEATURES = [
   {
@@ -201,13 +202,9 @@ export default function EDIMS() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await fetch("/api/send-email.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          formType: "E-DMS Quotation & Demo Request",
-          data: formData,
-        }),
+      await submitWebsiteForm({
+        formType: "E-DMS Quotation & Demo Request",
+        data: formData,
       });
     } catch (err) {
       console.error("Submission error:", err);

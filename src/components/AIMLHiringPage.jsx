@@ -5,6 +5,7 @@ import { useTheme } from "../context/ThemeContext";
 import aimlHiringHeroBg from "../assets/aiml-hiring-hero-bg.webp";
 import aimlTeamDaylight from "../assets/aiml-team-daylight.jpg";
 import useScrollReveal from "../hooks/useScrollReveal";
+import { submitWebsiteForm } from "../utils/sendEmail";
 
 const CORE_SERVICES = [
   {
@@ -186,13 +187,9 @@ export default function AIMLHiringPage() {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      await fetch("/api/send-email.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          formType: "AI/ML Tech Talent & Dedicated Hiring Inquiry",
-          data: formData,
-        }),
+      await submitWebsiteForm({
+        formType: "AI/ML Tech Talent & Dedicated Hiring Inquiry",
+        data: formData,
       });
     } catch (err) {
       console.error("Submission error:", err);

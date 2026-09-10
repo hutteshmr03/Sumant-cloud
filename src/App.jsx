@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import TrustedBy from "./components/TrustedBy";
@@ -23,7 +23,23 @@ import ITConsultingPage from "./components/ITConsultingPage";
 import SaaSPage from "./components/SaaSPage";
 
 export default function App() {
-  const pathname = window.location.pathname.replace(/\/$/, "");
+  const [currentPath, setCurrentPath] = useState(window.location.pathname.replace(/\/$/, ""));
+  const [currentHash, setCurrentHash] = useState(window.location.hash);
+
+  useEffect(() => {
+    const handleLocationChange = () => {
+      setCurrentPath(window.location.pathname.replace(/\/$/, ""));
+      setCurrentHash(window.location.hash);
+    };
+
+    window.addEventListener("popstate", handleLocationChange);
+    window.addEventListener("hashchange", handleLocationChange);
+
+    return () => {
+      window.removeEventListener("popstate", handleLocationChange);
+      window.removeEventListener("hashchange", handleLocationChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (window.location.hash) {
@@ -35,57 +51,57 @@ export default function App() {
         }
       }, 100);
     }
-  }, [pathname]);
+  }, [currentPath, currentHash]);
 
-  if (pathname === "/about") {
+  if (currentPath === "/about" || currentHash === "#about") {
     return <AboutPage />;
   }
 
-  if (pathname === "/cmms") {
+  if (currentPath === "/cmms") {
     return <CMMS />;
   }
 
-  if (pathname === "/pem") {
+  if (currentPath === "/pem") {
     return <PEM />;
   }
 
-  if (pathname === "/ep2p") {
+  if (currentPath === "/ep2p") {
     return <EP2P />;
   }
 
-  if (pathname === "/cms") {
+  if (currentPath === "/cms") {
     return <CMS />;
   }
 
-  if (pathname === "/wms") {
+  if (currentPath === "/wms") {
     return <WMS />;
   }
 
-  if (pathname === "/e-dims" || pathname === "/edims" || pathname === "/e-dms" || pathname === "/edms") {
+  if (currentPath === "/e-dims" || currentPath === "/edims" || currentPath === "/e-dms" || currentPath === "/edms") {
     return <EDIMS />;
   }
 
-  if (pathname === "/lms") {
+  if (currentPath === "/lms") {
     return <LMS />;
   }
 
-  if (pathname === "/contact") {
+  if (currentPath === "/contact") {
     return <Contact />;
   }
 
-  if (pathname === "/ai-ml-hiring") {
+  if (currentPath === "/ai-ml-hiring") {
     return <AIMLHiringPage />;
   }
 
-  if (pathname === "/custom-software") {
+  if (currentPath === "/custom-software") {
     return <CustomSoftwarePage />;
   }
 
-  if (pathname === "/it-consulting") {
+  if (currentPath === "/it-consulting") {
     return <ITConsultingPage />;
   }
 
-  if (pathname === "/saas") {
+  if (currentPath === "/saas") {
     return <SaaSPage />;
   }
 

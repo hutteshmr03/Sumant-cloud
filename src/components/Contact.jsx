@@ -34,6 +34,7 @@ export default function Contact() {
     firstName: "",
     lastName: "",
     email: "",
+    phone: "",
     country: "",
     message: "",
   });
@@ -67,6 +68,7 @@ export default function Contact() {
         firstName: "",
         lastName: "",
         email: "",
+        phone: "",
         country: "",
         message: "",
       });
@@ -233,22 +235,41 @@ export default function Contact() {
                       </div>
                     </div>
 
-                    {/* Email */}
-                    <div className="group relative">
-                      <label htmlFor="email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
-                        Email Address <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        placeholder="john@company.com"
-                        style={{ color: isDark ? "#ffffff" : "#0f172a" }}
-                        className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
-                      />
+                    {/* Email & Contact Number */}
+                    <div className="grid gap-8 sm:grid-cols-2">
+                      <div className="group relative">
+                        <label htmlFor="email" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Email Address <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          required
+                          value={formData.email}
+                          onChange={handleChange}
+                          placeholder="john@company.com"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
+
+                      <div className="group relative">
+                        <label htmlFor="phone" className="block text-[0.68rem] font-bold uppercase tracking-[0.2em] text-[var(--color-text-mist-2)] transition-colors group-focus-within:text-[#0070ad] dark:group-focus-within:text-sky-400">
+                          Contact Number <span className="text-rose-500">*</span>
+                        </label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          name="phone"
+                          required
+                          value={formData.phone}
+                          onChange={handleChange}
+                          placeholder="+91 98765 43210"
+                          style={{ color: isDark ? "#ffffff" : "#0f172a" }}
+                          className="mt-2 w-full border-b-2 border-slate-300 dark:border-white/20 bg-transparent py-2.5 text-base font-medium placeholder-slate-400/60 dark:placeholder-slate-400/40 transition-all duration-300 focus:border-[#0070ad] dark:focus:border-sky-400 focus:outline-none"
+                        />
+                      </div>
                     </div>
 
                     {/* Country/Region */}

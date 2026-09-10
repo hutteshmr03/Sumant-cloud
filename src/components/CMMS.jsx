@@ -469,7 +469,7 @@ export default function CMMS() {
                     <p className="mt-1 text-xs text-[var(--color-text-mist-2)]">Full enterprise telemetry &amp; job management</p>
                   </div>
                   <div className="text-right">
-                    <p className="font-display text-3xl sm:text-4xl font-black text-[var(--color-brand)]">Rs. 14,500/-</p>
+                    <p className="font-display text-3xl sm:text-4xl font-black text-[var(--color-brand)]">Rs. 18,500/-</p>
                     <p className="text-xs font-semibold text-[var(--color-text-mist-2)]">(5 users included)</p>
                   </div>
                 </div>
